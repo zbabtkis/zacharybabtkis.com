@@ -1,0 +1,34 @@
+# Zack Babtkis — Independent Software Engineering Consultant
+
+> Senior engineer in Los Angeles (ex-PayPal/Honey Senior Staff, ex-Pie).
+> Three specialist services, each with a fixed-price entry engagement.
+> Contact: zackbabtkis@gmail.com — replies within one business day.
+
+## Services
+
+- [Chrome → Safari & iOS Extension Porting](https://zacharybabtkis.com/safari-extensions/):
+  Ports Chrome extensions to Safari on macOS and iOS, including
+  DeclarativeNetRequest migration and App Store review. Built Honey's first
+  iOS browser extension; owned Pie's Safari/iOS extensions (2M+ users).
+  Entry offer: Safari Port Assessment, $2,500, one week.
+
+- [MCP Server Development for SaaS](https://zacharybabtkis.com/mcp-development/):
+  Production Model Context Protocol servers that put SaaS products inside
+  Claude, ChatGPT, and other AI agents — tool-surface design, OAuth, remote
+  hosting, directory listing. Built agent-facing APIs and MCP servers at
+  ZeroClick. Entry offer: MCP Readiness Audit, $2,000, one week.
+
+- [AI-Agent Development Enablement](https://zacharybabtkis.com/ai-agent-enablement/):
+  Gets engineering teams shipping production software with AI coding agents
+  (Claude Code and similar) — harness setup, agent-ready codebase practices,
+  embedded pairing. Shipped a production product at a 2M-user company where
+  agents wrote the code. Entry offer: Agent-Readiness Audit, $3,000.
+
+## Background
+
+- [About](https://zacharybabtkis.com/about/): 12+ years shipping production
+  software — UC Santa Barbara Earth Research Institute, Gimbal, ProducePay,
+  five years as Senior Staff engineer at PayPal (Honey, 30,000+ retailers),
+  then Pie/ZeroClick (2M+ user ad blocker; agent-commerce infrastructure).
+- [Contact](https://zacharybabtkis.com/contact/)
+- LinkedIn: https://www.linkedin.com/in/zacharybabtkis
