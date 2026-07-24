@@ -8,6 +8,7 @@ import {
   CtaBand,
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
+import { Wave, ToolCallCard } from '@/components/artifacts';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -31,20 +32,25 @@ export default function McpDevelopmentPage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>Your product is invisible to AI agents.</h1>
-          <p className="lede">
-            Claude has a vetted connectors directory. ChatGPT launched with
-            1,400+ connectable apps. When a customer asks their AI assistant
-            to use your product and nothing happens, they end up on whichever
-            competitor built the integration. I build MCP servers with the
-            auth, logging, and directory-approval work it takes to get
-            listed and stay reliable.
-          </p>
-          <div className="hero-actions">
-            <a className="button" href="#offer">
-              Start with an MCP readiness audit
-            </a>
-            <span className="availability">{SITE.availability}</span>
+          <div className="hero-copy">
+            <h1>Your product is invisible to AI agents.</h1>
+            <p className="lede">
+              Claude has a vetted connectors directory. ChatGPT launched
+              with 1,400+ connectable apps. When a customer asks their AI
+              assistant to use your product and nothing happens, they end up
+              on whichever competitor built the integration. I build MCP
+              servers with the auth, logging, and directory-approval work it
+              takes to get listed and stay reliable.
+            </p>
+            <div className="hero-actions">
+              <a className="button" href="#offer">
+                Start with an MCP readiness audit
+              </a>
+              <span className="availability">{SITE.availability}</span>
+            </div>
+          </div>
+          <div className="hero-art">
+            <ToolCallCard />
           </div>
         </div>
       </section>
@@ -92,6 +98,8 @@ export default function McpDevelopmentPage() {
           </div>
         </div>
       </section>
+
+      <Wave />
 
       <div id="offer">
         <Offer

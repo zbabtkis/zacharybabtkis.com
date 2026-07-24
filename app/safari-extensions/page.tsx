@@ -8,6 +8,7 @@ import {
   CtaBand,
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
+import { Wave, BrowserWindow } from '@/components/artifacts';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -31,20 +32,43 @@ export default function SafariExtensionsPage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>Your Chrome extension doesn&rsquo;t work in Safari. I fix that.</h1>
-          <p className="lede">
-            Apple&rsquo;s converter gives you an Xcode project that
-            compiles. It doesn&rsquo;t give you a working extension, and it
-            won&rsquo;t get you through App Store review. I&rsquo;ve shipped
-            Safari and iOS extensions used by millions of people at Honey
-            and at Pie. I&rsquo;ll port yours, make it work, and hand your
-            team a project they can maintain.
-          </p>
-          <div className="hero-actions">
-            <a className="button" href="#offer">
-              Start with a port assessment
-            </a>
-            <span className="availability">{SITE.availability}</span>
+          <div className="hero-copy">
+            <h1>
+              Your Chrome extension doesn&rsquo;t work in Safari. I fix
+              that.
+            </h1>
+            <p className="lede">
+              Apple&rsquo;s converter gives you an Xcode project that
+              compiles. It doesn&rsquo;t give you a working extension, and
+              it won&rsquo;t get you through App Store review. I&rsquo;ve
+              shipped Safari and iOS extensions used by millions of people
+              at Honey and at Pie. I&rsquo;ll port yours, make it work, and
+              hand your team a project they can maintain.
+            </p>
+            <div className="hero-actions">
+              <a className="button" href="#offer">
+                Start with a port assessment
+              </a>
+              <span className="availability">{SITE.availability}</span>
+            </div>
+          </div>
+          <div className="hero-art">
+            <BrowserWindow url="your-extension — Safari · macOS + iOS" variant="safari">
+              <div className="ext-popup" style={{ margin: 0, maxWidth: 'none', boxShadow: 'none', border: 'none' }}>
+                <div className="ext-popup-row">
+                  <span>webRequest → DeclarativeNetRequest</span>
+                  <span className="ok">✓ migrated</span>
+                </div>
+                <div className="ext-popup-row">
+                  <span>Xcode project + signing</span>
+                  <span className="ok">✓ archives</span>
+                </div>
+                <div className="ext-popup-row">
+                  <span>App Store review</span>
+                  <span className="ok">✓ approved</span>
+                </div>
+              </div>
+            </BrowserWindow>
           </div>
         </div>
       </section>
@@ -91,6 +115,8 @@ export default function SafariExtensionsPage() {
           </div>
         </div>
       </section>
+
+      <Wave />
 
       <div id="offer">
         <Offer

@@ -7,6 +7,7 @@ import {
   CtaBand,
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
+import { Wave, TerminalCard } from '@/components/artifacts';
 import { SITE, mailto } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -30,23 +31,54 @@ export default function AiAgentEnablementPage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>
-            I&rsquo;ll get your team shipping production software with AI
-            agents. I&rsquo;ve actually done it.
-          </h1>
-          <p className="lede">
-            At Pie, a company with two million users, I built and shipped a
-            production product where AI agents wrote the entire codebase. It
-            wasn&rsquo;t a prototype. It made money, I owned it end to end,
-            and the agents worked inside a harness I engineered. Most AI
-            consultants learned this from a course. I learned it by
-            shipping.
-          </p>
-          <div className="hero-actions">
-            <a className="button" href={mailto('AI enablement — scoping call')}>
-              Book a scoping call
-            </a>
-            <span className="availability">{SITE.availability}</span>
+          <div className="hero-copy">
+            <h1>
+              I&rsquo;ll get your team shipping production software with AI
+              agents. I&rsquo;ve actually done it.
+            </h1>
+            <p className="lede">
+              At Pie, a company with two million users, I built and shipped
+              a production product where AI agents wrote the entire
+              codebase. It wasn&rsquo;t a prototype. It made money, I owned
+              it end to end, and the agents worked inside a harness I
+              engineered. Most AI consultants learned this from a course. I
+              learned it by shipping.
+            </p>
+            <div className="hero-actions">
+              <a
+                className="button"
+                href={mailto('AI enablement — scoping call')}
+              >
+                Book a scoping call
+              </a>
+              <span className="availability">{SITE.availability}</span>
+            </div>
+          </div>
+          <div className="hero-art">
+            <TerminalCard
+              lines={[
+                <>
+                  <span className="dim">$</span> claude
+                </>,
+                <>
+                  <span className="dim">CLAUDE.md loaded · 4 skills · hooks armed</span>
+                </>,
+                <>
+                  <span className="accent">⏺</span> Task 3/11: port billing
+                  module
+                </>,
+                <>
+                  {'  '}12 files changed · tests <span className="ok">47/47 ✓</span>
+                </>,
+                <>
+                  <span className="accent">⏺</span> PR #142 opened → review
+                  gate
+                </>,
+                <>
+                  <span className="ok">✓ merged after human review</span>
+                </>,
+              ]}
+            />
           </div>
         </div>
       </section>
@@ -175,6 +207,8 @@ export default function AiAgentEnablementPage() {
           </ul>
         </div>
       </section>
+
+      <Wave />
 
       <div id="offer">
         <Offer

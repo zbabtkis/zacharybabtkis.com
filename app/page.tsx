@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import { ProofBar, CtaBand } from '@/components/sections';
+import {
+  Wave,
+  BrowserWindow,
+  ExtensionPopup,
+  PageSkeleton,
+} from '@/components/artifacts';
 import { SITE } from '@/lib/site';
 
 const personJsonLd = {
@@ -31,24 +37,33 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>
-            Senior engineer for browser extensions and AI-agent
-            infrastructure.
-          </h1>
-          <p className="lede">
-            I&rsquo;m Zack Babtkis, an independent engineer in Los Angeles. I
-            spent five years at PayPal as a Senior Staff engineer building
-            Honey. After that I helped build Pie, an ad blocker that grew
-            past two million users, and stayed on as it became ZeroClick,
-            building infrastructure that lets businesses sell software and
-            services to AI agents. I take on three kinds of contract work.
-            I&rsquo;ve done all three for a living.
-          </p>
-          <div className="hero-actions">
-            <a className="button" href="/contact/">
-              Work with me
-            </a>
-            <span className="availability">{SITE.availability}</span>
+          <div className="hero-copy">
+            <h1>
+              Senior engineer for browser <em>extensions</em> and{' '}
+              <span style={{ whiteSpace: 'nowrap' }}>AI-agent</span>{' '}
+              infrastructure.
+            </h1>
+            <p className="lede">
+              I&rsquo;m Zack Babtkis, an independent engineer in Los
+              Angeles. I spent five years at PayPal as a Senior Staff
+              engineer building Honey. After that I helped build Pie, an ad
+              blocker that grew past two million users, and stayed on as it
+              became ZeroClick, building infrastructure that lets businesses
+              sell software and services to AI agents. I take on three kinds
+              of contract work. I&rsquo;ve done all three for a living.
+            </p>
+            <div className="hero-actions">
+              <a className="button" href="/contact/">
+                Work with me
+              </a>
+              <span className="availability">{SITE.availability}</span>
+            </div>
+          </div>
+          <div className="hero-art">
+            <BrowserWindow url="zacharybabtkis.com">
+              <PageSkeleton />
+              <ExtensionPopup />
+            </BrowserWindow>
           </div>
         </div>
       </section>
@@ -62,11 +77,19 @@ export default function HomePage() {
         ]}
       />
 
+      <Wave />
+
       <section className="section">
         <div className="wrap">
           <h2>What I&rsquo;m hired for</h2>
           <div className="service-cards">
             <Link className="service-card" href="/safari-extensions/">
+              <span className="card-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M16.5 7.5 L13.5 13.5 L7.5 16.5 L10.5 10.5 Z" fill="currentColor" stroke="none" />
+                </svg>
+              </span>
               <h3>Chrome → Safari &amp; iOS extension porting</h3>
               <p>
                 Your extension works in Chrome and doesn&rsquo;t exist on
@@ -77,6 +100,13 @@ export default function HomePage() {
               <span className="card-cta">Port assessment · $2,500 →</span>
             </Link>
             <Link className="service-card" href="/mcp-development/">
+              <span className="card-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path d="M9 7 V4.5 M15 7 V4.5" strokeLinecap="round" />
+                  <rect x="6" y="7" width="12" height="8" rx="2" />
+                  <path d="M12 15 V19 M8 19 H16" strokeLinecap="round" />
+                </svg>
+              </span>
               <h3>MCP servers that put your product in front of AI agents</h3>
               <p>
                 Your customers are asking for a Claude or ChatGPT
@@ -87,6 +117,12 @@ export default function HomePage() {
               <span className="card-cta">MCP readiness audit · $2,000 →</span>
             </Link>
             <Link className="service-card" href="/ai-agent-enablement/">
+              <span className="card-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <rect x="3.5" y="5" width="17" height="14" rx="2" />
+                  <path d="M7 9.5 L10 12 L7 14.5 M12 15 H16.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               <h3>AI-agent enablement for engineering teams</h3>
               <p>
                 Your team has the AI tools and little to show for it. At Pie
