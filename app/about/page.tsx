@@ -12,7 +12,7 @@ export default function AboutPage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>Twelve years of shipping, three eras of the web.</h1>
+          <h1>I&rsquo;ve been shipping production software since 2012.</h1>
         </div>
       </section>
 
@@ -55,11 +55,10 @@ export default function AboutPage() {
               to launch.
             </p>
             <p>
-              Now I consult independently from Los Angeles. The through-line
-              of my career is taking gnarly platform work — browser extension
-              APIs, Apple&rsquo;s toolchain, agent protocols — and turning it
-              into products that millions of people quietly rely on. I like
-              small teams, clear scopes, and shipping.
+              Now I consult independently from Los Angeles. Most of my career
+              has been platform work — extension APIs, Apple&rsquo;s
+              toolchain, agent protocols — built into products that millions
+              of people use. I like small teams, clear scopes, and shipping.
             </p>
           </div>
         </div>
@@ -67,7 +66,7 @@ export default function AboutPage() {
 
       <CtaBand
         title="Want the longer version?"
-        body="My LinkedIn has the full history, and I'm happy to walk through any of it on a call. If you're evaluating me for a project, ask me anything — including for references."
+        body="My LinkedIn has the full history, and I'm happy to walk through any of it on a call. If you're evaluating me for a project, ask me anything, including for references."
         emailSubject="Hello from your About page"
       />
     </>

@@ -33,13 +33,12 @@ export default function SafariExtensionsPage() {
         <div className="wrap">
           <h1>Your Chrome extension doesn&rsquo;t work in Safari. I fix that.</h1>
           <p className="lede">
-            Apple&rsquo;s converter gets you an Xcode project that compiles.
-            It doesn&rsquo;t get you a working product — and it definitely
-            doesn&rsquo;t get you through App Store review. I&rsquo;ve
-            shipped Safari and iOS extensions used by millions at Honey
-            (acquired by PayPal) and Pie (2M+ users). I&rsquo;ll port yours,
-            make it genuinely work, and hand you a maintainable project your
-            team can own.
+            Apple&rsquo;s converter gives you an Xcode project that
+            compiles. It doesn&rsquo;t give you a working extension, and it
+            won&rsquo;t get you through App Store review. I&rsquo;ve shipped
+            Safari and iOS extensions used by millions of people at Honey
+            and at Pie. I&rsquo;ll port yours, make it work, and hand your
+            team a project they can maintain.
           </p>
           <div className="hero-actions">
             <a className="button" href="#offer">
@@ -69,26 +68,25 @@ export default function SafariExtensionsPage() {
           'It works on macOS Safari but breaks on iPhone, and you can’t tell if it’s your bug or Apple’s.',
           'Users keep asking "when is this coming to Safari?" and you keep not answering.',
         ]}
-        close="Every one of these has bitten me before it bit you. That's the point of hiring me."
+        close="I've hit every one of these already — first at Honey, then again at Pie."
       />
 
       <section className="section">
         <div className="wrap">
-          <h2>Why me, specifically</h2>
+          <h2>Why me</h2>
           <div className="prose">
             <p>
               At Honey I designed and built the company&rsquo;s first iOS
               browser extension, led a second PayPal-branded one, and ported
               the deprecated Safari classic extension to Apple&rsquo;s Safari
               App Extension API — JavaScript and Swift, through PayPal-scale
-              review processes. At Pie I was the team&rsquo;s owner for
-              everything Safari and iOS: Swift and SwiftUI app shells, Xcode
-              project configuration, Xcode Cloud deployment pipelines, and
-              the content-blocking work Safari forces through
-              DeclarativeNetRequest. That combination — deep WebExtension
-              JavaScript plus real Apple toolchain fluency — is exactly the
-              gap the converter tool leaves, and very few engineers have
-              both.
+              review processes. At Pie I owned everything Safari and iOS:
+              the Swift and SwiftUI app shells, Xcode project configuration,
+              Xcode Cloud deployment, and the content-blocking work Safari
+              forces through DeclarativeNetRequest. The converter tool
+              leaves a gap between WebExtension JavaScript and Apple&rsquo;s
+              toolchain. Not many engineers work on both sides of it.
+              I&rsquo;ve spent years there.
             </p>
           </div>
         </div>
@@ -146,17 +144,17 @@ export default function SafariExtensionsPage() {
           {
             question: 'How long does a full port take?',
             answer:
-              'Most extensions land between four and ten weeks, depending on how much of the API surface needs redesign and whether iOS is included. The assessment gives you a real number for your codebase, not a brochure estimate.',
+              'Most extensions land between four and ten weeks, depending on how much of the API surface needs redesign and whether iOS is included. The assessment gives you a number for your codebase specifically.',
           },
           {
             question: 'Can your team maintain it after handoff?',
             answer:
-              'That’s the goal. Your JavaScript stays the source of truth wherever possible, the Swift layer stays thin and documented, and I set up CI so releases don’t require a Mac ritual. Teams without any Apple experience often keep a light retainer for App Store and Xcode upgrades.',
+              'That’s the goal. Your JavaScript stays the source of truth wherever possible, the Swift layer stays thin and documented, and I set up CI so releases don’t depend on one person with a Mac. Teams without Apple experience often keep a light retainer for App Store and Xcode upgrades.',
           },
           {
             question: 'Who owns the code? Will you sign an NDA?',
             answer:
-              'You own everything, full stop — work-for-hire, in your repos from day one. NDAs are fine; I’ll sign yours or provide a mutual one.',
+              'Everything is work-for-hire, in your repos from day one. You own all of it. NDAs are fine — I’ll sign yours or provide a mutual template.',
           },
         ]}
       />
@@ -164,8 +162,8 @@ export default function SafariExtensionsPage() {
       <CrossLinks current="safari-extensions" />
 
       <CtaBand
-        title="Your users are on Safari and iPhone. Meet them there."
-        body="Send me your extension's Chrome Web Store link and a sentence about what it does. I'll tell you within a day whether a port makes sense to explore."
+        title="Your users are already on Safari and iPhone."
+        body="Send me your extension's Chrome Web Store link and a sentence about what it does. I'll tell you within a day whether a port is worth exploring."
         emailSubject="Safari port inquiry"
       />
 

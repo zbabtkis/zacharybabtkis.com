@@ -68,7 +68,7 @@ export function Offer({
             <h3>{name}</h3>
             <span className="price">{price}</span>
           </div>
-          <p className="offer-meta">{timeline} · fixed price · no surprises</p>
+          <p className="offer-meta">{timeline} · fixed price</p>
           <ul>
             {deliverables.map((item) => (
               <li key={item}>{item}</li>

@@ -35,11 +35,11 @@ export default function AiAgentEnablementPage() {
             agents. I&rsquo;ve actually done it.
           </h1>
           <p className="lede">
-            At Pie — a company with two million users — I built and shipped a
-            production product where the entire codebase was agent-built. Not
-            a demo, not a prototype: a revenue product, owned end to end,
-            written by AI agents working inside a harness I engineered. Most
-            AI consultants learned this from a course. I learned it by
+            At Pie, a company with two million users, I built and shipped a
+            production product where AI agents wrote the entire codebase. It
+            wasn&rsquo;t a prototype. It made money, I owned it end to end,
+            and the agents worked inside a harness I engineered. Most AI
+            consultants learned this from a course. I learned it by
             shipping.
           </p>
           <div className="hero-actions">
@@ -62,7 +62,7 @@ export default function AiAgentEnablementPage() {
 
       <section className="section">
         <div className="wrap">
-          <h2>The proof, not the pitch</h2>
+          <h2>The proof</h2>
           <div className="story">
             <p className="story-kicker">Case study: pie.yt</p>
             <p>
@@ -75,11 +75,11 @@ export default function AiAgentEnablementPage() {
               it from conception to launch.
             </p>
             <p>
-              It shipped. It worked. It became a growth engine and an
-              acquisition channel for a two-million-user company — and it
-              proved that agent-built software can meet a PayPal Senior
-              Staff engineer&rsquo;s bar when the harness holds it there.
-              That harness is what I build for your team.
+              It shipped, it worked, and it became a growth engine for a
+              two-million-user company. The code met the bar I spent five
+              years holding as a Senior Staff engineer at PayPal, because
+              the harness required it to. That harness is what I build for
+              your team.
             </p>
           </div>
         </div>
@@ -95,16 +95,16 @@ export default function AiAgentEnablementPage() {
           'Costs are climbing with no way to tell productive token spend from waste.',
           'Leadership is asking for an "AI strategy" and what you have is a pile of subscriptions.',
         ]}
-        close="The market has named this gap precisely: the distance between installing the tool and running it well across a team is wide. Crossing it is the engagement."
+        close="There's a long distance between installing the tool and running it well across a team. Crossing that distance is the engagement."
       />
 
       <section className="section">
         <div className="wrap">
           <h2>What agent-ready actually looks like</h2>
           <p className="section-intro">
-            Agents don&rsquo;t fail because the models are weak. They fail
-            because the codebase and workflow give them nothing to hold onto.
-            The transformation looks like this:
+            Agents usually fail because the codebase and workflow give them
+            nothing to hold onto, not because the models are weak. Here is
+            what changes:
           </p>
           <div className="compare">
             <div className="panel before">
@@ -137,14 +137,12 @@ export default function AiAgentEnablementPage() {
         <div className="wrap">
           <h2>What your team gets</h2>
           <p className="section-intro">
-            Engineering leaders are rightly wary of AI-consultant vaporware,
-            so here is the concrete deliverables list:
+            Every item below gets committed to your repos and documented.
           </p>
           <ul className="checklist">
             <li>
               <strong>Harness configuration for your actual repos</strong> —
-              CLAUDE.md conventions, skills, hooks, and guardrails, committed
-              and documented, not slideware
+              CLAUDE.md conventions, skills, hooks, and guardrails
             </li>
             <li>
               <strong>MCP integration</strong> — your internal tools, docs,
@@ -158,9 +156,8 @@ export default function AiAgentEnablementPage() {
               your security team
             </li>
             <li>
-              <strong>CI integration</strong> — the test and review gates that
-              make &ldquo;agent-written&rdquo; and &ldquo;production
-              quality&rdquo; the same thing
+              <strong>CI integration</strong> — test and review gates that
+              agent-written work has to pass before a human reviews it
             </li>
             <li>
               <strong>Cost controls</strong> — budgets, tracking, and the
@@ -211,9 +208,10 @@ export default function AiAgentEnablementPage() {
               <li>
                 <strong>Embedded Enablement · 2–4 weeks, fixed quote</strong>
                 <p>
-                  I set up the harness across your repos and ship real backlog
-                  items with your engineers pairing alongside. Skeptics get
-                  turned by merged PRs, not slides. Quoted from the audit.
+                  I set up the harness across your repos and ship real
+                  backlog items with your engineers pairing alongside. Your
+                  skeptics will come around when they review the merged PRs.
+                  Quoted from the audit.
                 </p>
               </li>
               <li>
@@ -244,25 +242,25 @@ export default function AiAgentEnablementPage() {
           <ul className="checklist" style={{ marginTop: 'var(--space-md)' }}>
             <li>
               <strong>Leadership wants a headline, not a workflow change.</strong>{' '}
-              If nobody senior will spend time in the new workflow, the tools
-              become shelfware with better branding.
+              If nobody senior will spend time in the new workflow, the
+              tools will sit unused no matter how well they&rsquo;re set up.
             </li>
             <li>
               <strong>The codebase can&rsquo;t verify anything.</strong> If
-              there are effectively no tests and no appetite to build the
-              minimum verification layer, agent output can&rsquo;t be trusted
-              at scale — fixing that comes first, and it may be all you need
+              there are close to no tests and no appetite to build a minimum
+              verification layer, agent output can&rsquo;t be trusted at
+              scale. Fixing that comes first, and it may be all you need
               from me.
             </li>
             <li>
               <strong>You&rsquo;re hoping to replace engineers wholesale.</strong>{' '}
-              Harness engineering multiplies good engineers. It does not
-              substitute for having them.
+              This multiplies good engineers. It doesn&rsquo;t replace them.
             </li>
             <li>
-              <strong>Compliance forbids code leaving your network</strong> and
-              you can&rsquo;t run approved models. Sometimes there&rsquo;s a
-              path; often the timing is just wrong. I&rsquo;ll say which.
+              <strong>Compliance forbids code leaving your network</strong>{' '}
+              and you can&rsquo;t run approved models. Sometimes
+              there&rsquo;s a path. Often the timing is just wrong.
+              I&rsquo;ll tell you which it is.
             </li>
           </ul>
         </div>
@@ -301,8 +299,8 @@ export default function AiAgentEnablementPage() {
       <CrossLinks current="ai-agent-enablement" />
 
       <CtaBand
-        title="The teams that figure this out first compound. Every month matters."
-        body="Book a scoping call: tell me your team size, your stack, and what you've tried. I'll tell you honestly — including if the answer is 'you're not ready yet, and here's what to fix first.'"
+        title="Find out what's actually in your team's way."
+        body="Book a scoping call. Tell me your team size, your stack, and what you've tried. I'll give you a straight answer, including 'you're not ready yet, and here's what to fix first.'"
         emailSubject="AI enablement — scoping call"
       />
 

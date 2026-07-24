@@ -34,11 +34,11 @@ export default function ContactPage() {
             <p>
               I&rsquo;ll reply with a few questions or a link to book a
               20-minute intro call. On the call we figure out whether your
-              project and my expertise actually fit — no pitch, no pressure.
-              If they do, most engagements start with a fixed-price
-              assessment so you get value before committing to anything
-              bigger. If they don&rsquo;t, I&rsquo;ll tell you straight and
-              point you toward someone better suited.
+              project and my experience fit. If they do, most engagements
+              start with a fixed-price assessment, so you get something
+              useful before committing to anything bigger. If they
+              don&rsquo;t, I&rsquo;ll tell you, and I&rsquo;ll point you
+              toward someone better suited.
             </p>
             <h2>Elsewhere</h2>
             <p>

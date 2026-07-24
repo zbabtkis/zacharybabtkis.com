@@ -31,15 +31,14 @@ export default function McpDevelopmentPage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>Your product is invisible to AI agents. Let&rsquo;s fix that.</h1>
+          <h1>Your product is invisible to AI agents.</h1>
           <p className="lede">
             Claude has a vetted connectors directory. ChatGPT launched with
-            1,400+ connectable apps. When your customers ask their AI
-            assistant to use your product and nothing happens, they find the
-            competitor who built the integration. I build production MCP
-            servers — not weekend-hackathon wrappers — with the auth,
-            observability, and directory approval work that actually gets
-            you in front of agents.
+            1,400+ connectable apps. When a customer asks their AI assistant
+            to use your product and nothing happens, they end up on whichever
+            competitor built the integration. I build MCP servers with the
+            auth, logging, and directory-approval work it takes to get
+            listed and stay reliable.
           </p>
           <div className="hero-actions">
             <a className="button" href="#offer">
@@ -69,27 +68,26 @@ export default function McpDevelopmentPage() {
           'Security keeps blocking the project because nobody can answer what an agent is allowed to do on a user’s behalf.',
           'You’re not sure whether you need MCP, a ChatGPT app, or both — and don’t want to build the wrong one.',
         ]}
-        close="This is the exact work I did for a living — on the infrastructure side, where the agents are the customer."
+        close="I did this work at ZeroClick, where the agents were the customer."
       />
 
       <section className="section">
         <div className="wrap">
-          <h2>Why me, specifically</h2>
+          <h2>Why me</h2>
           <div className="prose">
             <p>
-              I spent the last two years at ZeroClick — the company building
-              &ldquo;the OS for selling to agents&rdquo; — writing the
-              agent-facing side of the stack: production APIs and MCP servers
-              that AI agents consume, the developer documentation that
+              I spent two years at ZeroClick, a company whose pitch is
+              &ldquo;the OS for selling to agents,&rdquo; writing the
+              agent-facing side of the stack: the APIs and MCP servers that
+              AI agents consume, the developer documentation that
               integrators build against, and Activation Ads, an agent-native
               ad format I originated that provisions third-party services
-              directly inside an agent&rsquo;s workflow. Before that I spent
-              a decade building consumer-scale product infrastructure at
-              Honey and Pie. Most MCP work being sold right now is by
-              agencies that learned the protocol from the docs. I learned it
-              by shipping to agents in production — and by being on the
-              receiving end, as a heavy agent-tooling user, of every badly
-              designed tool surface out there.
+              inside an agent&rsquo;s workflow. Before that I spent a decade
+              building consumer-scale infrastructure at Honey and Pie. Most
+              agencies selling MCP work learned the protocol from the docs.
+              I learned it shipping to agents in production, and I use agent
+              tooling every day, so I know a badly designed tool surface
+              when an agent trips over one.
             </p>
           </div>
         </div>
@@ -147,17 +145,17 @@ export default function McpDevelopmentPage() {
           {
             question: 'How do we keep an agent from doing something destructive with a user’s account?',
             answer:
-              'Scoped OAuth, capability-level permissions, human-confirmation patterns for irreversible actions, and audit logging. This is the part hackathon integrations skip and security teams rightly block. It’s designed in from the first day, not bolted on.',
+              'Scoped OAuth, capability-level permissions, human confirmation for irreversible actions, and audit logging. This is the part prototype integrations skip and security teams block. I design it in from the first day.',
           },
           {
             question: 'Can’t we just point agents at our existing REST API?',
             answer:
-              'You can, and agents will use it badly. Tool design for agents is different from API design for developers: fewer, more purposeful tools, aggressive descriptions, and responses shaped for reasoning rather than parsing. That design gap is most of why integrations fail.',
+              'You can. Agents will fumble it. Tool design for agents is different from API design for developers: fewer tools with clearer purposes, descriptions the model can follow, and responses shaped for reasoning instead of parsing. Most failed integrations fail on that design gap.',
           },
           {
             question: 'Who owns the code? Will you sign an NDA?',
             answer:
-              'You own everything — work-for-hire, in your repos, on your infrastructure. NDAs are fine.',
+              'Everything is work-for-hire, in your repos, on your infrastructure. You own all of it. NDAs are fine.',
           },
         ]}
       />
@@ -165,8 +163,8 @@ export default function McpDevelopmentPage() {
       <CrossLinks current="mcp-development" />
 
       <CtaBand
-        title="Every month unlisted is a month your competitor is the default."
-        body="Send me a link to your API docs and a sentence about what your customers ask their AI assistants to do. I'll tell you within a day what an MCP integration would look like."
+        title="Your customers are already asking their assistants for this."
+        body="Send me a link to your API docs and a sentence about what your customers want their AI assistants to do. I'll tell you within a day what an MCP integration would look like."
         emailSubject="MCP development inquiry"
       />
 

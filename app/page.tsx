@@ -31,14 +31,17 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="wrap">
-          <h1>Senior engineering for extensions and the agent era.</h1>
+          <h1>
+            Senior engineer for browser extensions and AI-agent
+            infrastructure.
+          </h1>
           <p className="lede">
-            I&rsquo;m Zack Babtkis — an independent engineer in Los Angeles.
-            I spent five years as a Senior Staff engineer at PayPal building
-            Honey, then helped take Pie&rsquo;s ad blocker past two million
-            users while building infrastructure that sells to AI agents. I
-            take on three kinds of contracts — and I&rsquo;ve shipped all
-            three at production scale.
+            I&rsquo;m Zack Babtkis, an independent engineer in Los Angeles. I
+            spent five years at PayPal as a Senior Staff engineer building
+            Honey. After that I helped build Pie, an ad blocker that grew
+            past two million users, and stayed on as it became ZeroClick, a
+            platform for selling to AI agents. I take on three kinds of
+            contract work. I&rsquo;ve done all three for a living.
           </p>
           <div className="hero-actions">
             <a className="button" href="/contact/">
@@ -75,19 +78,19 @@ export default function HomePage() {
             <Link className="service-card" href="/mcp-development/">
               <h3>MCP servers that put your product in front of AI agents</h3>
               <p>
-                Claude and ChatGPT users are asking for your integration. I
-                build production MCP servers — I built agent-facing APIs at
-                ZeroClick, the company building the OS for selling to agents.
+                Your customers are asking for a Claude or ChatGPT
+                integration. I spent two years at ZeroClick building APIs and
+                MCP servers where AI agents were the customer. I&rsquo;ll
+                build yours and get it listed.
               </p>
               <span className="card-cta">MCP readiness audit · $2,000 →</span>
             </Link>
             <Link className="service-card" href="/ai-agent-enablement/">
               <h3>AI-agent enablement for engineering teams</h3>
               <p>
-                Your team bought the AI tools; the productivity didn&rsquo;t
-                follow. I shipped a production product at a 2M-user company
-                where agents I directed wrote the code — I&rsquo;ll set your
-                team up to do the same.
+                Your team has the AI tools and little to show for it. At Pie
+                I shipped a production product where AI agents wrote the
+                whole codebase. I&rsquo;ll set your team up to work that way.
               </p>
               <span className="card-cta">Agent-readiness audit · $3,000 →</span>
             </Link>
@@ -96,8 +99,8 @@ export default function HomePage() {
       </section>
 
       <CtaBand
-        title="Have a project in one of these lanes?"
-        body="Tell me what you're building and where it hurts. I read every message myself, and if I'm not the right person I'll say so and point you somewhere better."
+        title="Working on something like this?"
+        body="Tell me what you're building and what's in your way. I read every message myself. If I'm not the right person for the job, I'll tell you, and I'll suggest someone who is."
         emailSubject="Project inquiry"
       />
 
