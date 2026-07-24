@@ -433,6 +433,116 @@ h3 {
   color: var(--ink-soft);
 }
 
+/* ---------- Before / after comparison ---------- */
+
+.compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--space-md);
+}
+
+.compare .panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.compare .panel.after {
+  border-color: var(--good);
+}
+
+.compare h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-md);
+}
+
+.compare .panel.after h3 {
+  color: var(--good);
+}
+
+.compare ul {
+  list-style: none;
+  display: grid;
+  gap: var(--space-sm);
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.compare .panel.before li::before {
+  content: '✕ ';
+  color: #a33;
+  font-weight: 600;
+}
+
+.compare .panel.after li::before {
+  content: '✓ ';
+  color: var(--good);
+  font-weight: 600;
+}
+
+/* ---------- Checklist (deliverables) ---------- */
+
+.checklist {
+  list-style: none;
+  max-width: var(--measure);
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.checklist li {
+  padding-left: 1.6rem;
+  position: relative;
+  color: var(--ink-soft);
+}
+
+.checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--good);
+  font-weight: 700;
+}
+
+.checklist li strong {
+  color: var(--ink);
+}
+
+/* ---------- Story callout ---------- */
+
+.story {
+  background: var(--paper-raised);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: var(--space-lg);
+  max-width: var(--measure);
+}
+
+.story p + p {
+  margin-top: var(--space-md);
+}
+
+.story .story-kicker {
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+/* ---------- Cross-links ---------- */
+
+.cross-links {
+  padding: var(--space-xl) 0 0;
+}
+
+.cross-links h2 {
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-md);
+}
+
 /* ---------- Service cards (home) ---------- */
 
 .service-cards {

@@ -7,6 +7,7 @@ import {
   Faq,
   CtaBand,
 } from '@/components/sections';
+import { CrossLinks } from '@/components/cross-links';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -159,6 +160,8 @@ export default function SafariExtensionsPage() {
           },
         ]}
       />
+
+      <CrossLinks current="safari-extensions" />
 
       <CtaBand
         title="Your users are on Safari and iPhone. Meet them there."

@@ -7,6 +7,7 @@ import {
   Faq,
   CtaBand,
 } from '@/components/sections';
+import { CrossLinks } from '@/components/cross-links';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -160,6 +161,8 @@ export default function McpDevelopmentPage() {
           },
         ]}
       />
+
+      <CrossLinks current="mcp-development" />
 
       <CtaBand
         title="Every month unlisted is a month your competitor is the default."
