@@ -14,7 +14,12 @@ plus About. Replaces the archived 2014 Jekyll site (zbabtkis/zigzackattack.githu
 
 ## Stack & deploy
 - Next.js (App Router) static export (`output: 'export'`) → `out/`
-- Deploy target: Cloudflare Pages (DNS for zacharybabtkis.com already on Cloudflare)
+- Deploy: GitHub Pages via Actions (.github/workflows/deploy.yml) — push to main deploys.
+  Custom domain zacharybabtkis.com attached to this repo's Pages; DNS stays on Cloudflare
+  (proxied). Repo must remain PUBLIC (free-plan Pages). Old site repo
+  (zbabtkis/zigzackattack.github.io) is archived.
+- Git remote is HTTPS + gh credential helper as zbabtkis — do NOT switch to SSH
+  (this machine's SSH key belongs to the zackatpie account)
 - Contact form posts to a separate Cloudflare Worker (see shared contract)
 - Analytics: PostHog; every page tagged for lead attribution (`source_page`)
 
