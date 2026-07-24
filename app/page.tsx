@@ -39,9 +39,10 @@ export default function HomePage() {
             I&rsquo;m Zack Babtkis, an independent engineer in Los Angeles. I
             spent five years at PayPal as a Senior Staff engineer building
             Honey. After that I helped build Pie, an ad blocker that grew
-            past two million users, and stayed on as it became ZeroClick, a
-            platform for selling to AI agents. I take on three kinds of
-            contract work. I&rsquo;ve done all three for a living.
+            past two million users, and stayed on as it became ZeroClick,
+            building infrastructure that lets businesses sell software and
+            services to AI agents. I take on three kinds of contract work.
+            I&rsquo;ve done all three for a living.
           </p>
           <div className="hero-actions">
             <a className="button" href="/contact/">
