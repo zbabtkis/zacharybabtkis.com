@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Newsreader } from 'next/font/google';
 import Link from 'next/link';
 import { SITE, SERVICES, calLink } from '@/lib/site';
+import { ConsoleEgg } from '@/components/console-egg';
 import './globals.css';
 
 const inter = Inter({
@@ -37,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
       <body style={{ fontFamily: 'var(--font-body), system-ui, sans-serif' }}>
+        <ConsoleEgg />
         <header className="site-header">
           <div className="wrap">
             <Link href="/" className="site-title">
