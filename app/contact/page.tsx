@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ContactForm } from '@/components/contact-form';
 import { SITE, mailto, calLink } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -33,6 +34,17 @@ export default function ContactPage() {
             </a>
             <span className="availability">{SITE.availability}</span>
           </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <h2>Or send it from here</h2>
+          <p className="section-intro">
+            Send the messy version — a brief, a repo link, a hypothesis.
+            You&rsquo;ll get a real reply with a plan, not an autoresponder.
+          </p>
+          <ContactForm />
         </div>
       </section>
 

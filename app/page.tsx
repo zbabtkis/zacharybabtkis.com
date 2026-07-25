@@ -6,6 +6,7 @@ import {
   ExtensionPopup,
   PageSkeleton,
 } from '@/components/artifacts';
+import { WorkWall } from '@/components/work-wall';
 import { SITE, RECEIPTS, calLink } from '@/lib/site';
 
 const personJsonLd = {
@@ -165,6 +166,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <WorkWall />
 
       <section className="person-strip">
         <div className="wrap">

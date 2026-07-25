@@ -348,6 +348,97 @@ h3 {
   color: var(--ink-faint);
 }
 
+/* ---------- Work wall ---------- */
+
+.work-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-md);
+}
+
+.work-tile {
+  display: block;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+a.work-tile:hover {
+  border-color: var(--accent);
+}
+
+.work-tile h3 {
+  font-size: var(--text-lg);
+  margin-bottom: 0.15rem;
+}
+
+.work-tile .work-role {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.work-tile .work-scale {
+  display: block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.work-wall-minor {
+  margin-top: var(--space-md);
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+  max-width: var(--measure);
+}
+
+/* ---------- Contact form ---------- */
+
+.contact-form {
+  max-width: var(--measure);
+  display: grid;
+  gap: var(--space-md);
+}
+
+.contact-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+  font: inherit;
+  font-size: var(--text-base);
+  font-weight: 400;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  color: var(--ink);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.contact-form textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.contact-form .form-note {
+  font-size: var(--text-sm);
+  color: var(--ink-faint);
+}
+
 /* ---------- Person strip ---------- */
 
 .person-strip {
