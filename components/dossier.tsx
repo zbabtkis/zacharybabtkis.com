@@ -55,25 +55,6 @@ export function StatBand({
   );
 }
 
-export function Voices({
-  items,
-  close,
-}: {
-  items: string[];
-  close?: string;
-}) {
-  return (
-    <div className="voices">
-      {items.map((item) => (
-        <p className="voice" key={item}>
-          {item}
-        </p>
-      ))}
-      {close ? <p className="voices-close">{close}</p> : null}
-    </div>
-  );
-}
-
 export type Rate = {
   name: React.ReactNode;
   scope: string;

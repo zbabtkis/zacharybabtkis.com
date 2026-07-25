@@ -3,7 +3,6 @@ import { Faq, CtaBand } from '@/components/sections';
 import {
   Chapter,
   StatBand,
-  Voices,
   RatesTable,
   OfferBand,
 } from '@/components/dossier';
@@ -128,20 +127,7 @@ export default function AiAgentEnablementPage() {
         </p>
       </Chapter>
 
-      <Chapter n="02" label="The problem" title="Sound familiar?" id="problem">
-        <Voices
-          items={[
-            'Everyone has a Claude Code license. Cycle time hasn’t moved.',
-            'Two enthusiasts get real results, and nobody can replicate what they do.',
-            'Agent PRs kept failing review, so the seniors went back to writing by hand.',
-            'Nobody decided what agents may touch, so security blocks everything.',
-            'Leadership wants an AI strategy. What we have is a pile of subscriptions.',
-          ]}
-          close="There's a long distance between installing the tool and running it well across a team. Crossing that distance is the engagement."
-        />
-      </Chapter>
-
-      <Chapter n="03" label="What changes" title="What agent-ready looks like" id="changes">
+      <Chapter n="02" label="What changes" title="What agent-ready looks like" id="changes">
         <p className="section-intro">
           Agents usually fail because the codebase and workflow give them
           nothing to hold onto, not because the models are weak.
@@ -172,7 +158,7 @@ export default function AiAgentEnablementPage() {
         </div>
       </Chapter>
 
-      <Chapter n="04" label="Deliverables" title="What your team gets" id="deliverables">
+      <Chapter n="03" label="Deliverables" title="What your team gets" id="deliverables">
         <p className="section-intro">
           Every item below gets committed to your repos and documented.
         </p>
@@ -213,7 +199,7 @@ export default function AiAgentEnablementPage() {
       </Chapter>
 
       <OfferBand
-        n="05"
+        n="04"
         label="Start here"
         title="Find out what's in the way."
         name="Agent-Readiness Audit"
@@ -231,7 +217,7 @@ export default function AiAgentEnablementPage() {
         id="offer"
       />
 
-      <Chapter n="06" label="Rates" title="Engagements, priced per engagement" id="rates">
+      <Chapter n="05" label="Rates" title="Engagements, priced per engagement" id="rates">
         <RatesTable
           intro="Never hourly. The audit produces a fixed quote for everything that follows."
           rates={[
@@ -260,7 +246,7 @@ export default function AiAgentEnablementPage() {
         />
       </Chapter>
 
-      <Chapter n="07" label="Fit" title="When this won't work" id="fit">
+      <Chapter n="06" label="Fit" title="When this won't work" id="fit">
         <div className="prose">
           <p>
             An honest list, because this category is drowning in hype. I
@@ -296,7 +282,7 @@ export default function AiAgentEnablementPage() {
         </ul>
       </Chapter>
 
-      <Chapter n="08" label="Guides" title="Read before you hire anyone" id="guides">
+      <Chapter n="07" label="Guides" title="Read before you hire anyone" id="guides">
         <p className="section-intro">
           Written from building agent infrastructure that ran in
           production. If a guide solves your problem outright, you

@@ -3,7 +3,6 @@ import { Faq, CtaBand } from '@/components/sections';
 import {
   Chapter,
   StatBand,
-  Voices,
   RatesTable,
   Timeline,
   OfferBand,
@@ -96,20 +95,7 @@ export default function PocToProductionPage() {
         ]}
       />
 
-      <Chapter n="01" label="The problem" title="Sound familiar?" id="problem">
-        <Voices
-          items={[
-            'It works perfectly — until two people use it at the same time.',
-            'There are no tests, so every change breaks something.',
-            'The demo logs in. I wouldn’t put a real card on it.',
-            'The AI wrote code nobody fully understands.',
-            'Customers are ready now, and "give me three months" isn’t an answer.',
-          ]}
-          close="None of this means your POC was a waste. It did its job: it proved the idea. Production is a different job."
-        />
-      </Chapter>
-
-      <Chapter n="02" label="Why me" title="I build with agents, and I know where they cut corners." id="proof">
+      <Chapter n="01" label="Why me" title="I build with agents, and I know where they cut corners." id="proof">
         <div className="prose">
           <p>
             Most senior engineers will tell you to throw the prototype away
@@ -127,7 +113,7 @@ export default function PocToProductionPage() {
       </Chapter>
 
       <OfferBand
-        n="03"
+        n="02"
         label="Start here"
         title="Find out what you actually have."
         name="Production Readiness Audit"
@@ -145,7 +131,7 @@ export default function PocToProductionPage() {
         id="offer"
       />
 
-      <Chapter n="04" label="Rates" title="What the finish line costs" id="rates">
+      <Chapter n="03" label="Rates" title="What the finish line costs" id="rates">
         <RatesTable
           intro="Fixed-bid from the audit. These are typical ranges — the audit tells you exactly where yours lands."
           rates={[
@@ -174,7 +160,7 @@ export default function PocToProductionPage() {
         />
       </Chapter>
 
-      <Chapter n="05" label="Process" title="How working with me goes" id="process">
+      <Chapter n="04" label="Process" title="How working with me goes" id="process">
         <Timeline
           steps={[
             {

@@ -3,7 +3,6 @@ import { Faq, CtaBand } from '@/components/sections';
 import {
   Chapter,
   StatBand,
-  Voices,
   RatesTable,
   Timeline,
   OfferBand,
@@ -50,6 +49,12 @@ export default function SafariExtensionsPage() {
               <a className="button" href="#offer">
                 Start with a port assessment
               </a>
+              <a
+                className="button secondary"
+                href="/tools/safari-port-checker/"
+              >
+                Check your manifest — free
+              </a>
               <span className="availability">{SITE.availability}</span>
             </div>
           </div>
@@ -79,30 +84,7 @@ export default function SafariExtensionsPage() {
         ]}
       />
 
-      <Chapter n="01" label="The problem" title="Sound familiar?" id="problem">
-        <Voices
-          items={[
-            'We ran the converter, and half the extension silently does nothing.',
-            'Our blocking is built on webRequest, and nobody here knows DeclarativeNetRequest.',
-            'It builds on one machine and won’t archive on another.',
-            'App Store review keeps rejecting us, and the citations explain nothing.',
-            'Users keep asking when we’re coming to Safari. We keep not answering.',
-          ]}
-          close="I've hit every one of these already — first at Honey, then again at ZeroClick."
-        />
-        <div className="story" style={{ marginTop: 'var(--space-lg)' }}>
-          <p className="story-kicker">Free tool</p>
-          <p>
-            Paste your manifest.json into the{' '}
-            <a href="/tools/safari-port-checker/">Safari Port Checker</a> and
-            get an instant read on what carries over, what needs a redesign,
-            and what doesn&rsquo;t exist in Safari. It runs in your browser
-            and uploads nothing.
-          </p>
-        </div>
-      </Chapter>
-
-      <Chapter n="02" label="Why me" title="The converter leaves a gap. I've spent years in it." id="proof">
+      <Chapter n="01" label="Why me" title="The converter leaves a gap. I've spent years in it." id="proof">
         <div className="prose">
           <p>
             At Honey I built the company&rsquo;s first iOS browser extension
@@ -124,7 +106,7 @@ export default function SafariExtensionsPage() {
       </Chapter>
 
       <OfferBand
-        n="03"
+        n="02"
         label="Start here"
         title="Know exactly what a port will take."
         name="Safari Port Assessment"
@@ -142,7 +124,7 @@ export default function SafariExtensionsPage() {
         id="offer"
       />
 
-      <Chapter n="04" label="Rates" title="What ports cost" id="rates">
+      <Chapter n="03" label="Rates" title="What ports cost" id="rates">
         <RatesTable
           intro="Fixed-bid from the assessment — you know the number before committing. These are the ranges most projects land in."
           rates={[
@@ -171,7 +153,7 @@ export default function SafariExtensionsPage() {
         />
       </Chapter>
 
-      <Chapter n="05" label="Process" title="How working with me goes" id="process">
+      <Chapter n="04" label="Process" title="How working with me goes" id="process">
         <Timeline
           steps={[
             {
@@ -193,7 +175,7 @@ export default function SafariExtensionsPage() {
         />
       </Chapter>
 
-      <Chapter n="06" label="Guides" title="Read before you hire anyone" id="guides">
+      <Chapter n="05" label="Guides" title="Read before you hire anyone" id="guides">
         <p className="section-intro">
           Written from shipping this work, not from the docs. If a guide
           solves your problem outright, you don&rsquo;t need me.

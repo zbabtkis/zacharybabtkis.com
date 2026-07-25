@@ -487,50 +487,6 @@ h3 {
   }
 }
 
-/* ---------- Voices (pull-quote symptoms) ---------- */
-
-.voices {
-  max-width: 46rem;
-  display: grid;
-  gap: var(--space-lg);
-}
-
-.voice {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--text-xl);
-  line-height: 1.35;
-  color: var(--ink);
-  max-width: 34ch;
-}
-
-.voice::before {
-  content: '“';
-  color: var(--amber);
-  margin-right: 0.05em;
-}
-
-.voice::after {
-  content: '”';
-  color: var(--amber);
-  margin-left: 0.05em;
-}
-
-.voice:nth-child(3n + 2) {
-  margin-left: clamp(0rem, 8vw, 5rem);
-  font-size: var(--text-lg);
-}
-
-.voice:nth-child(3n) {
-  margin-left: clamp(0rem, 4vw, 2.5rem);
-}
-
-.voices-close {
-  margin-top: var(--space-sm);
-  font-weight: 600;
-  max-width: var(--measure);
-}
-
 /* ---------- Rates table ---------- */
 
 .table-scroll {
@@ -1188,34 +1144,6 @@ a.work-tile:hover {
     max-width: 22rem;
     position: static;
   }
-}
-
-/* ---------- Symptom checklist ---------- */
-
-.symptoms ul {
-  list-style: none;
-  max-width: var(--measure);
-  display: grid;
-  gap: var(--space-sm);
-}
-
-.symptoms li {
-  padding: var(--space-sm) var(--space-md);
-  background: var(--paper-raised);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  color: var(--ink-soft);
-}
-
-.symptoms li::before {
-  content: '→ ';
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.symptoms .symptoms-close {
-  margin-top: var(--space-md);
-  font-weight: 600;
 }
 
 /* ---------- Offer card ---------- */

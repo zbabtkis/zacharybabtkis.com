@@ -63,28 +63,6 @@ export function ExampleProjects({
   );
 }
 
-type SymptomsProps = {
-  title: string;
-  items: string[];
-  close: string;
-};
-
-export function Symptoms({ title, items, close }: SymptomsProps) {
-  return (
-    <section className="section symptoms">
-      <div className="wrap">
-        <h2>{title}</h2>
-        <ul>
-          {items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <p className="symptoms-close">{close}</p>
-      </div>
-    </section>
-  );
-}
-
 type OfferProps = {
   title: string;
   name: string;

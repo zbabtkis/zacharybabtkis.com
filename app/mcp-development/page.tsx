@@ -3,7 +3,6 @@ import { Faq, CtaBand } from '@/components/sections';
 import {
   Chapter,
   StatBand,
-  Voices,
   RatesTable,
   Timeline,
   OfferBand,
@@ -74,20 +73,7 @@ export default function McpDevelopmentPage() {
         ]}
       />
 
-      <Chapter n="01" label="The problem" title="Sound familiar?" id="problem">
-        <Voices
-          items={[
-            'Customers keep asking for the Claude integration, and it sits unowned in the backlog.',
-            'Our competitors are in the connectors directory. We’re not.',
-            'We have a great REST API, and agents fumble it.',
-            'Someone built an MCP prototype. It can’t survive real auth or rate limits.',
-            'Security keeps blocking it, because nobody can say what an agent is allowed to do.',
-          ]}
-          close="I did this work at ZeroClick, where the agents were the customer."
-        />
-      </Chapter>
-
-      <Chapter n="02" label="Why me" title="I built the side of the stack agents talk to." id="proof">
+      <Chapter n="01" label="Why me" title="I built the side of the stack agents talk to." id="proof">
         <div className="prose">
           <p>
             I spent two years at <a href={RECEIPTS.zeroclick}>ZeroClick</a>,
@@ -106,7 +92,7 @@ export default function McpDevelopmentPage() {
       </Chapter>
 
       <OfferBand
-        n="03"
+        n="02"
         label="Start here"
         title="Know exactly what agents need from you."
         name="MCP Readiness Audit"
@@ -124,7 +110,7 @@ export default function McpDevelopmentPage() {
         id="offer"
       />
 
-      <Chapter n="04" label="Rates" title="What builds cost" id="rates">
+      <Chapter n="03" label="Rates" title="What builds cost" id="rates">
         <RatesTable
           intro="Fixed-bid from the audit. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds — I'm typically under both, because you're paying for an engineer, not a bench."
           rates={[
@@ -153,7 +139,7 @@ export default function McpDevelopmentPage() {
         />
       </Chapter>
 
-      <Chapter n="05" label="Process" title="How working with me goes" id="process">
+      <Chapter n="04" label="Process" title="How working with me goes" id="process">
         <Timeline
           steps={[
             {
@@ -175,7 +161,7 @@ export default function McpDevelopmentPage() {
         />
       </Chapter>
 
-      <Chapter n="06" label="Guides" title="Read before you hire anyone" id="guides">
+      <Chapter n="05" label="Guides" title="Read before you hire anyone" id="guides">
         <p className="section-intro">
           Written from running MCP servers in production, not from the
           spec. If a guide solves your problem outright, you don&rsquo;t
