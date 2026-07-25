@@ -113,8 +113,10 @@ export default function HomePage() {
       </Chapter>
 
       <Chapter n="02" label="Services" title="What I'm hired for">
-        <div className="service-cards grid-2x2">
-          <Link className="service-card" href="/safari-extensions/">
+        <div className="door">
+          <h3 className="door-label">In the browser</h3>
+          <div className="service-cards">
+            <Link className="service-card" href="/safari-extensions/">
             <span className="card-icon">
               <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <circle cx="12" cy="12" r="9" />
@@ -128,9 +130,14 @@ export default function HomePage() {
               Pie&rsquo;s — I&rsquo;ll port yours and get it through App
               Store review.
             </p>
-            <span className="card-cta">Port assessment · $2,500</span>
-          </Link>
-          <Link className="service-card" href="/mcp-development/">
+              <span className="card-cta">Port assessment · $2,500</span>
+            </Link>
+          </div>
+        </div>
+        <div className="door">
+          <h3 className="door-label">With AI agents</h3>
+          <div className="service-cards">
+            <Link className="service-card" href="/mcp-development/">
             <span className="card-icon">
               <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <path d="M9 7 V4.5 M15 7 V4.5" strokeLinecap="round" />
@@ -178,6 +185,7 @@ export default function HomePage() {
             </p>
             <span className="card-cta">Production readiness audit · $2,500</span>
           </Link>
+          </div>
         </div>
       </Chapter>
 

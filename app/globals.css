@@ -1729,6 +1729,32 @@ button.ext-badge {
   margin-bottom: var(--space-md);
 }
 
+/* ---------- Service doors ---------- */
+
+.door + .door {
+  margin-top: var(--space-xl);
+}
+
+.door-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: var(--space-md);
+}
+
+.door-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
 /* ---------- Service cards (home) ---------- */
 
 .service-cards {
