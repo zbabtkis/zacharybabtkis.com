@@ -1,15 +1,14 @@
 import type { Metadata } from 'next';
+import { Faq, CtaBand } from '@/components/sections';
 import {
-  ProofBar,
-  Symptoms,
-  Offer,
-  ExampleProjects,
-  Process,
-  Faq,
-  CtaBand,
-} from '@/components/sections';
+  Chapter,
+  StatBand,
+  Voices,
+  RatesTable,
+  Timeline,
+  OfferBand,
+} from '@/components/dossier';
 import { CrossLinks } from '@/components/cross-links';
-import { Wave } from '@/components/artifacts';
 import { SafariChecklist } from '@/components/safari-checklist';
 import { SITE, RECEIPTS } from '@/lib/site';
 import { GUIDES } from '@/lib/guides';
@@ -42,11 +41,8 @@ export default function SafariExtensionsPage() {
             </h1>
             <p className="lede">
               Apple&rsquo;s converter gives you an Xcode project that
-              compiles. It doesn&rsquo;t give you a working extension, and
-              it won&rsquo;t get you through App Store review. I&rsquo;ve
-              shipped Safari and iOS extensions used by millions of people
-              at Honey and at Pie. I&rsquo;ll port yours, make it work, and
-              hand your team a project they can maintain.
+              compiles — not a working extension, and not App Store
+              approval. I&rsquo;ve shipped both, at Honey and at Pie.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">
@@ -61,7 +57,7 @@ export default function SafariExtensionsPage() {
         </div>
       </section>
 
-      <ProofBar
+      <StatBand
         stats={[
           {
             value: '1st',
@@ -70,167 +66,160 @@ export default function SafariExtensionsPage() {
           },
           {
             value: '2M+',
-            label: 'users of Pie, where I owned the Safari & iOS extensions',
+            label: 'users of Pie, where I owned Safari & iOS',
             href: RECEIPTS.pieStore,
           },
           {
             value: '3',
-            label: 'Safari extension eras shipped: classic, App Extension API, MV3/DNR',
+            label: 'Safari extension eras shipped: classic, App Extension, MV3/DNR',
           },
           { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },
         ]}
       />
 
-      <Symptoms
-        title="Sound familiar?"
-        items={[
-          'You ran xcrun safari-web-extension-converter, and half your extension silently does nothing.',
-          'Your webRequest-based blocking or rewriting has no Safari equivalent, and nobody on the team knows DeclarativeNetRequest.',
-          'The Xcode project builds on one machine, won’t archive on another, and code signing errors mean nothing to your JS team.',
-          'App Store review keeps rejecting the extension with guideline citations that don’t explain what to change.',
-          'It works on macOS Safari but breaks on iPhone, and you can’t tell if it’s your bug or Apple’s.',
-          'Users keep asking "when is this coming to Safari?" and you keep not answering.',
-        ]}
-        close="I've hit every one of these already — first at Honey, then again at Pie."
-      />
-
-      <section className="section">
-        <div className="wrap">
-          <h2>Why me</h2>
-          <div className="prose">
-            <p>
-              At Honey I designed and built the company&rsquo;s first iOS
-              browser extension, led a second PayPal-branded one, and ported
-              the deprecated Safari classic extension to Apple&rsquo;s Safari
-              App Extension API — JavaScript and Swift, through PayPal-scale
-              review processes. At Pie I owned everything Safari and iOS:
-              the Swift and SwiftUI app shells, Xcode project configuration,
-              Xcode Cloud deployment, and the content-blocking work Safari
-              forces through DeclarativeNetRequest. The converter tool
-              leaves a gap between WebExtension JavaScript and Apple&rsquo;s
-              toolchain. Not many engineers work on both sides of it.
-              I&rsquo;ve spent years there.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Wave />
-
-      <div id="offer">
-        <Offer
-          title="Start small: know exactly what a port will take"
-          name="Safari Port Assessment"
-          price="$2,500"
-          timeline="One week"
-          deliverables={[
-            'I run your extension through conversion and catalog every API that breaks, with the Safari-equivalent approach for each',
-            'DeclarativeNetRequest migration plan if you do content blocking or request interception',
-            'App Store review risk assessment — what will get flagged and how to preempt it',
-            'Effort estimate and fixed-bid quote for the full port (macOS and iOS separately)',
-            'A written go/no-go recommendation you can take to your team — even if the answer is "don’t port"',
+      <Chapter n="01" label="The problem" title="Sound familiar?" id="problem">
+        <Voices
+          items={[
+            'We ran the converter, and half the extension silently does nothing.',
+            'Our blocking is built on webRequest, and nobody here knows DeclarativeNetRequest.',
+            'It builds on one machine and won’t archive on another.',
+            'App Store review keeps rejecting us, and the citations explain nothing.',
+            'Users keep asking when we’re coming to Safari. We keep not answering.',
           ]}
-          emailSubject="Safari Port Assessment"
-          source="safari-extensions"
+          close="I've hit every one of these already — first at Honey, then again at Pie."
         />
-      </div>
+      </Chapter>
 
-      <ExampleProjects
-        intro="Every port is fixed-bid from the assessment, so you know the number before committing. These are the ranges most projects land in."
-        items={[
-          {
-            name: 'Extension → Safari macOS',
-            scope:
-              'An existing MV3 extension — content scripts, storage, popup UI — ported and shipped, no request-blocking redesign needed.',
-            range: '$15k–$25k',
-            duration: '4–6 weeks',
-          },
-          {
-            name: 'Content blocker → Safari + iOS',
-            scope:
-              'Full webRequest → DeclarativeNetRequest redesign, iOS app shell, App Store submission through approval on both platforms.',
-            range: '$25k–$45k',
-            duration: '6–10 weeks',
-          },
-          {
-            name: 'Safari maintenance retainer',
-            scope:
-              'App Store review handling, Xcode and macOS/iOS upgrades, Safari API changes — for teams with no Apple experience in-house.',
-            range: '$2k–$3.5k/mo',
-            duration: 'ongoing',
-          },
-        ]}
-      />
-
-      <Process
-        steps={[
-          {
-            name: 'Assessment',
-            description:
-              'Fixed price, one week. You get the full technical picture and a quote before committing to anything.',
-          },
-          {
-            name: 'The port',
-            description:
-              'Fixed bid based on the assessment. I build the Safari macOS and/or iOS extension, handle Xcode and signing, and set up CI (Xcode Cloud or your choice).',
-          },
-          {
-            name: 'App Store & handoff',
-            description:
-              'I drive App Store submission through approval, document the Safari-specific parts, and hand off to your team — with an optional maintenance retainer.',
-          },
-        ]}
-      />
-
-      <section className="section">
-        <div className="wrap">
-          <h2>Guides — read before you hire anyone</h2>
-          <p className="section-intro">
-            Written from shipping this work at Honey and Pie, not from the
-            docs. If a guide solves your problem outright, you don&rsquo;t
-            need me.
+      <Chapter n="02" label="Why me" title="The converter leaves a gap. I've spent years in it." id="proof">
+        <div className="prose">
+          <p>
+            At Honey I built the company&rsquo;s first iOS browser extension
+            and ported its legacy Safari extension to Apple&rsquo;s modern
+            API. At Pie I owned everything Safari and iOS — Swift app
+            shells, Xcode Cloud deployment, and the content-blocking work
+            Safari forces through DeclarativeNetRequest. The gap between
+            WebExtension JavaScript and Apple&rsquo;s toolchain is exactly
+            where ports stall, and not many engineers work on both sides of
+            it.
           </p>
-          <ul className="guide-list">
-            {GUIDES.filter(
-              (guide) => guide.topic === 'safari-extensions',
-            ).map((guide) => (
+        </div>
+      </Chapter>
+
+      <OfferBand
+        n="03"
+        label="Start here"
+        title="Know exactly what a port will take."
+        name="Safari Port Assessment"
+        price="$2,500"
+        timeline="One week"
+        deliverables={[
+          'Every API that breaks, cataloged — with the Safari-equivalent approach for each',
+          'DeclarativeNetRequest migration plan, if you block or intercept requests',
+          'App Store review risk assessment',
+          'Fixed-bid quote for the full port (macOS and iOS separately)',
+          'A written go/no-go recommendation — even if the answer is "don’t port"',
+        ]}
+        emailSubject="Safari Port Assessment"
+        source="safari-extensions"
+        id="offer"
+      />
+
+      <Chapter n="04" label="Rates" title="What ports cost" id="rates">
+        <RatesTable
+          intro="Fixed-bid from the assessment — you know the number before committing. These are the ranges most projects land in."
+          rates={[
+            {
+              name: 'Extension → Safari macOS',
+              scope:
+                'Existing MV3 extension, no request-blocking redesign. Ported and shipped.',
+              duration: '4–6 weeks',
+              price: '$15k–$25k',
+            },
+            {
+              name: 'Content blocker → Safari + iOS',
+              scope:
+                'Full webRequest → DNR redesign, iOS app shell, App Store approval on both platforms.',
+              duration: '6–10 weeks',
+              price: '$25k–$45k',
+            },
+            {
+              name: 'Safari maintenance retainer',
+              scope:
+                'App Store review, Xcode and OS upgrades, Safari API changes.',
+              duration: 'ongoing',
+              price: '$2k–$3.5k/mo',
+            },
+          ]}
+        />
+      </Chapter>
+
+      <Chapter n="05" label="Process" title="How working with me goes" id="process">
+        <Timeline
+          steps={[
+            {
+              name: 'Assessment',
+              description:
+                'Fixed price, one week. The full technical picture and a quote before you commit to anything.',
+            },
+            {
+              name: 'The port',
+              description:
+                'Fixed bid. I build the Safari macOS and/or iOS extension, handle Xcode and signing, and set up CI.',
+            },
+            {
+              name: 'App Store & handoff',
+              description:
+                'I drive submission through approval, document the Safari layer, and hand off — retainer optional.',
+            },
+          ]}
+        />
+      </Chapter>
+
+      <Chapter n="06" label="Guides" title="Read before you hire anyone" id="guides">
+        <p className="section-intro">
+          Written from shipping this work, not from the docs. If a guide
+          solves your problem outright, you don&rsquo;t need me.
+        </p>
+        <ul className="guide-list">
+          {GUIDES.filter((guide) => guide.topic === 'safari-extensions').map(
+            (guide) => (
               <li key={guide.slug}>
                 <a href={guide.slug}>
                   {guide.title}
                   <span>{guide.blurb}</span>
                 </a>
               </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+            ),
+          )}
+        </ul>
+      </Chapter>
 
       <Faq
         items={[
           {
             question: 'Do we need our own Apple Developer account?',
             answer:
-              'Yes — the extension ships under your account and your brand, which you keep full control of. If you don’t have one, setting it up is part of the engagement (it takes Apple a few days, so we start early).',
+              'Yes — the extension ships under your account and your brand. Setting one up takes Apple a few days, so we start early.',
           },
           {
-            question: 'Our extension uses webRequest to block or modify traffic. Is a Safari port even possible?',
+            question: 'Our extension uses webRequest to block or modify traffic. Is a port even possible?',
             answer:
-              'Usually yes, but not as a straight translation — Safari requires DeclarativeNetRequest for content blocking, which is a rules-based model rather than code that inspects requests. I’ve shipped this migration at production scale at Pie. The assessment tells you exactly which behaviors survive, which need redesign, and which are dead ends before you spend real money.',
+              'Usually, but as a redesign rather than a translation — Safari requires DeclarativeNetRequest. I shipped this migration at Pie. The assessment tells you what survives, what needs redesign, and what doesn’t make it.',
           },
           {
             question: 'How long does a full port take?',
             answer:
-              'Most extensions land between four and ten weeks, depending on how much of the API surface needs redesign and whether iOS is included. The assessment gives you a number for your codebase specifically.',
+              'Four to ten weeks for most extensions, depending on API surface and whether iOS is included. The assessment gives you a number for your codebase.',
           },
           {
             question: 'Can your team maintain it after handoff?',
             answer:
-              'That’s the goal. Your JavaScript stays the source of truth wherever possible, the Swift layer stays thin and documented, and I set up CI so releases don’t depend on one person with a Mac. Teams without Apple experience often keep a light retainer for App Store and Xcode upgrades.',
+              'That’s the goal: your JavaScript stays the source of truth, the Swift layer stays thin and documented, and CI means releases don’t depend on one person with a Mac.',
           },
           {
             question: 'Who owns the code? Will you sign an NDA?',
             answer:
-              'Everything is work-for-hire, in your repos from day one. You own all of it. NDAs are fine — I’ll sign yours or provide a mutual template.',
+              'Everything is work-for-hire, in your repos from day one. NDAs are fine.',
           },
         ]}
       />
