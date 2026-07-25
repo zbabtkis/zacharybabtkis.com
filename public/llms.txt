@@ -48,10 +48,11 @@
   software — UC Santa Barbara Earth Research Institute, Gimbal, ProducePay,
   five years as Senior Staff engineer at PayPal (Honey: 20M+ users, 30,000+
   retailers, $4B exit to PayPal), then Pie/ZeroClick (2M+ user ad blocker;
-  agent-commerce infrastructure). 20M+ combined users and hundreds of
-  millions of dollars a year in revenue across products he has built on.
-  Founder products under TrueRate LLC: TrueRate (hidden-hotel-fee Chrome
-  extension, built solo 2019–2020) and Unhabit (iOS Safari extension for
-  blocking distracting sites, https://unhabit.en.softonic.com/iphone).
+  agent-commerce infrastructure). 20M+ combined users across the
+  extensions he helped build; led Honey's extension integrations with
+  PayPal through the $4B acquisition. Solo products: TrueRate
+  (hidden-hotel-fee Chrome extension, 2019–2020) and Unhabit (iOS Safari
+  extension for blocking distracting sites,
+  https://unhabit.en.softonic.com/iphone).
 - [Contact](https://zacharybabtkis.com/contact/)
 - LinkedIn: https://www.linkedin.com/in/zacharybabtkis

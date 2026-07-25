@@ -31,7 +31,7 @@ export default function AboutPage() {
             <p>
               I started in 2012 building real-time seismic data visualizations
               at UC Santa Barbara&rsquo;s Earth Research Institute — web apps
-              that scientists actually depended on. From there I spent four
+              scientists depended on for their research. From there I spent four
               years at Gimbal building location-intelligence advertising
               infrastructure: real-time microservices handling campaign
               tracking at scale, and the client-facing UIs on top of them. I
@@ -67,17 +67,15 @@ export default function AboutPage() {
               YouTube viewer I owned from conception to launch.
             </p>
             <p>
-              Alongside the day jobs, I&rsquo;ve founded and shipped my own
-              products under TrueRate LLC. TrueRate was a Chrome extension
-              that exposed the hidden fees — resort, wifi, parking — buried
-              in hotel listings on Expedia, Hotels.com, Travelocity, and
-              Orbitz; I built the whole thing solo, from the extension to
-              the scraping API behind it to an iOS app.{' '}
+              I&rsquo;ve also built products of my own. TrueRate was a
+              Chrome extension that exposed the hidden fees — resort, wifi,
+              parking — buried in hotel listings on Expedia, Hotels.com,
+              Travelocity, and Orbitz; I built it solo, from the extension
+              to the scraping API behind it to an iOS app.{' '}
               <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>{' '}
               is an iOS Safari extension that blocks distracting sites with
-              cooldowns and scheduling, all on-device. Founding things
-              teaches you what employment can&rsquo;t: every decision is
-              yours, including the bill.
+              cooldowns and scheduling, all on-device. I designed, built,
+              and shipped both alone.
             </p>
             <p>
               Now I consult independently from Los Angeles. Most of my career

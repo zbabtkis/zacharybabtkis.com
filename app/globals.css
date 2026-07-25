@@ -741,32 +741,6 @@ h3 {
   color: var(--ink-soft);
 }
 
-.career-line {
-  list-style: none;
-  margin-top: var(--space-lg);
-  display: grid;
-  gap: 0.55rem;
-  border-left: 2px solid var(--rule);
-  padding-left: var(--space-md);
-}
-
-.career-line li {
-  display: grid;
-  grid-template-columns: 3.6rem 1fr;
-  gap: var(--space-sm);
-  font-size: var(--text-sm);
-  color: var(--ink-soft);
-}
-
-.career-line .year {
-  font-family: var(--font-display);
-  font-weight: 600;
-  color: var(--amber);
-}
-
-.career-line strong {
-  color: var(--ink);
-}
 
 .bio-links {
   margin-top: var(--space-lg);
