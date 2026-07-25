@@ -1068,6 +1068,31 @@ button.ext-badge {
   font-weight: 600;
 }
 
+.ext-popup-row .pending {
+  color: var(--ink-faint);
+}
+
+.row-done {
+  animation: row-done-in 250ms ease-out;
+}
+
+@keyframes row-done-in {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row-done {
+    animation: none;
+  }
+}
+
 /* ---------- Terminal artifact ---------- */
 
 .terminal {

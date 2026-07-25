@@ -9,7 +9,8 @@ import {
   CtaBand,
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
-import { Wave, BrowserWindow } from '@/components/artifacts';
+import { Wave } from '@/components/artifacts';
+import { SafariChecklist } from '@/components/safari-checklist';
 import { SITE, RECEIPTS } from '@/lib/site';
 import { GUIDES } from '@/lib/guides';
 
@@ -55,22 +56,7 @@ export default function SafariExtensionsPage() {
             </div>
           </div>
           <div className="hero-art">
-            <BrowserWindow url="your-extension — Safari · macOS + iOS" variant="safari">
-              <div className="ext-popup" style={{ margin: 0, maxWidth: 'none', boxShadow: 'none', border: 'none' }}>
-                <div className="ext-popup-row">
-                  <span>webRequest → DeclarativeNetRequest</span>
-                  <span className="ok">✓ migrated</span>
-                </div>
-                <div className="ext-popup-row">
-                  <span>Xcode project + signing</span>
-                  <span className="ok">✓ archives</span>
-                </div>
-                <div className="ext-popup-row">
-                  <span>App Store review</span>
-                  <span className="ok">✓ approved</span>
-                </div>
-              </div>
-            </BrowserWindow>
+            <SafariChecklist />
           </div>
         </div>
       </section>
