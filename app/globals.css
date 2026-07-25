@@ -967,6 +967,160 @@ a.work-tile:hover {
   color: var(--ink-faint);
 }
 
+/* ---------- Port checker ---------- */
+
+.checker {
+  max-width: 56rem;
+}
+
+.checker-label {
+  display: block;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.checker-input {
+  width: 100%;
+  min-height: 11rem;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  padding: var(--space-md);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.checker-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.checker-actions {
+  margin-top: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.checker-error {
+  margin-top: var(--space-md);
+  color: #a33;
+  max-width: var(--measure);
+}
+
+.checker-report {
+  margin-top: var(--space-xl);
+}
+
+.checker-report h2 {
+  font-size: var(--text-xl);
+}
+
+.checker-verdict {
+  margin-top: var(--space-sm);
+  font-size: var(--text-lg);
+  max-width: var(--measure);
+  color: var(--ink-soft);
+}
+
+.checker-group {
+  margin-top: var(--space-lg);
+}
+
+.checker-group h3 {
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+}
+
+.sev-blocker {
+  color: #a33;
+}
+
+.sev-redesign {
+  color: var(--amber);
+}
+
+.sev-partial {
+  color: var(--accent);
+}
+
+.sev-note,
+.sev-ok {
+  color: var(--ink-soft);
+}
+
+.sev-ok {
+  color: var(--good);
+}
+
+.checker-group ul {
+  list-style: none;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.checker-group li {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  max-width: 48rem;
+}
+
+.checker-group li strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.checker-evidence {
+  display: inline-block;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  background: var(--accent-wash);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  margin: 0.3rem 0 0.4rem;
+}
+
+.checker-group li p {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.checker-ios {
+  font-style: italic;
+}
+
+.checker-supported {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.checker-cta {
+  margin-top: var(--space-xl);
+  border-top: 2px solid var(--amber);
+  padding-top: var(--space-lg);
+  max-width: 48rem;
+}
+
+.checker-cta p {
+  color: var(--ink-soft);
+  margin-bottom: var(--space-md);
+}
+
 /* ---------- Person strip ---------- */
 
 .person-strip {
