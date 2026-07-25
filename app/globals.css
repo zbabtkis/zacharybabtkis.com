@@ -1071,6 +1071,31 @@ a.work-tile:hover {
   }
 }
 
+.terminal-line-in {
+  animation: line-in 180ms ease-out;
+}
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-line-in {
+    animation: none;
+  }
+
+  .cursor {
+    animation: none;
+  }
+}
+
 /* ---------- Before / after comparison ---------- */
 
 .compare {

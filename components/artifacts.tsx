@@ -1,4 +1,8 @@
-/* Hand-drawn illustrative artifacts. Pure markup + CSS — no images, no JS. */
+/* Hand-drawn illustrative artifacts. Server-rendered markup + CSS; the
+   animated terminals live in terminal-card.tsx (client) and are re-exported
+   here so pages keep one import path. */
+
+export { TerminalCard, ToolCallCard } from './terminal-card';
 
 export function Wave() {
   return (
@@ -102,65 +106,3 @@ export function ExtensionPopup() {
   );
 }
 
-export function TerminalCard({ lines }: { lines: React.ReactNode[] }) {
-  return (
-    <div className="terminal" aria-hidden="true">
-      <div className="terminal-chrome">
-        <span className="traffic">
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className="terminal-title">zsh — harness</span>
-      </div>
-      <pre className="terminal-body">
-        {lines.map((line, i) => (
-          <div key={i} className="terminal-line">
-            {line}
-          </div>
-        ))}
-        <div className="terminal-line">
-          <span className="cursor" />
-        </div>
-      </pre>
-    </div>
-  );
-}
-
-export function ToolCallCard() {
-  return (
-    <div className="terminal" aria-hidden="true">
-      <div className="terminal-chrome">
-        <span className="traffic">
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className="terminal-title">agent session</span>
-      </div>
-      <pre className="terminal-body">
-        <div className="terminal-line">
-          <span className="dim">user:</span> &ldquo;book me something for
-          Tuesday&rdquo;
-        </div>
-        <div className="terminal-line">
-          <span className="accent">⏺ tools/call</span> get_availability
-        </div>
-        <div className="terminal-line">
-          {'  '}
-          <span className="dim">→ 200 · 38ms · OAuth scope: read</span>
-        </div>
-        <div className="terminal-line">
-          <span className="accent">⏺ tools/call</span> create_booking
-        </div>
-        <div className="terminal-line">
-          {'  '}
-          <span className="dim">→ held for human confirmation ✓</span>
-        </div>
-        <div className="terminal-line">
-          <span className="ok">✓ your product, doing the work</span>
-        </div>
-      </pre>
-    </div>
-  );
-}
