@@ -14,24 +14,40 @@ const WORK: WorkItem[] = [
     role: 'Senior Staff engineer · designed and built its first iOS browser extension · $4B exit to PayPal',
     scale: '20M+ users',
     href: RECEIPTS.paypalHoney,
+    image: {
+      src: '/work-honey.jpg',
+      alt: 'PayPal Honey — cash back, no hunting needed',
+    },
   },
   {
     name: 'Pie Adblock',
     role: 'Founding engineer · owned the Safari and iOS extensions, led the Creator Network',
     scale: '2M+ users · 4.9★',
     href: RECEIPTS.pieStore,
+    image: {
+      src: '/work-pie.jpg',
+      alt: 'Pie Adblock — premium ad blocking, for free',
+    },
   },
   {
     name: 'pie.yt',
     role: 'Built and shipped it solo — the entire codebase written by AI agents I directed',
     scale: 'Live — go try it',
     href: RECEIPTS.pieYt,
+    image: {
+      src: '/work-pieyt.jpg',
+      alt: 'pie.yt — watch any YouTube video ad-free',
+    },
   },
   {
     name: 'ZeroClick',
     role: 'Agent-commerce infrastructure: APIs and MCP servers where AI agents are the customer',
     scale: '2 years in production',
     href: RECEIPTS.zeroclick,
+    image: {
+      src: '/work-zeroclick.jpg',
+      alt: 'ZeroClick — sell your product to AI agents',
+    },
   },
   {
     name: 'TrueRate',
@@ -44,6 +60,10 @@ const WORK: WorkItem[] = [
     role: 'Founder — iOS Safari extension that blocks distracting sites, with cooldowns, scheduling, and on-device privacy',
     scale: 'Featured on Softonic',
     href: 'https://unhabit.en.softonic.com/iphone',
+    image: {
+      src: '/work-unhabit.jpg',
+      alt: 'Unhabit — it hurts to be addicted; the app blocking a distracting site',
+    },
   },
 ];
 
