@@ -98,12 +98,12 @@ export default function SafariExtensionsPage() {
             API. At Pie I owned everything Safari and iOS — Swift app
             shells, Xcode Cloud deployment, and the content-blocking work
             Safari forces through DeclarativeNetRequest. I&rsquo;ve also
-            shipped my own:{' '}
-            <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>, an
-            iOS Safari extension I built and published under my own LLC. The
-            gap between WebExtension JavaScript and Apple&rsquo;s toolchain
-            is exactly where ports stall, and not many engineers work on
-            both sides of it.
+            taken an iOS Safari extension through App Review alone:{' '}
+            <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>, a
+            distraction blocker I designed, built, and shipped end to end.
+            The gap between WebExtension JavaScript and Apple&rsquo;s
+            toolchain is exactly where ports stall, and not many engineers
+            work on both sides of it.
           </p>
         </div>
       </Chapter>
