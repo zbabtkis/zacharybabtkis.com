@@ -1,5 +1,6 @@
 import { CtaBand, Faq, type FaqItem } from '@/components/sections';
 import { SITE } from '@/lib/site';
+import { GUIDES } from '@/lib/guides';
 
 type ArticleLayoutProps = {
   title: string;
@@ -72,6 +73,8 @@ export function ArticleLayout({
 
       {faq ? <Faq items={faq} /> : null}
 
+      <RelatedGuides slug={slug} />
+
       <CtaBand
         title={ctaTitle}
         body={ctaBody}
@@ -84,5 +87,32 @@ export function ArticleLayout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
     </>
+  );
+}
+
+function RelatedGuides({ slug }: { slug: string }) {
+  const topic = slug.split('/')[1];
+  const related = GUIDES.filter(
+    (guide) => guide.topic === topic && !slug.startsWith(guide.slug.replace(/\/$/, '')),
+  ).slice(0, 3);
+
+  if (related.length === 0) return null;
+
+  return (
+    <section className="section">
+      <div className="wrap">
+        <h2>More guides</h2>
+        <ul className="guide-list">
+          {related.map((guide) => (
+            <li key={guide.slug}>
+              <a href={guide.slug}>
+                {guide.title}
+                <span>{guide.blurb}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
