@@ -6,7 +6,7 @@ import {
   ExtensionPopup,
   PageSkeleton,
 } from '@/components/artifacts';
-import { SITE, calLink } from '@/lib/site';
+import { SITE, RECEIPTS, calLink } from '@/lib/site';
 
 const personJsonLd = {
   '@context': 'https://schema.org',
@@ -76,8 +76,16 @@ export default function HomePage() {
 
       <ProofBar
         stats={[
-          { value: '2M+', label: 'users of extensions I helped build at Pie' },
-          { value: '30,000+', label: 'retailers supported by Honey, acquired by PayPal' },
+          {
+            value: '2M+',
+            label: 'users of extensions I helped build at Pie',
+            href: RECEIPTS.pieStore,
+          },
+          {
+            value: '30,000+',
+            label: 'retailers supported by Honey, acquired by PayPal',
+            href: RECEIPTS.paypalHoney,
+          },
           { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },
           { value: '12+ yrs', label: 'shipping production software' },
         ]}
@@ -88,7 +96,7 @@ export default function HomePage() {
       <section className="section">
         <div className="wrap">
           <h2>What I&rsquo;m hired for</h2>
-          <div className="service-cards">
+          <div className="service-cards grid-2x2">
             <Link className="service-card" href="/safari-extensions/">
               <span className="card-icon">
                 <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -118,7 +126,7 @@ export default function HomePage() {
                 Your customers are asking for a Claude or ChatGPT
                 integration. I spent two years at ZeroClick building APIs and
                 MCP servers where AI agents were the customer. I&rsquo;ll
-                build yours and get it listed.
+                build yours and take it through directory submission.
               </p>
               <span className="card-cta">MCP readiness audit · $2,000 →</span>
             </Link>
@@ -137,6 +145,43 @@ export default function HomePage() {
               </p>
               <span className="card-cta">Agent-readiness audit · $3,000 →</span>
             </Link>
+            <Link className="service-card" href="/poc-to-production/">
+              <span className="card-icon">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path d="M5 19 C5 13, 8 6, 12 4 C16 6, 19 13, 19 19" strokeLinejoin="round" />
+                  <circle cx="12" cy="10" r="2" />
+                  <path d="M8 19 L12 16 L16 19" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <h3>Your AI-built POC, taken to production</h3>
+              <p>
+                You vibe-coded something that works — mostly. I turn AI-built
+                prototypes into products that survive real users: tests,
+                auth, data, deployment. I shipped a fully agent-built product
+                myself, so I know exactly where they break.
+              </p>
+              <span className="card-cta">Production readiness audit · $2,500 →</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="person-strip">
+        <div className="wrap">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/zack-square.jpg" alt="Zack Babtkis" width={400} height={400} />
+          <div className="person-copy">
+            <p>
+              You&rsquo;re hiring one person, not an agency — the same
+              engineer on the call writes the code. My work history is
+              public: <a href={SITE.linkedin}>LinkedIn</a>,{' '}
+              <a href={RECEIPTS.pieStore}>Pie on the Chrome Web Store</a>,{' '}
+              <a href={RECEIPTS.pieYt}>pie.yt</a>. References available on
+              request.
+            </p>
+            <p className="person-links">
+              <a href="/about/">More about me →</a>
+            </p>
           </div>
         </div>
       </section>

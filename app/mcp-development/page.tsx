@@ -3,13 +3,14 @@ import {
   ProofBar,
   Symptoms,
   Offer,
+  ExampleProjects,
   Process,
   Faq,
   CtaBand,
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, ToolCallCard } from '@/components/artifacts';
-import { SITE } from '@/lib/site';
+import { SITE, RECEIPTS } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'MCP Server Development for SaaS',
@@ -40,7 +41,7 @@ export default function McpDevelopmentPage() {
               assistant to use your product and nothing happens, they end up
               on whichever competitor built the integration. I build MCP
               servers with the auth, logging, and directory-approval work it
-              takes to get listed and stay reliable.
+              takes to pass directory review and stay reliable.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">
@@ -57,9 +58,20 @@ export default function McpDevelopmentPage() {
 
       <ProofBar
         stats={[
-          { value: '2024', label: 'building MCP servers since the protocol’s first year' },
-          { value: 'Prod', label: 'agent-facing APIs & MCP at ZeroClick — "the OS for selling to agents"' },
-          { value: '2M+', label: 'users at Pie — I know consumer-scale traffic' },
+          {
+            value: 'Day 1',
+            label: 'building MCP servers since the protocol launched in 2024',
+          },
+          {
+            value: '2 yrs',
+            label: 'building agent-facing APIs and MCP servers at ZeroClick',
+            href: RECEIPTS.zeroclick,
+          },
+          {
+            value: '2M+',
+            label: 'users at Pie — I know consumer-scale traffic',
+            href: RECEIPTS.pieStore,
+          },
           { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },
         ]}
       />
@@ -82,8 +94,9 @@ export default function McpDevelopmentPage() {
           <h2>Why me</h2>
           <div className="prose">
             <p>
-              I spent two years at ZeroClick, a company whose pitch is
-              &ldquo;the OS for selling to agents,&rdquo; writing the
+              I spent two years at <a href={RECEIPTS.zeroclick}>ZeroClick</a>,
+              a company whose pitch is &ldquo;the OS for selling to
+              agents,&rdquo; writing the
               agent-facing side of the stack: the APIs and MCP servers that
               AI agents consume, the developer documentation that
               integrators build against, and Activation Ads, an agent-native
@@ -118,6 +131,33 @@ export default function McpDevelopmentPage() {
           source="mcp-development"
         />
       </div>
+
+      <ExampleProjects
+        intro="Fixed-bid from the audit. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds — I'm typically under both, because you're paying for an engineer, not a bench."
+        items={[
+          {
+            name: 'MCP server for an existing SaaS',
+            scope:
+              'Tool-surface design, OAuth with scoped permissions, remote hosting, logging, tests, and directory submission for Claude and ChatGPT.',
+            range: '$18k–$35k',
+            duration: '4–7 weeks',
+          },
+          {
+            name: 'Prototype → production',
+            scope:
+              'Your internal MCP demo hardened into something that survives real auth, rate limits, and multi-tenancy — without a rewrite where possible.',
+            range: '$8k–$15k',
+            duration: '2–3 weeks',
+          },
+          {
+            name: 'MCP + usage metering',
+            scope:
+              'For API-first companies that want agents as paying customers: the MCP surface plus metering, quotas, and billing integration.',
+            range: '$30k–$60k',
+            duration: '6–10 weeks',
+          },
+        ]}
+      />
 
       <Process
         steps={[

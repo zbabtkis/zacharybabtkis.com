@@ -3,13 +3,14 @@ import {
   ProofBar,
   Symptoms,
   Offer,
+  ExampleProjects,
   Process,
   Faq,
   CtaBand,
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, BrowserWindow } from '@/components/artifacts';
-import { SITE } from '@/lib/site';
+import { SITE, RECEIPTS } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Chrome to Safari & iOS Extension Porting',
@@ -75,9 +76,20 @@ export default function SafariExtensionsPage() {
 
       <ProofBar
         stats={[
-          { value: '1st', label: 'iOS browser extension at Honey — designed and built it' },
-          { value: '2M+', label: 'users of Pie, where I owned the Safari & iOS extensions' },
-          { value: '2', label: 'Safari API migrations shipped (legacy → App Extension, MV3/DNR)' },
+          {
+            value: '1st',
+            label: 'iOS browser extension at Honey — designed and built it',
+            href: RECEIPTS.paypalHoney,
+          },
+          {
+            value: '2M+',
+            label: 'users of Pie, where I owned the Safari & iOS extensions',
+            href: RECEIPTS.pieStore,
+          },
+          {
+            value: '3',
+            label: 'Safari extension eras shipped: classic, App Extension API, MV3/DNR',
+          },
           { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },
         ]}
       />
@@ -135,6 +147,33 @@ export default function SafariExtensionsPage() {
           source="safari-extensions"
         />
       </div>
+
+      <ExampleProjects
+        intro="Every port is fixed-bid from the assessment, so you know the number before committing. These are the ranges most projects land in."
+        items={[
+          {
+            name: 'Extension → Safari macOS',
+            scope:
+              'An existing MV3 extension — content scripts, storage, popup UI — ported and shipped, no request-blocking redesign needed.',
+            range: '$15k–$25k',
+            duration: '4–6 weeks',
+          },
+          {
+            name: 'Content blocker → Safari + iOS',
+            scope:
+              'Full webRequest → DeclarativeNetRequest redesign, iOS app shell, App Store submission through approval on both platforms.',
+            range: '$25k–$45k',
+            duration: '6–10 weeks',
+          },
+          {
+            name: 'Safari maintenance retainer',
+            scope:
+              'App Store review handling, Xcode and macOS/iOS upgrades, Safari API changes — for teams with no Apple experience in-house.',
+            range: '$2k–$3.5k/mo',
+            duration: 'ongoing',
+          },
+        ]}
+      />
 
       <Process
         steps={[

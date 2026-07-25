@@ -14,9 +14,10 @@ export default function ContactPage() {
         <div className="wrap">
           <h1>Let&rsquo;s talk about your project.</h1>
           <p className="lede">
-            Email is the fastest way to reach me. Tell me what you&rsquo;re
-            building, what&rsquo;s blocking you, and any timeline you&rsquo;re
-            working against — three or four sentences is plenty. {SITE.bookingNote}
+            The fastest way to start is to grab a slot on my calendar. Or
+            email me what you&rsquo;re building, what&rsquo;s blocking you,
+            and any timeline you&rsquo;re working against — three or four
+            sentences is plenty. {SITE.bookingNote}
           </p>
           <div className="hero-actions">
             {SITE.calUsername ? (

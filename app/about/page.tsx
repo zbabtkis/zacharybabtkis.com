@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { CtaBand } from '@/components/sections';
+import { RECEIPTS } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -17,7 +18,15 @@ export default function AboutPage() {
       </section>
 
       <section className="section">
-        <div className="wrap">
+        <div className="wrap about-layout">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="about-photo"
+            src="/zack-portrait.jpg"
+            alt="Zack Babtkis in Bilbao, in front of the Guggenheim"
+            width={640}
+            height={800}
+          />
           <div className="prose">
             <p>
               I started in 2012 building real-time seismic data visualizations
@@ -30,9 +39,10 @@ export default function AboutPage() {
               before joining Honey in 2019.
             </p>
             <p>
-              At Honey — through its acquisition by PayPal — I spent five
-              years as a Senior Staff engineer on a browser extension used
-              across 30,000+ retailers. I designed and built Honey&rsquo;s
+              At <a href={RECEIPTS.paypalHoney}>Honey</a>
+              {' — through its acquisition by PayPal — '}I spent five years
+              as a Senior Staff engineer on a browser extension used across
+              30,000+ retailers. I designed and built Honey&rsquo;s
               first iOS browser extension, ported the legacy Safari extension
               to Apple&rsquo;s modern extension API, led the effort to break
               up and test the extension monolith, and built the A/B testing
@@ -42,7 +52,8 @@ export default function AboutPage() {
             </p>
             <p>
               In 2024 one of Honey&rsquo;s co-founders invited me to help
-              start Pie, a free ad blocker that grew past two million users.
+              start <a href={RECEIPTS.pieStore}>Pie</a>, a free ad blocker
+              that grew past two million users.
               I led the Creator Network — a system letting YouTube creators
               partner with Pie so supporters could choose to unblock their
               ads — and owned the iOS and Safari extensions end to end:
@@ -51,8 +62,8 @@ export default function AboutPage() {
               pivoted to building infrastructure for AI-agent commerce, I
               built agent-facing APIs and MCP servers, and shipped the
               company&rsquo;s first product built entirely through AI-agent
-              development — an ad-free YouTube viewer I owned from conception
-              to launch.
+              development — <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
+              YouTube viewer I owned from conception to launch.
             </p>
             <p>
               Now I consult independently from Los Angeles. Most of my career

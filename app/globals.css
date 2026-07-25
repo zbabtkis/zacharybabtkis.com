@@ -301,6 +301,122 @@ h3 {
   font-size: var(--text-sm);
 }
 
+/* ---------- Example projects ---------- */
+
+.example-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: var(--space-md);
+}
+
+.example-project {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.example-project .example-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-sm);
+}
+
+.example-project h3 {
+  font-size: var(--text-lg);
+}
+
+.example-range {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+.example-project p {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.example-duration {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--ink-faint);
+}
+
+/* ---------- Person strip ---------- */
+
+.person-strip {
+  margin-top: var(--space-2xl);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-xl);
+}
+
+.person-strip .wrap {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.person-strip img {
+  width: 9rem;
+  height: 9rem;
+  border-radius: var(--radius);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.person-strip .person-copy {
+  flex: 1;
+  min-width: 16rem;
+  max-width: var(--measure);
+}
+
+.person-strip p {
+  color: var(--ink-soft);
+}
+
+.person-strip .person-links {
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+/* ---------- About layout ---------- */
+
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 20rem);
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.about-photo {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: var(--space-lg);
+}
+
+@media (max-width: 52rem) {
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .about-photo {
+    grid-column: 1;
+    max-width: 22rem;
+    position: static;
+  }
+}
+
 /* ---------- Symptom checklist ---------- */
 
 .symptoms ul {
@@ -805,6 +921,17 @@ h3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
   gap: var(--space-md);
+}
+
+/* Four cards read better as a 2×2 grid than 3+1 */
+.service-cards.grid-2x2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 44rem) {
+  .service-cards.grid-2x2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 .service-card {

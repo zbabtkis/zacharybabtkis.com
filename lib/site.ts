@@ -23,6 +23,20 @@ export function calLink(source: string): string {
   return `https://cal.com/${SITE.calUsername}/${SITE.calEvent}?utm_source=${encodeURIComponent(source)}`;
 }
 
+// Publicly verifiable proof — every claim on the site should link to one of
+// these wherever it appears. URLs verified live 2026-07-24.
+export const RECEIPTS = {
+  pieStore:
+    'https://chromewebstore.google.com/detail/pie-adblock-a-powerful-fr/jpkfgepcmmchgfbjblnodjhldacghenp',
+  honeyStore:
+    'https://chromewebstore.google.com/detail/honey-automatic-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj',
+  paypalHoney:
+    'https://www.paypal.com/us/digital-wallet/ways-to-pay/paypal-honey',
+  pieYt: 'https://pie.yt',
+  pieOrg: 'https://www.pie.org',
+  zeroclick: 'https://www.zeroclick.ai',
+};
+
 export type Service = {
   slug: string;
   navLabel: string;

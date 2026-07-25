@@ -8,7 +8,7 @@ import {
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, TerminalCard } from '@/components/artifacts';
-import { SITE, mailto, calLink } from '@/lib/site';
+import { SITE, RECEIPTS, mailto, calLink } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'AI-Agent Development Enablement — Harness Engineering for Teams',
@@ -91,7 +91,11 @@ export default function AiAgentEnablementPage() {
         stats={[
           { value: '100%', label: 'of the codebase agent-built on the product I shipped at Pie' },
           { value: '2M+', label: 'users at the company where it shipped as a growth engine' },
-          { value: 'Daily', label: 'agent-driven development is how I work, not a demo I give' },
+          {
+            value: '10 wks',
+            label: 'pie.yt from first commit to public launch, agents writing the code',
+            href: RECEIPTS.pieYt,
+          },
           { value: '12+ yrs', label: 'engineering standards to hold the output to (ex-PayPal Senior Staff)' },
         ]}
       />
@@ -102,7 +106,8 @@ export default function AiAgentEnablementPage() {
           <div className="story">
             <p className="story-kicker">Case study: pie.yt</p>
             <p>
-              In 2025 I built pie.yt, an ad-free YouTube viewer, as
+              In 2025 I built <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
+              YouTube viewer — still live, go try it — as
               Pie&rsquo;s first product developed entirely through what we
               called <strong>harness engineering</strong>: instead of writing
               the code, I engineered the environment — the conventions,
@@ -118,6 +123,19 @@ export default function AiAgentEnablementPage() {
               your team.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <p className="section-intro">
+            Solo founder with an AI-built prototype and no team yet? That
+            engagement looks different —{' '}
+            <a href="/poc-to-production/">
+              see POC to production
+            </a>
+            .
+          </p>
         </div>
       </section>
 
@@ -245,16 +263,16 @@ export default function AiAgentEnablementPage() {
                 </p>
               </li>
               <li>
-                <strong>Embedded Enablement · 2–4 weeks, fixed quote</strong>
+                <strong>Embedded Enablement · 2–4 weeks · $15k–$30k</strong>
                 <p>
                   I set up the harness across your repos and ship real
                   backlog items with your engineers pairing alongside. Your
                   skeptics will come around when they review the merged PRs.
-                  Quoted from the audit.
+                  Fixed quote from the audit.
                 </p>
               </li>
               <li>
-                <strong>Fractional AI Engineering Lead · monthly retainer</strong>
+                <strong>Fractional AI Engineering Lead · $4k–$7.5k/mo</strong>
                 <p>
                   The tools change monthly; someone senior has to own the
                   practice. A flat retainer keeps the harness current, reviews

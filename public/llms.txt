@@ -10,19 +10,29 @@
   Ports Chrome extensions to Safari on macOS and iOS, including
   DeclarativeNetRequest migration and App Store review. Built Honey's first
   iOS browser extension; owned Pie's Safari/iOS extensions (2M+ users).
-  Entry offer: Safari Port Assessment, $2,500, one week.
+  Entry offer: Safari Port Assessment, $2,500, one week. Typical ports
+  $15k–$45k fixed; maintenance retainers $2k–$3.5k/mo.
 
 - [MCP Server Development for SaaS](https://zacharybabtkis.com/mcp-development/):
   Production Model Context Protocol servers that put SaaS products inside
   Claude, ChatGPT, and other AI agents — tool-surface design, OAuth, remote
   hosting, directory listing. Built agent-facing APIs and MCP servers at
-  ZeroClick. Entry offer: MCP Readiness Audit, $2,000, one week.
+  ZeroClick. Entry offer: MCP Readiness Audit, $2,000, one week. Typical
+  builds $18k–$35k; prototype hardening $8k–$15k; MCP + metering $30k–$60k.
 
 - [AI-Agent Development Enablement](https://zacharybabtkis.com/ai-agent-enablement/):
   Gets engineering teams shipping production software with AI coding agents
   (Claude Code and similar) — harness setup, agent-ready codebase practices,
   embedded pairing. Shipped a production product at a 2M-user company where
-  agents wrote the code. Entry offer: Agent-Readiness Audit, $3,000.
+  agents wrote the code (https://pie.yt, still live). Entry offer:
+  Agent-Readiness Audit, $3,000. Embedded enablement $15k–$30k;
+  fractional AI engineering lead $4k–$7.5k/mo.
+
+- [AI-Built POC to Production](https://zacharybabtkis.com/poc-to-production/):
+  Takes founders' AI-built prototypes (Claude, Cursor, Lovable, Replit) to
+  production — security/data review, tests, auth, deployment. Entry offer:
+  Production Readiness Audit, $2,500. Finish-line engagements typically
+  $20k–$50k fixed.
 
 ## Background
 

@@ -3,6 +3,7 @@ import { SITE, mailto, calLink } from '@/lib/site';
 type Stat = {
   value: string;
   label: string;
+  href?: string;
 };
 
 export function ProofBar({ stats }: { stats: Stat[] }) {
@@ -12,11 +13,53 @@ export function ProofBar({ stats }: { stats: Stat[] }) {
         {stats.map((stat) => (
           <div className="stat" key={stat.label}>
             <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
+            {stat.href ? (
+              <span>
+                <a href={stat.href}>{stat.label} ↗</a>
+              </span>
+            ) : (
+              <span>{stat.label}</span>
+            )}
           </div>
         ))}
       </div>
     </div>
+  );
+}
+
+export type ExampleProject = {
+  name: string;
+  scope: string;
+  range: string;
+  duration: string;
+};
+
+export function ExampleProjects({
+  intro,
+  items,
+}: {
+  intro: string;
+  items: ExampleProject[];
+}) {
+  return (
+    <section className="section">
+      <div className="wrap">
+        <h2>Example projects</h2>
+        <p className="section-intro">{intro}</p>
+        <div className="example-projects">
+          {items.map((item) => (
+            <div className="example-project" key={item.name}>
+              <div className="example-head">
+                <h3>{item.name}</h3>
+                <span className="example-range">{item.range}</span>
+              </div>
+              <p>{item.scope}</p>
+              <span className="example-duration">{item.duration}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
