@@ -119,7 +119,7 @@ export default function PocToProductionPage() {
               reasons. First, I build with AI agents every day — at Pie I
               shipped <a href={RECEIPTS.pieYt}>pie.yt</a>, a production
               product whose entire codebase was agent-written, so I know
-              exactly what AI-built code gets right, where it quietly cuts
+              exactly what AI-built code gets right, where it cuts
               corners, and how to fix those parts without starting over.
               Second, I spent five years as a Senior Staff engineer at PayPal
               — I know what production-grade means at the level of money and

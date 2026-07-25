@@ -107,7 +107,7 @@ export default function AiAgentEnablementPage() {
             <p className="story-kicker">Case study: pie.yt</p>
             <p>
               In 2025 I built <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
-              YouTube viewer — still live, go try it — as
+              YouTube viewer, still live, as
               Pie&rsquo;s first product developed entirely through what we
               called <strong>harness engineering</strong>: instead of writing
               the code, I engineered the environment — the conventions,
@@ -328,7 +328,7 @@ export default function AiAgentEnablementPage() {
           {
             question: 'Which tools do you set up?',
             answer:
-              'I’m deepest in Claude Code and the Claude Agent SDK — the stack I used to ship pie.yt and the agent infrastructure I built at ZeroClick. The harness itself (conventions, context, hooks, gates, CI) is deliberately tool-agnostic, which is what protects the investment when the tool landscape shifts next quarter.',
+              'I’m deepest in Claude Code and the Claude Agent SDK — the stack I used to ship pie.yt and the agent infrastructure I built at ZeroClick. The harness itself (conventions, context, hooks, gates, CI) is deliberately tool-agnostic, which protects the investment as the tools change.',
           },
           {
             question: 'Will agent-written code pass our review bar?',

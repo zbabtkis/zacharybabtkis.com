@@ -43,7 +43,8 @@ export default function SafariExtensionsPage() {
             <p className="lede">
               Apple&rsquo;s converter gives you an Xcode project that
               compiles — not a working extension, and not App Store
-              approval. I&rsquo;ve shipped both, at Honey and at Pie.
+              approval. That part is the real work, and I&rsquo;ve done it
+              at Honey and at Pie.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">

@@ -41,8 +41,8 @@ export default function McpDevelopmentPage() {
               with 1,400+ connectable apps. When a customer asks their AI
               assistant to use your product and nothing happens, they end up
               on whichever competitor built the integration. I build MCP
-              servers with the auth, logging, and directory-approval work it
-              takes to pass directory review and stay reliable.
+              servers with the auth, logging, and submission work it takes
+              to pass directory review and stay reliable.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">
@@ -98,8 +98,8 @@ export default function McpDevelopmentPage() {
               AI agents consume, the developer documentation that
               integrators build against, and Activation Ads, an agent-native
               ad format I originated that provisions third-party services
-              inside an agent&rsquo;s workflow. Before that I spent a decade
-              building consumer-scale infrastructure at Honey and Pie. Most
+              inside an agent&rsquo;s workflow. Before that I spent five years
+              at PayPal building Honey at consumer scale. Most
               agencies selling MCP work learned the protocol from the docs.
               I learned it shipping to agents in production, and I use agent
               tooling every day, so I know a badly designed tool surface
