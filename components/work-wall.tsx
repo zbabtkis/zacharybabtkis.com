@@ -50,6 +50,16 @@ const WORK: WorkItem[] = [
     },
   },
   {
+    name: 'Gimbal (Infillion)',
+    role: 'Built the DSP dashboard that won a 2015 UX Award and the dashboard merchants used to manage in-store beacons. Worked on mapping human networks (friends, family, shared audiences) from beacon and geofence signals in a graph database.',
+    scale: 'Location intelligence · 4 years',
+    href: 'https://infillion.com/products/infillion-gimbal/',
+    image: {
+      src: '/work-gimbal.jpg',
+      alt: 'Infillion Gimbal store-visit and beacon analytics report',
+    },
+  },
+  {
     name: 'TrueRate',
     role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz, with a scraping API and an iOS app behind it',
     scale: 'Built solo · 2019–2020',
@@ -103,15 +113,11 @@ export function WorkWall({ bare = false }: { bare?: boolean }) {
         })}
       </div>
       <p className="work-wall-minor">
-        Earlier: the{' '}
-        <a href="https://web.archive.org/web/20260510201534/https://userexperienceawards.com/2015-submissions/mobile-majoritys-end-to-end-mobile-advertising-platform/">
-          2015 UX Award–winning DSP dashboard
-        </a>{' '}
-        at The Mobile Majority (now Infillion),{' '}
+        Earlier:{' '}
         <a href="https://producepay.com/pre-season-financing/">
           ProducePay&rsquo;s Pre-Season financing platform
-        </a>
-        , and the NEES@UCSB real-time seismic data portal at{' '}
+        </a>{' '}
+        and the NEES@UCSB real-time seismic data portal at{' '}
         <a href="https://www.eri.ucsb.edu">
           UC Santa Barbara&rsquo;s Earth Research Institute
         </a>
