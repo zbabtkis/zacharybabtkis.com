@@ -1,4 +1,4 @@
-import { SITE, mailto } from '@/lib/site';
+import { SITE, mailto, calLink } from '@/lib/site';
 
 type Stat = {
   value: string;
@@ -151,18 +151,32 @@ type CtaBandProps = {
   title: string;
   body: string;
   emailSubject: string;
+  source?: string;
 };
 
-export function CtaBand({ title, body, emailSubject }: CtaBandProps) {
+export function CtaBand({ title, body, emailSubject, source }: CtaBandProps) {
+  const booking = Boolean(SITE.calUsername);
+
   return (
     <section className="cta-band">
       <div className="wrap">
         <h2>{title}</h2>
         <p>{body}</p>
         <div className="cta-actions">
-          <a className="button" href={mailto(emailSubject)}>
-            Email me about your project
-          </a>
+          {booking ? (
+            <>
+              <a className="button" href={calLink(source ?? 'site')}>
+                Book a 20-minute call
+              </a>
+              <a className="button secondary" href={mailto(emailSubject)}>
+                Or email me
+              </a>
+            </>
+          ) : (
+            <a className="button" href={mailto(emailSubject)}>
+              Email me about your project
+            </a>
+          )}
           <span className="cta-promise">
             {SITE.bookingNote} · {SITE.availability}.
           </span>

@@ -191,6 +191,7 @@ export default function SafariExtensionsPage() {
         title="Your users are already on Safari and iPhone."
         body="Send me your extension's Chrome Web Store link and a sentence about what it does. I'll tell you within a day whether a port is worth exploring."
         emailSubject="Safari port inquiry"
+        source="safari-extensions"
       />
 
       <script

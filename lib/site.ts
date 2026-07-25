@@ -9,7 +9,17 @@ export const SITE = {
   github: 'https://github.com/zbabtkis',
   bookingNote: 'I personally reply within one business day.',
   availability: 'Currently booking September 2026',
+  // Cal.com username. Empty string = booking disabled, CTAs fall back to email.
+  calUsername: '',
+  calEvent: 'intro-call',
 };
+
+// Booking link for a 20-minute intro call. `source` is the page slug that
+// sent the visitor — it flows through Cal.com into the booking webhook so
+// leads stay attributed to the page that produced them.
+export function calLink(source: string): string {
+  return `https://cal.com/${SITE.calUsername}/${SITE.calEvent}?utm_source=${encodeURIComponent(source)}`;
+}
 
 export type Service = {
   slug: string;

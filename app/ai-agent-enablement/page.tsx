@@ -8,7 +8,7 @@ import {
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, TerminalCard } from '@/components/artifacts';
-import { SITE, mailto } from '@/lib/site';
+import { SITE, mailto, calLink } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'AI-Agent Development Enablement — Harness Engineering for Teams',
@@ -47,7 +47,11 @@ export default function AiAgentEnablementPage() {
             <div className="hero-actions">
               <a
                 className="button"
-                href={mailto('AI enablement — scoping call')}
+                href={
+                  SITE.calUsername
+                    ? calLink('ai-agent-enablement-hero')
+                    : mailto('AI enablement — scoping call')
+                }
               >
                 Book a scoping call
               </a>
@@ -336,6 +340,7 @@ export default function AiAgentEnablementPage() {
         title="Find out what's actually in your team's way."
         body="Book a scoping call. Tell me your team size, your stack, and what you've tried. I'll give you a straight answer, including 'you're not ready yet, and here's what to fix first.'"
         emailSubject="AI enablement — scoping call"
+        source="ai-agent-enablement"
       />
 
       <script

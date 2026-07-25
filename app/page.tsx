@@ -139,6 +139,7 @@ export default function HomePage() {
         title="Working on something like this?"
         body="Tell me what you're building and what's in your way. I read every message myself. If I'm not the right person for the job, I'll tell you, and I'll suggest someone who is."
         emailSubject="Project inquiry"
+        source="home"
       />
 
       <script

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE, mailto } from '@/lib/site';
+import { SITE, mailto, calLink } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -19,7 +19,15 @@ export default function ContactPage() {
             working against — three or four sentences is plenty. {SITE.bookingNote}
           </p>
           <div className="hero-actions">
-            <a className="button" href={mailto('Project inquiry')}>
+            {SITE.calUsername ? (
+              <a className="button" href={calLink('contact')}>
+                Book a 20-minute call
+              </a>
+            ) : null}
+            <a
+              className={`button${SITE.calUsername ? ' secondary' : ''}`}
+              href={mailto('Project inquiry')}
+            >
               {SITE.email}
             </a>
             <span className="availability">{SITE.availability}</span>

@@ -174,6 +174,7 @@ export default function McpDevelopmentPage() {
         title="Your customers are already asking their assistants for this."
         body="Send me a link to your API docs and a sentence about what your customers want their AI assistants to do. I'll tell you within a day what an MCP integration would look like."
         emailSubject="MCP development inquiry"
+        source="mcp-development"
       />
 
       <script

@@ -68,6 +68,7 @@ export default function AboutPage() {
         title="Want the longer version?"
         body="My LinkedIn has the full history, and I'm happy to walk through any of it on a call. If you're evaluating me for a project, ask me anything, including for references."
         emailSubject="Hello from your About page"
+        source="about"
       />
     </>
   );
