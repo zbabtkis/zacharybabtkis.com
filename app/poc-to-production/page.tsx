@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
+import { Faq, CtaBand } from '@/components/sections';
 import {
-  ProofBar,
-  Symptoms,
-  Offer,
-  ExampleProjects,
-  Process,
-  Faq,
-  CtaBand,
-} from '@/components/sections';
+  Chapter,
+  StatBand,
+  Voices,
+  RatesTable,
+  Timeline,
+  OfferBand,
+} from '@/components/dossier';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, TerminalCard } from '@/components/artifacts';
 import { Arrow } from '@/components/arrow';
@@ -81,7 +81,7 @@ export default function PocToProductionPage() {
         </div>
       </section>
 
-      <ProofBar
+      <StatBand
         stats={[
           {
             value: '100%',
@@ -96,105 +96,107 @@ export default function PocToProductionPage() {
         ]}
       />
 
-      <Symptoms
-        title="Sound familiar?"
-        items={[
-          'It works perfectly — until two people use it at the same time.',
-          'There are no tests, so every change breaks something you find out about later.',
-          'Auth and payments are half-wired: the demo logs in, but you wouldn’t put a real card on it.',
-          'The AI wrote code nobody fully understands, and you can’t tell which parts are solid.',
-          'It runs on your laptop or a hobby deploy, and you don’t know what production even needs.',
-          'Customers or investors are ready now, and "give me three months to rewrite it" isn’t an answer.',
+      <Chapter n="01" label="The problem" title="Sound familiar?" id="problem">
+        <Voices
+          items={[
+            'It works perfectly — until two people use it at the same time.',
+            'There are no tests, so every change breaks something.',
+            'The demo logs in. I wouldn’t put a real card on it.',
+            'The AI wrote code nobody fully understands.',
+            'Customers are ready now, and "give me three months" isn’t an answer.',
+          ]}
+          close="None of this means your POC was a waste. It did its job: it proved the idea. Production is a different job."
+        />
+      </Chapter>
+
+      <Chapter n="02" label="Why me" title="I build with agents, and I know where they cut corners." id="proof">
+        <div className="prose">
+          <p>
+            Most senior engineers will tell you to throw the prototype away
+            and quote you a six-figure rebuild. I won&rsquo;t, for two
+            reasons. First, I build with AI agents every day — at Pie I
+            shipped <a href={RECEIPTS.pieYt}>pie.yt</a>, a production
+            product whose entire codebase was agent-written, so I know
+            exactly what AI-built code gets right, where it cuts corners,
+            and how to fix those parts without starting over. Second, I
+            spent five years as a Senior Staff engineer at PayPal — I know
+            what production-grade means at the level of money and user
+            data, and I hold the finished product to that bar.
+          </p>
+        </div>
+      </Chapter>
+
+      <OfferBand
+        n="03"
+        label="Start here"
+        title="Find out what you actually have."
+        name="Production Readiness Audit"
+        price="$2,500"
+        timeline="One week"
+        deliverables={[
+          'Full review of the codebase through a production lens: security, data handling, auth, error paths, scalability',
+          'A keep / fix / rewrite map — most AI-built POCs are more salvageable than founders fear',
+          'The critical-risk list: what would hurt you with real users, ranked',
+          'Test and deployment plan sized to your product, not enterprise ceremony',
+          'A fixed quote for the finish-line work, so the total cost is known before you spend it',
         ]}
-        close="None of this means your POC was a waste. It means it did its job — it proved the idea. Production is a different job."
+        emailSubject="Production Readiness Audit"
+        source="poc-to-production"
+        id="offer"
       />
 
-      <section className="section">
-        <div className="wrap">
-          <h2>Why me</h2>
-          <div className="prose">
-            <p>
-              Most senior engineers will tell you to throw the prototype away
-              and quote you a six-figure rebuild. I won&rsquo;t, for two
-              reasons. First, I build with AI agents every day — at Pie I
-              shipped <a href={RECEIPTS.pieYt}>pie.yt</a>, a production
-              product whose entire codebase was agent-written, so I know
-              exactly what AI-built code gets right, where it cuts
-              corners, and how to fix those parts without starting over.
-              Second, I spent five years as a Senior Staff engineer at PayPal
-              — I know what production-grade means at the level of money and
-              user data, and I hold the finished product to that bar.
-            </p>
-          </div>
-        </div>
-      </section>
+      <Chapter n="04" label="Rates" title="What the finish line costs" id="rates">
+        <RatesTable
+          intro="Fixed-bid from the audit. These are typical ranges — the audit tells you exactly where yours lands."
+          rates={[
+            {
+              name: <>POC <Arrow /> launched product</>,
+              scope:
+                'Hardening what’s sound, rewriting what isn’t, tests and CI, auth and payments done properly, deployed on real infrastructure with monitoring.',
+              duration: '4–8 weeks',
+              price: '$20k–$50k',
+            },
+            {
+              name: 'Critical-path rescue',
+              scope:
+                'Just the parts that block launch — usually auth, data integrity, and deployment — when the budget needs the rest to wait.',
+              duration: '2–4 weeks',
+              price: '$10k–$20k',
+            },
+            {
+              name: 'Keep-shipping retainer',
+              scope:
+                'After launch: I stay on a few days a month so features keep shipping at production quality while you find your footing (or your first engineer).',
+              duration: 'ongoing',
+              price: '$3k–$6k/mo',
+            },
+          ]}
+        />
+      </Chapter>
+
+      <Chapter n="05" label="Process" title="How working with me goes" id="process">
+        <Timeline
+          steps={[
+            {
+              name: 'Audit',
+              description:
+                'Fixed price, one week. You learn what you have, what it needs, and what the finish line costs — useful even if someone else does the work.',
+            },
+            {
+              name: 'The finish line',
+              description:
+                'Fixed bid. I do the production work — with agents where they’re strong, by hand where it counts — and you can watch every PR land.',
+            },
+            {
+              name: 'Launch & handoff',
+              description:
+                'Deployed, monitored, documented. You get a codebase a future hire can pick up, and the option of a retainer until then.',
+            },
+          ]}
+        />
+      </Chapter>
 
       <Wave />
-
-      <div id="offer">
-        <Offer
-          title="Start small: find out what you actually have"
-          name="Production Readiness Audit"
-          price="$2,500"
-          timeline="One week"
-          deliverables={[
-            'Full review of the codebase through a production lens: security, data handling, auth, error paths, scalability',
-            'A keep / fix / rewrite map — most AI-built POCs are more salvageable than founders fear',
-            'The critical-risk list: what would actually hurt you with real users, ranked',
-            'Test and deployment plan sized to your product, not enterprise ceremony',
-            'A fixed quote for the finish-line work, so the total cost is known before you spend it',
-          ]}
-          emailSubject="Production Readiness Audit"
-          source="poc-to-production"
-        />
-      </div>
-
-      <ExampleProjects
-        intro="Fixed-bid from the audit. These are typical ranges — the audit tells you exactly where yours lands."
-        items={[
-          {
-            name: <>POC <Arrow /> launched product</>,
-            scope:
-              'Hardening what’s sound, rewriting what isn’t, tests and CI, auth and payments done properly, deployed on real infrastructure with monitoring.',
-            range: '$20k–$50k',
-            duration: '4–8 weeks',
-          },
-          {
-            name: 'Critical-path rescue',
-            scope:
-              'Just the parts that block launch — usually auth, data integrity, and deployment — when the budget needs the rest to wait.',
-            range: '$10k–$20k',
-            duration: '2–4 weeks',
-          },
-          {
-            name: 'Keep-shipping retainer',
-            scope:
-              'After launch: I stay on a few days a month so features keep shipping at production quality while you find your footing (or your first engineer).',
-            range: '$3k–$6k/mo',
-            duration: 'ongoing',
-          },
-        ]}
-      />
-
-      <Process
-        steps={[
-          {
-            name: 'Audit',
-            description:
-              'Fixed price, one week. You learn what you have, what it needs, and what the finish line costs — useful even if someone else does the work.',
-          },
-          {
-            name: 'The finish line',
-            description:
-              'Fixed bid. I do the production work — with agents where they’re strong, by hand where it counts — and you can watch every PR land.',
-          },
-          {
-            name: 'Launch & handoff',
-            description:
-              'Deployed, monitored, documented. You get a codebase a future hire can pick up, and the option of a retainer until then.',
-          },
-        ]}
-      />
 
       <Faq
         items={[
