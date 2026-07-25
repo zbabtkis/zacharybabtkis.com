@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { SITE, calLink } from '@/lib/site';
 import { ConsoleEgg } from '@/components/console-egg';
 import { NavServices } from '@/components/nav-services';
+import { MobileMenu } from '@/components/mobile-menu';
 import './globals.css';
 
 const inter = Inter({
@@ -60,6 +61,7 @@ export default function RootLayout({
                 Book a call
               </a>
             </nav>
+            <MobileMenu />
           </div>
         </header>
         <main>{children}</main>

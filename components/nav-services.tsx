@@ -1,34 +1,14 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
 import { SERVICE_GROUPS } from '@/lib/site';
 import { ServiceIcon } from '@/components/service-icons';
+import { useAutoClose } from '@/components/use-auto-close';
 
 export function NavServices() {
   const ref = useRef<HTMLDetailsElement>(null);
-
-  useEffect(() => {
-    const close = () => ref.current?.removeAttribute('open');
-    const onPointerDown = (event: PointerEvent) => {
-      if (
-        ref.current?.open &&
-        event.target instanceof Node &&
-        !ref.current.contains(event.target)
-      ) {
-        close();
-      }
-    };
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') close();
-    };
-    document.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('pointerdown', onPointerDown);
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, []);
+  useAutoClose(ref);
 
   return (
     <details className="nav-services" ref={ref}>

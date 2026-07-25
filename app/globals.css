@@ -260,15 +260,21 @@ h3 {
   }
 }
 
-/* Compact header on phones: smaller masthead, nav as one scrollable row */
+/* Phone-only Menu button; hidden on desktop */
+.mobile-menu {
+  display: none;
+}
+
+/* Phones: compact masthead plus a single Menu control. The full nav link
+   row cannot fit a phone without wrapping or clipping, so it collapses. */
 @media (max-width: 44rem) {
   .site-header {
     position: relative;
   }
 
   .site-header .wrap {
+    flex-wrap: nowrap;
     gap: var(--space-sm);
-    padding-bottom: 0.65rem;
   }
 
   .site-title {
@@ -281,41 +287,84 @@ h3 {
   }
 
   .site-nav {
-    width: 100%;
-    flex-wrap: nowrap;
-    gap: 0.9rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .site-nav::-webkit-scrollbar {
     display: none;
   }
 
-  .site-nav a,
-  .nav-services summary {
-    font-size: 0.85rem;
-    white-space: nowrap;
+  .mobile-menu {
+    display: block;
   }
 
-  /* One primary CTA per viewport: the hero button. The nav pill also
-     breaks the shared height of the nav row. */
-  .site-nav .nav-cta {
+  .mobile-menu summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .mobile-menu summary::-webkit-details-marker {
     display: none;
   }
 
-  /* The scrolling nav would clip an absolutely-positioned child, so the
-     dropdown anchors to the header instead and spans the viewport. */
-  .nav-services {
-    position: static;
+  .mobile-menu[open] summary {
+    color: var(--accent);
   }
 
-  .nav-dropdown.nav-mega {
+  .nav-dropdown.menu-panel {
     left: 1rem;
     right: 1rem;
     width: auto;
+    min-width: 0;
     max-width: none;
     transform: none;
+    padding: var(--space-md);
+  }
+
+  .menu-panel::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    right: 2rem;
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg);
+    background: var(--paper-raised);
+    border-left: 1px solid var(--rule);
+    border-top: 1px solid var(--rule);
+  }
+
+  .menu-scroll {
+    max-height: calc(100vh - 11rem);
+    overflow-y: auto;
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .menu-panel .nav-group a {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: var(--text-sm);
+  }
+
+  .menu-links {
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-sm);
+    display: grid;
+  }
+
+  .menu-links a {
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .menu-cta {
+    text-align: center;
+    margin-top: var(--space-2xs, 0.25rem);
   }
 }
 
