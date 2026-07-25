@@ -35,6 +35,14 @@
   Production Readiness Audit, $2,500. Finish-line engagements typically
   $20k–$50k fixed.
 
+## Tools
+
+- [Safari Port Checker](https://zacharybabtkis.com/tools/safari-port-checker/):
+  Free in-browser tool — paste a Chrome extension manifest.json and get an
+  instant Safari and iOS compatibility report: blocking webRequest,
+  persistent backgrounds, unsupported APIs, page overrides, permission-prompt
+  UX. Nothing is uploaded.
+
 ## Guides
 
 - [All guides](https://zacharybabtkis.com/guides/)

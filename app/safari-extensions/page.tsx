@@ -90,6 +90,16 @@ export default function SafariExtensionsPage() {
           ]}
           close="I've hit every one of these already — first at Honey, then again at ZeroClick."
         />
+        <div className="story" style={{ marginTop: 'var(--space-lg)' }}>
+          <p className="story-kicker">Free tool</p>
+          <p>
+            Paste your manifest.json into the{' '}
+            <a href="/tools/safari-port-checker/">Safari Port Checker</a> and
+            get an instant read on what carries over, what needs a redesign,
+            and what doesn&rsquo;t exist in Safari. It runs in your browser
+            and uploads nothing.
+          </p>
+        </div>
       </Chapter>
 
       <Chapter n="02" label="Why me" title="The converter leaves a gap. I've spent years in it." id="proof">
