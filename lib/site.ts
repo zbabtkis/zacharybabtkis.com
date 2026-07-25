@@ -67,3 +67,71 @@ export const SERVICES: Service[] = [
 export function mailto(subject: string): string {
   return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}`;
 }
+
+// Services grouped by category for the nav dropdown and the homepage.
+// Within each group, items are ordered by how much experience backs them.
+// Items without a dedicated page link to /contact/.
+export type ServiceGroupItem = {
+  name: string;
+  href: string;
+  icon:
+    | 'safari'
+    | 'extension'
+    | 'app-extension'
+    | 'mcp'
+    | 'harness'
+    | 'poc'
+    | 'webapp'
+    | 'apps';
+};
+
+export type ServiceGroup = {
+  key: string;
+  label: string;
+  items: ServiceGroupItem[];
+};
+
+export const SERVICE_GROUPS: ServiceGroup[] = [
+  {
+    key: 'agentic',
+    label: 'Agentic AI',
+    items: [
+      { name: 'MCP server development', href: '/mcp-development/', icon: 'mcp' },
+      {
+        name: 'AI-agent enablement for teams',
+        href: '/ai-agent-enablement/',
+        icon: 'harness',
+      },
+      {
+        name: 'AI-built POC to production',
+        href: '/poc-to-production/',
+        icon: 'poc',
+      },
+    ],
+  },
+  {
+    key: 'extensions',
+    label: 'Web extensions',
+    items: [
+      {
+        name: 'Chrome to Safari & iOS porting',
+        href: '/safari-extensions/',
+        icon: 'safari',
+      },
+      { name: 'New extension, built from scratch', href: '/contact/', icon: 'extension' },
+      {
+        name: 'Extension for your existing iOS or Mac app',
+        href: '/contact/',
+        icon: 'app-extension',
+      },
+    ],
+  },
+  {
+    key: 'apps',
+    label: 'Apps',
+    items: [
+      { name: 'Web apps', href: '/contact/', icon: 'webapp' },
+      { name: 'iOS & Mac apps', href: '/contact/', icon: 'apps' },
+    ],
+  },
+];

@@ -4,6 +4,7 @@ import { Chapter, StatBand } from '@/components/dossier';
 import { Wave } from '@/components/artifacts';
 import { Arrow } from '@/components/arrow';
 import { HeroPlug } from '@/components/hero-plug';
+import { ServiceIcon } from '@/components/service-icons';
 import { WorkWall } from '@/components/work-wall';
 import { SITE, RECEIPTS, calLink } from '@/lib/site';
 
@@ -115,77 +116,119 @@ export default function HomePage() {
 
       <Chapter n="02" label="Services" title="What I'm hired for">
         <div className="door">
-          <h3 className="door-label">In the browser</h3>
+          <h3 className="door-label">Agentic AI</h3>
           <div className="service-cards">
-            <Link className="service-card" href="/safari-extensions/">
-            <span className="card-icon">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M16.5 7.5 L13.5 13.5 L7.5 16.5 L10.5 10.5 Z" fill="currentColor" stroke="none" />
-              </svg>
-            </span>
-            <h3>Chrome <Arrow /> Safari &amp; iOS</h3>
-            <p>
-              Your extension doesn&rsquo;t exist on Safari or iPhone. I
-              built Honey&rsquo;s first iOS extension and owned
-              Pie&rsquo;s. I&rsquo;ll port yours and get it through App
-              Store review.
-            </p>
-              <span className="card-cta">Port assessment · $2,500</span>
+            <Link className="service-card" href="/mcp-development/">
+              <span className="card-icon">
+                <ServiceIcon name="mcp" />
+              </span>
+              <h3>MCP servers that put your product in front of AI agents</h3>
+              <p>
+                Your customers are asking for a Claude or ChatGPT
+                integration. I built agent-facing APIs at ZeroClick.
+                I&rsquo;ll build your MCP server and take it through
+                directory submission.
+              </p>
+              <span className="card-cta">MCP readiness audit · $2,000</span>
+            </Link>
+            <Link className="service-card" href="/ai-agent-enablement/">
+              <span className="card-icon">
+                <ServiceIcon name="harness" />
+              </span>
+              <h3>AI-agent enablement for engineering teams</h3>
+              <p>
+                Your team has the AI tools and little shipped to show for
+                it. At ZeroClick I shipped a product where AI agents wrote
+                the whole codebase. I&rsquo;ll set your team up to work
+                that way.
+              </p>
+              <span className="card-cta">Agent-readiness audit · $3,000</span>
+            </Link>
+            <Link className="service-card" href="/poc-to-production/">
+              <span className="card-icon">
+                <ServiceIcon name="poc" />
+              </span>
+              <h3>Your AI-built POC, taken to production</h3>
+              <p>
+                You vibe-coded something that works in a demo. I make it
+                survive real users: tests, auth, data, deployment.
+              </p>
+              <span className="card-cta">
+                Production readiness audit · $2,500
+              </span>
             </Link>
           </div>
         </div>
         <div className="door">
-          <h3 className="door-label">With AI agents</h3>
+          <h3 className="door-label">Web extensions</h3>
           <div className="service-cards">
-            <Link className="service-card" href="/mcp-development/">
-            <span className="card-icon">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M9 7 V4.5 M15 7 V4.5" strokeLinecap="round" />
-                <rect x="6" y="7" width="12" height="8" rx="2" />
-                <path d="M12 15 V19 M8 19 H16" strokeLinecap="round" />
-              </svg>
-            </span>
-            <h3>MCP servers that put your product in front of AI agents</h3>
-            <p>
-              Your customers are asking for a Claude or ChatGPT
-              integration. I built agent-facing APIs at ZeroClick.
-              I&rsquo;ll build your MCP server and take it through directory
-              submission.
-            </p>
-            <span className="card-cta">MCP readiness audit · $2,000</span>
-          </Link>
-          <Link className="service-card" href="/ai-agent-enablement/">
-            <span className="card-icon">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <rect x="3.5" y="5" width="17" height="14" rx="2" />
-                <path d="M7 9.5 L10 12 L7 14.5 M12 15 H16.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <h3>AI-agent enablement for engineering teams</h3>
-            <p>
-              Your team has the AI tools and little shipped to show for
-              it. At ZeroClick I shipped a product where AI agents wrote
-              the whole codebase. I&rsquo;ll set your team up to work that
-              way.
-            </p>
-            <span className="card-cta">Agent-readiness audit · $3,000</span>
-          </Link>
-          <Link className="service-card" href="/poc-to-production/">
-            <span className="card-icon">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M5 19 C5 13, 8 6, 12 4 C16 6, 19 13, 19 19" strokeLinejoin="round" />
-                <circle cx="12" cy="10" r="2" />
-                <path d="M8 19 L12 16 L16 19" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <h3>Your AI-built POC, taken to production</h3>
-            <p>
-              You vibe-coded something that works in a demo. I make it
-              survive real users: tests, auth, data, deployment.
-            </p>
-            <span className="card-cta">Production readiness audit · $2,500</span>
-          </Link>
+            <Link className="service-card" href="/safari-extensions/">
+              <span className="card-icon">
+                <ServiceIcon name="safari" />
+              </span>
+              <h3>Chrome <Arrow /> Safari &amp; iOS</h3>
+              <p>
+                Your extension doesn&rsquo;t exist on Safari or iPhone. I
+                built Honey&rsquo;s first iOS extension and owned
+                Pie&rsquo;s. I&rsquo;ll port yours and get it through App
+                Store review.
+              </p>
+              <span className="card-cta">Port assessment · $2,500</span>
+            </Link>
+            <Link className="service-card" href="/contact/">
+              <span className="card-icon">
+                <ServiceIcon name="extension" />
+              </span>
+              <h3>A new extension, built from scratch</h3>
+              <p>
+                Chrome, Safari, or Firefox. I shipped extension features to
+                twenty million users at Honey and Pie, and built TrueRate
+                alone.
+              </p>
+              <span className="card-cta">Scoped per project</span>
+            </Link>
+            <Link className="service-card" href="/contact/">
+              <span className="card-icon">
+                <ServiceIcon name="app-extension" />
+              </span>
+              <h3>An extension for your existing iOS or Mac app</h3>
+              <p>
+                Your app, extended into Safari. I shipped Unhabit&rsquo;s
+                iOS Safari extension end to end and built Pie&rsquo;s app
+                shells.
+              </p>
+              <span className="card-cta">Scoped per project</span>
+            </Link>
+          </div>
+        </div>
+        <div className="door">
+          <h3 className="door-label">Apps</h3>
+          <div className="service-cards">
+            <Link className="service-card" href="/contact/">
+              <span className="card-icon">
+                <ServiceIcon name="webapp" />
+              </span>
+              <h3>Web apps</h3>
+              <p>
+                I&rsquo;ve built web apps since 2012: seismic dashboards at
+                UC Santa Barbara, the DSP dashboard that won a 2015 UX
+                Award at Gimbal, financing tools at ProducePay, and pie.yt
+                at ZeroClick.
+              </p>
+              <span className="card-cta">Scoped per project</span>
+            </Link>
+            <Link className="service-card" href="/contact/">
+              <span className="card-icon">
+                <ServiceIcon name="apps" />
+              </span>
+              <h3>iOS &amp; Mac apps</h3>
+              <p>
+                Swift shells, Xcode Cloud, and App Store review. I shipped
+                Pie&rsquo;s iOS and Mac app shells and two products of my
+                own.
+              </p>
+              <span className="card-cta">Scoped per project</span>
+            </Link>
           </div>
         </div>
       </Chapter>

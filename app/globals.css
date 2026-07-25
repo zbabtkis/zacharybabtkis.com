@@ -175,16 +175,58 @@ h3 {
   color: var(--accent);
 }
 
+.nav-mega {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(13rem, 1fr));
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  min-width: 0;
+  width: max-content;
+  max-width: min(46rem, calc(100vw - 2rem));
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.nav-group-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 700;
+  color: var(--amber, var(--accent));
+  padding: 0.3rem 0.8rem 0.15rem;
+}
+
+.nav-mega a {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: var(--text-sm);
+}
+
+.nav-icon {
+  display: inline-flex;
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+
 .site-nav .nav-cta {
   color: #fff;
   font-size: var(--text-sm);
   padding: 0.45rem 0.95rem;
 }
 
-@media (max-width: 44rem) {
-  .nav-dropdown {
-    left: 0;
-    transform: none;
+@media (max-width: 52rem) {
+  .nav-dropdown.nav-mega {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    top: 4.5rem;
+    width: auto;
+    max-width: none;
+    grid-template-columns: 1fr;
+    max-height: 70vh;
+    overflow-y: auto;
   }
 }
 
