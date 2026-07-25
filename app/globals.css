@@ -917,6 +917,14 @@ a.work-tile:hover {
   margin-bottom: 0.15rem;
 }
 
+.work-shot {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  margin-bottom: var(--space-sm);
+}
+
 .work-tile .work-role {
   color: var(--ink-soft);
   font-size: var(--text-sm);
