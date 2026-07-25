@@ -56,6 +56,7 @@ export default function RootLayout({
                 </div>
               </details>
               <Link href="/guides/">Guides</Link>
+              <Link href="/tools/safari-port-checker/">Port Checker</Link>
               <Link href="/about/">About</Link>
               <Link href="/contact/">Contact</Link>
               <a className="button nav-cta" href={calLink('nav')}>
@@ -71,6 +72,7 @@ export default function RootLayout({
               © {new Date().getFullYear()} Zack Babtkis · Los Angeles, CA
             </span>
             <nav aria-label="Footer">
+              <a href="/tools/safari-port-checker/">Safari Port Checker</a>
               <a href={SITE.linkedin}>LinkedIn</a>
               <a href={SITE.github}>GitHub</a>
               <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
