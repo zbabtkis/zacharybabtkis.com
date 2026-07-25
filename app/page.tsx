@@ -1,11 +1,7 @@
 import Link from 'next/link';
 import { ProofBar, CtaBand } from '@/components/sections';
-import {
-  Wave,
-  BrowserWindow,
-  ExtensionPopup,
-  PageSkeleton,
-} from '@/components/artifacts';
+import { Wave } from '@/components/artifacts';
+import { HeroDemo } from '@/components/hero-demo';
 import { WorkWall } from '@/components/work-wall';
 import { SITE, RECEIPTS, calLink } from '@/lib/site';
 
@@ -68,10 +64,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="hero-art">
-            <BrowserWindow url="zacharybabtkis.com">
-              <PageSkeleton />
-              <ExtensionPopup />
-            </BrowserWindow>
+            <HeroDemo />
           </div>
         </div>
       </section>

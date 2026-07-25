@@ -993,6 +993,63 @@ a.work-tile:hover {
   font-weight: 700;
   padding: 0.1rem 0.4rem;
   border-radius: 99px;
+  border: none;
+  font-family: inherit;
+}
+
+button.ext-badge {
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.ext-badge.off {
+  background: #a33;
+}
+
+.ad-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.4rem !important;
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f6ddba,
+    #f6ddba 6px,
+    #f3d3a4 6px,
+    #f3d3a4 12px
+  ) !important;
+  color: #a97908;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  animation: ad-in 200ms ease-out;
+}
+
+@keyframes ad-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.demo-hint {
+  position: absolute;
+  bottom: 0.5rem;
+  left: var(--space-md);
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ad-block {
+    animation: none;
+  }
 }
 
 .ext-popup-row {
