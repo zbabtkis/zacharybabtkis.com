@@ -38,7 +38,9 @@
 
 - [About](https://zacharybabtkis.com/about/): 12+ years shipping production
   software — UC Santa Barbara Earth Research Institute, Gimbal, ProducePay,
-  five years as Senior Staff engineer at PayPal (Honey, 30,000+ retailers),
-  then Pie/ZeroClick (2M+ user ad blocker; agent-commerce infrastructure).
+  five years as Senior Staff engineer at PayPal (Honey: 20M+ users, 30,000+
+  retailers, $4B exit to PayPal), then Pie/ZeroClick (2M+ user ad blocker;
+  agent-commerce infrastructure). 20M+ combined users and hundreds of
+  millions of dollars a year in revenue across products he has built on.
 - [Contact](https://zacharybabtkis.com/contact/)
 - LinkedIn: https://www.linkedin.com/in/zacharybabtkis

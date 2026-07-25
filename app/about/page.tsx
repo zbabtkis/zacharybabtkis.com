@@ -40,9 +40,10 @@ export default function AboutPage() {
             </p>
             <p>
               At <a href={RECEIPTS.paypalHoney}>Honey</a>
-              {' — through its acquisition by PayPal — '}I spent five years
-              as a Senior Staff engineer on a browser extension used across
-              30,000+ retailers. I designed and built Honey&rsquo;s
+              {' — through its $4 billion acquisition by PayPal — '}I spent
+              five years as a Senior Staff engineer on a browser extension
+              used by 20 million people across 30,000+ retailers, on
+              products generating hundreds of millions of dollars a year. I designed and built Honey&rsquo;s
               first iOS browser extension, ported the legacy Safari extension
               to Apple&rsquo;s modern extension API, led the effort to break
               up and test the extension monolith, and built the A/B testing

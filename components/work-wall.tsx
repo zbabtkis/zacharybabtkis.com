@@ -3,8 +3,8 @@ import { RECEIPTS } from '@/lib/site';
 const WORK = [
   {
     name: 'PayPal Honey',
-    role: 'Senior Staff engineer · designed and built its first iOS browser extension',
-    scale: '30,000+ retailers',
+    role: 'Senior Staff engineer · designed and built its first iOS browser extension · $4B exit to PayPal',
+    scale: '20M+ users',
     href: RECEIPTS.paypalHoney,
   },
   {

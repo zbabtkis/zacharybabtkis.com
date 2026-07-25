@@ -78,16 +78,18 @@ export default function HomePage() {
       <ProofBar
         stats={[
           {
-            value: '2M+',
-            label: 'users of extensions I helped build at Pie',
-            href: RECEIPTS.pieStore,
-          },
-          {
-            value: '30,000+',
-            label: 'retailers supported by Honey, acquired by PayPal',
+            value: '20M+',
+            label: 'users across the products I’ve built at Honey and Pie',
             href: RECEIPTS.paypalHoney,
           },
-          { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },
+          {
+            value: '$4B',
+            label: 'Honey’s exit to PayPal — I was part of it and built through the acquisition',
+          },
+          {
+            value: '$100Ms',
+            label: 'per year in revenue across products I’ve built on',
+          },
           { value: '12+ yrs', label: 'shipping production software' },
         ]}
       />
