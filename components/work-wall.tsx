@@ -60,6 +60,16 @@ const WORK: WorkItem[] = [
     },
   },
   {
+    name: 'ProducePay',
+    role: 'Helped build the trading platform, including the messaging system growers and distributors use to negotiate trades. Led architecture for the Pre-Season financing platform.',
+    scale: 'Produce marketplace · 2018–2019',
+    href: 'https://info.producepay.com/tour',
+    image: {
+      src: '/work-producepay.jpg',
+      alt: 'ProducePay marketplace marketing banner',
+    },
+  },
+  {
     name: 'TrueRate',
     role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz, with a scraping API and an iOS app behind it',
     scale: 'Built solo · 2019–2020',
@@ -113,11 +123,7 @@ export function WorkWall({ bare = false }: { bare?: boolean }) {
         })}
       </div>
       <p className="work-wall-minor">
-        Earlier:{' '}
-        <a href="https://producepay.com/pre-season-financing/">
-          ProducePay&rsquo;s Pre-Season financing platform
-        </a>{' '}
-        and the NEES@UCSB real-time seismic data portal at{' '}
+        Earlier: the NEES@UCSB real-time seismic data portal at{' '}
         <a href="https://www.eri.ucsb.edu">
           UC Santa Barbara&rsquo;s Earth Research Institute
         </a>
