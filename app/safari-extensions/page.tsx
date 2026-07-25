@@ -10,6 +10,7 @@ import {
 } from '@/components/dossier';
 import { CrossLinks } from '@/components/cross-links';
 import { SafariChecklist } from '@/components/safari-checklist';
+import { Arrow } from '@/components/arrow';
 import { SITE, RECEIPTS } from '@/lib/site';
 import { GUIDES } from '@/lib/guides';
 
@@ -99,8 +100,10 @@ export default function SafariExtensionsPage() {
             shells, Xcode Cloud deployment, and the content-blocking work
             Safari forces through DeclarativeNetRequest. I&rsquo;ve also
             taken an iOS Safari extension through App Review alone:{' '}
-            <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>, a
-            distraction blocker I designed, built, and shipped end to end.
+            <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>, a distraction blocker I designed,
+            built, and shipped end to end — TapSmart called it &ldquo;much
+            better and far more user-friendly than Apple&rsquo;s
+            solution.&rdquo;
             The gap between WebExtension JavaScript and Apple&rsquo;s
             toolchain is exactly where ports stall, and not many engineers
             work on both sides of it.
@@ -132,16 +135,16 @@ export default function SafariExtensionsPage() {
           intro="Fixed-bid from the assessment — you know the number before committing. These are the ranges most projects land in."
           rates={[
             {
-              name: 'Extension → Safari macOS',
+              name: <>Extension <Arrow /> Safari macOS</>,
               scope:
                 'Existing MV3 extension, no request-blocking redesign. Ported and shipped.',
               duration: '4–6 weeks',
               price: '$15k–$25k',
             },
             {
-              name: 'Content blocker → Safari + iOS',
+              name: <>Content blocker <Arrow /> Safari + iOS</>,
               scope:
-                'Full webRequest → DNR redesign, iOS app shell, App Store approval on both platforms.',
+                'Full webRequest-to-DNR redesign, iOS app shell, App Store approval on both platforms.',
               duration: '6–10 weeks',
               price: '$25k–$45k',
             },

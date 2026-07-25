@@ -10,6 +10,7 @@ import {
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, TerminalCard } from '@/components/artifacts';
+import { Arrow } from '@/components/arrow';
 import { SITE, RECEIPTS } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -152,7 +153,7 @@ export default function PocToProductionPage() {
         intro="Fixed-bid from the audit. These are typical ranges — the audit tells you exactly where yours lands."
         items={[
           {
-            name: 'Finish line: POC → launched product',
+            name: <>POC <Arrow /> launched product</>,
             scope:
               'Hardening what’s sound, rewriting what isn’t, tests and CI, auth and payments done properly, deployed on real infrastructure with monitoring.',
             range: '$20k–$50k',

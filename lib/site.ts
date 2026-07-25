@@ -47,7 +47,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'safari-extensions',
     navLabel: 'Safari & iOS extension porting',
-    title: 'Chrome → Safari & iOS Extension Porting',
+    title: 'Safari & iOS extension porting',
   },
   {
     slug: 'mcp-development',
@@ -61,7 +61,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'poc-to-production',
-    navLabel: 'AI-built POC → production',
+    navLabel: 'AI-built POC to production',
     title: 'AI-Built POC to Production',
   },
 ];

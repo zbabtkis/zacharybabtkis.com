@@ -6,7 +6,7 @@
 
 ## Services
 
-- [Chrome → Safari & iOS Extension Porting](https://zacharybabtkis.com/safari-extensions/):
+- [Chrome to Safari & iOS Extension Porting](https://zacharybabtkis.com/safari-extensions/):
   Ports Chrome extensions to Safari on macOS and iOS, including
   DeclarativeNetRequest migration and App Store review. Built Honey's first
   iOS browser extension; owned Pie's Safari/iOS extensions (2M+ users).
@@ -56,6 +56,6 @@
   PayPal through the $4B acquisition. Solo products: TrueRate
   (hidden-hotel-fee Chrome extension, 2019–2020) and Unhabit (iOS Safari
   extension for blocking distracting sites,
-  https://unhabit.en.softonic.com/iphone).
+  https://www.tapsmart.com/features/content-blockers-guide/).
 - [Contact](https://zacharybabtkis.com/contact/)
 - LinkedIn: https://www.linkedin.com/in/zacharybabtkis

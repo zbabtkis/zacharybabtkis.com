@@ -59,7 +59,7 @@ const WORK: WorkItem[] = [
     name: 'Unhabit',
     role: 'iOS Safari extension that blocks distracting sites — cooldowns, scheduling, on-device privacy',
     scale: 'iOS App Store · 2023',
-    href: 'https://unhabit.en.softonic.com/iphone',
+    href: 'https://www.tapsmart.com/features/content-blockers-guide/',
     image: {
       src: '/work-unhabit.jpg',
       alt: 'Unhabit — it hurts to be addicted; the app blocking a distracting site',
@@ -87,10 +87,7 @@ export function WorkWall({ bare = false }: { bare?: boolean }) {
               ) : null}
               <h3>{item.name}</h3>
               <span className="work-role">{item.role}</span>
-              <span className="work-scale">
-                {item.scale}
-                {item.href ? ' ↗' : ''}
-              </span>
+              <span className="work-scale">{item.scale}</span>
             </>
           );
 

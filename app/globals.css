@@ -1216,6 +1216,17 @@ a.work-tile:hover {
   color: var(--ink-soft);
 }
 
+/* ---------- Heading arrow ---------- */
+
+.h-arrow {
+  display: inline-block;
+  width: 1.4em;
+  height: 0.42em;
+  color: var(--amber);
+  margin: 0 0.18em;
+  vertical-align: baseline;
+}
+
 /* ---------- Wave divider ---------- */
 
 .wave {

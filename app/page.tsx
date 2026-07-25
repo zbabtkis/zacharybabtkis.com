@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CtaBand } from '@/components/sections';
 import { Chapter, StatBand } from '@/components/dossier';
 import { Wave } from '@/components/artifacts';
+import { Arrow } from '@/components/arrow';
 import { HeroDemo } from '@/components/hero-demo';
 import { WorkWall } from '@/components/work-wall';
 import { SITE, RECEIPTS, calLink } from '@/lib/site';
@@ -121,13 +122,13 @@ export default function HomePage() {
                 <path d="M16.5 7.5 L13.5 13.5 L7.5 16.5 L10.5 10.5 Z" fill="currentColor" stroke="none" />
               </svg>
             </span>
-            <h3>Chrome → Safari &amp; iOS extension porting</h3>
+            <h3>Chrome <Arrow /> Safari &amp; iOS</h3>
             <p>
               Your extension doesn&rsquo;t exist on Safari or iPhone. I
               built Honey&rsquo;s first iOS extension and owned
               Pie&rsquo;s — I&rsquo;ll port yours through App Store review.
             </p>
-            <span className="card-cta">Port assessment · $2,500 →</span>
+            <span className="card-cta">Port assessment · $2,500</span>
           </Link>
           <Link className="service-card" href="/mcp-development/">
             <span className="card-icon">
@@ -143,7 +144,7 @@ export default function HomePage() {
               built agent-facing APIs at ZeroClick — I&rsquo;ll build yours
               and take it through directory submission.
             </p>
-            <span className="card-cta">MCP readiness audit · $2,000 →</span>
+            <span className="card-cta">MCP readiness audit · $2,000</span>
           </Link>
           <Link className="service-card" href="/ai-agent-enablement/">
             <span className="card-icon">
@@ -158,7 +159,7 @@ export default function HomePage() {
               agents wrote the whole codebase — I&rsquo;ll set your team up
               to work that way.
             </p>
-            <span className="card-cta">Agent-readiness audit · $3,000 →</span>
+            <span className="card-cta">Agent-readiness audit · $3,000</span>
           </Link>
           <Link className="service-card" href="/poc-to-production/">
             <span className="card-icon">
@@ -173,7 +174,7 @@ export default function HomePage() {
               You vibe-coded something that works — mostly. I make it
               survive real users: tests, auth, data, deployment.
             </p>
-            <span className="card-cta">Production readiness audit · $2,500 →</span>
+            <span className="card-cta">Production readiness audit · $2,500</span>
           </Link>
         </div>
       </Chapter>

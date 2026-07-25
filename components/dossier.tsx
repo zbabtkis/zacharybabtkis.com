@@ -43,7 +43,7 @@ export function StatBand({
             <div className="big-stat" key={stat.label}>
               <strong>{stat.value}</strong>
               {stat.href ? (
-                <a href={stat.href}>{stat.label} ↗</a>
+                <a href={stat.href}>{stat.label}</a>
               ) : (
                 <span>{stat.label}</span>
               )}
@@ -75,7 +75,7 @@ export function Voices({
 }
 
 export type Rate = {
-  name: string;
+  name: React.ReactNode;
   scope: string;
   duration: string;
   price: string;
@@ -89,7 +89,7 @@ export function RatesTable({ intro, rates }: { intro: string; rates: Rate[] }) {
         <table className="rates-table">
           <tbody>
             {rates.map((rate) => (
-              <tr key={rate.name}>
+              <tr key={rate.scope}>
                 <td>
                   <strong>{rate.name}</strong>
                   <span>{rate.scope}</span>

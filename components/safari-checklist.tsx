@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BrowserWindow } from './artifacts';
 
 const STEPS = [
-  { label: 'webRequest → DeclarativeNetRequest', done: '✓ migrated' },
+  { label: 'webRequest to DeclarativeNetRequest', done: '✓ migrated' },
   { label: 'Xcode project + signing', done: '✓ archives' },
   { label: 'App Store review', done: '✓ approved' },
 ];

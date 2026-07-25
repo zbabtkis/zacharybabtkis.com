@@ -10,6 +10,7 @@ import {
 } from '@/components/sections';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, ToolCallCard } from '@/components/artifacts';
+import { Arrow } from '@/components/arrow';
 import { SITE, RECEIPTS } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -139,7 +140,7 @@ export default function McpDevelopmentPage() {
             duration: '4–7 weeks',
           },
           {
-            name: 'Prototype → production',
+            name: <>Prototype <Arrow /> production</>,
             scope:
               'Your internal MCP demo hardened into something that survives real auth, rate limits, and multi-tenancy — without a rewrite where possible.',
             range: '$8k–$15k',

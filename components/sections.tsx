@@ -15,7 +15,7 @@ export function ProofBar({ stats }: { stats: Stat[] }) {
             <strong>{stat.value}</strong>
             {stat.href ? (
               <span>
-                <a href={stat.href}>{stat.label} ↗</a>
+                <a href={stat.href}>{stat.label}</a>
               </span>
             ) : (
               <span>{stat.label}</span>
@@ -28,7 +28,7 @@ export function ProofBar({ stats }: { stats: Stat[] }) {
 }
 
 export type ExampleProject = {
-  name: string;
+  name: React.ReactNode;
   scope: string;
   range: string;
   duration: string;
@@ -48,7 +48,7 @@ export function ExampleProjects({
         <p className="section-intro">{intro}</p>
         <div className="example-projects">
           {items.map((item) => (
-            <div className="example-project" key={item.name}>
+            <div className="example-project" key={item.scope}>
               <div className="example-head">
                 <h3>{item.name}</h3>
                 <span className="example-range">{item.range}</span>

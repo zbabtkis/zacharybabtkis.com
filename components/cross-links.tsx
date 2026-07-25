@@ -28,7 +28,7 @@ export function CrossLinks({ current }: { current: string }) {
             >
               <h3>{service.title}</h3>
               <p>{BLURBS[service.slug]}</p>
-              <span className="card-cta">Learn more →</span>
+              <span className="card-cta">Learn more</span>
             </Link>
           ))}
         </div>
