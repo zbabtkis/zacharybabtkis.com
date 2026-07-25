@@ -74,18 +74,18 @@ export default function HomePage() {
         stats={[
           {
             value: '20M+',
-            label: 'users of extensions I helped build at Honey and Pie',
+            label: 'combined users of Honey and Pie',
             href: RECEIPTS.paypalHoney,
           },
           {
             value: '$4B',
-            label: 'Honey’s sale to PayPal — I led the extension’s PayPal integrations',
+            label: 'Honey’s sale to PayPal',
           },
-          { value: '14 yrs', label: 'shipping production software' },
+          { value: '14 yrs', label: 'of production engineering, 2012 to today' },
         ]}
       />
 
-      <Chapter n="01" label="Who you're hiring" title="One engineer, start to finish.">
+      <Chapter n="01" label="Who you're hiring" title="Zack Babtkis">
         <div className="bio-grid">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -96,11 +96,8 @@ export default function HomePage() {
           />
           <div className="bio-copy">
             <p>
-              I&rsquo;m not an agency; the person on the intro call is the
-              person who writes the code. I&rsquo;ve spent fourteen years on
-              platform work people use every day — browser extensions,
-              Apple&rsquo;s toolchain, and now the infrastructure AI agents
-              buy through.
+              You work with me directly: I take the intro call, write the
+              code, and deliver the work.
             </p>
             <p style={{ marginTop: 'var(--space-md)' }}>
               I&rsquo;ve also designed, built, and shipped two products

@@ -7,6 +7,7 @@ type ArticleLayoutProps = {
   datePublished: string;
   dateModified?: string;
   slug: string;
+  byline?: string;
   children: React.ReactNode;
   faq?: FaqItem[];
   ctaTitle: string;
@@ -21,6 +22,7 @@ export function ArticleLayout({
   datePublished,
   dateModified,
   slug,
+  byline,
   children,
   faq,
   ctaTitle,
@@ -50,8 +52,10 @@ export function ArticleLayout({
         <div className="wrap">
           <h1>{title}</h1>
           <p className="article-meta">
-            By Zack Babtkis — I shipped Safari and iOS extensions at Honey
-            and Pie · Updated{' '}
+            By Zack Babtkis —{' '}
+            {byline ??
+              'I shipped Safari and iOS extensions at Honey and Pie'}{' '}
+            · Updated{' '}
             {new Date(dateModified ?? datePublished).toLocaleDateString(
               'en-US',
               { year: 'numeric', month: 'long' },
