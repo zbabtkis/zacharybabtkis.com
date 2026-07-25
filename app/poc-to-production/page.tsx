@@ -114,7 +114,7 @@ export default function PocToProductionPage() {
           <p>
             Most senior engineers will tell you to throw the prototype away
             and quote you a six-figure rebuild. I won&rsquo;t, for two
-            reasons. First, I build with AI agents every day — at Pie I
+            reasons. First, I build with AI agents every day — at ZeroClick I
             shipped <a href={RECEIPTS.pieYt}>pie.yt</a>, a production
             product whose entire codebase was agent-written, so I know
             exactly what AI-built code gets right, where it cuts corners,

@@ -61,9 +61,9 @@ export default function MainWorldScriptsPage() {
         coordination problem: MAIN-world code has no extension APIs, and your
         background worker can&rsquo;t reach page variables. The two halves
         have to talk through a channel both can reach. I built and maintained
-        this arrangement in a Safari and Chrome ad blocker with over two
-        million users at Pie, where I owned the iOS and Safari extension
-        domain. The patterns below are what survived production.
+        this arrangement in Pie Adblock, ZeroClick&rsquo;s Safari and
+        Chrome ad blocker with over two million users, where I owned the
+        iOS and Safari extension domain. The patterns below are what survived production.
       </p>
 
       <h2>What each world can see</h2>

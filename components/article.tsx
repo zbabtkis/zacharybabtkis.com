@@ -55,7 +55,7 @@ export function ArticleLayout({
           <p className="article-meta">
             By Zack Babtkis —{' '}
             {byline ??
-              'I shipped Safari and iOS extensions at Honey and Pie'}{' '}
+              'I shipped Safari and iOS extensions at Honey and ZeroClick'}{' '}
             · Updated{' '}
             {new Date(dateModified ?? datePublished).toLocaleDateString(
               'en-US',

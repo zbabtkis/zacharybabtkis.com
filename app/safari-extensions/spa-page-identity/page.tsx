@@ -52,8 +52,8 @@ export default function SpaPageIdentityPage() {
         changed. Your code never ran again.
       </p>
       <p>
-        I dealt with this at Pie, an ad blocker with over two million
-        users, where I led a feature that had to behave differently
+        I dealt with this on Pie Adblock, ZeroClick&rsquo;s ad blocker
+        with over two million users, where I led a feature that had to behave differently
         depending on whose video was playing on YouTube or Twitch.
         Extracting the identity was the easy part. Keeping it correct
         across client-side navigation was most of the work, and the

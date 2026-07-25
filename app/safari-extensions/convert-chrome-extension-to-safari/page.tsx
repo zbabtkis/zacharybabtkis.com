@@ -51,8 +51,8 @@ export default function ConvertGuidePage() {
         I&rsquo;ve done this work twice at production scale — at Honey,
         where I built the company&rsquo;s first iOS browser extension and
         ported the legacy Safari extension to Apple&rsquo;s modern API, and
-        at Pie, where I owned Safari and iOS for an ad blocker with two
-        million users. This guide is the map I wish I&rsquo;d had: what the
+        at ZeroClick, where I owned Safari and iOS for its
+        two-million-user Pie ad blocker. This guide is the map I wish I&rsquo;d had: what the
         converter actually does, what breaks, and what the real work looks
         like.
       </p>

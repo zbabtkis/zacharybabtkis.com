@@ -39,9 +39,9 @@ export default function AiAgentEnablementPage() {
               agents. I&rsquo;ve actually done it.
             </h1>
             <p className="lede">
-              At Pie, a company with two million users, I built and shipped
-              a production product where AI agents wrote the entire
-              codebase. It wasn&rsquo;t a prototype. It made money, I owned
+              At ZeroClick — the company behind the two-million-user Pie
+              ad blocker — I built and shipped a production product where
+              AI agents wrote the entire codebase. It wasn&rsquo;t a prototype. It made money, I owned
               it end to end, and the agents worked inside a harness I
               engineered. Most AI consultants learned this from a course. I
               learned it by shipping.
@@ -91,7 +91,7 @@ export default function AiAgentEnablementPage() {
 
       <StatBand
         stats={[
-          { value: '100%', label: 'of the codebase agent-built on the product I shipped at Pie' },
+          { value: '100%', label: 'of the codebase agent-built on the product I shipped at ZeroClick' },
           {
             value: '10 wks',
             label: 'pie.yt from first commit to public launch, agents writing the code',
@@ -105,7 +105,7 @@ export default function AiAgentEnablementPage() {
         <div className="story">
           <p>
             In 2025 I built <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
-            YouTube viewer, still live, as Pie&rsquo;s first product
+            YouTube viewer, still live, as ZeroClick&rsquo;s first product
             developed entirely through what we called{' '}
             <strong>harness engineering</strong>: instead of writing the
             code, I engineered the environment — the conventions, context

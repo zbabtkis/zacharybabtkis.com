@@ -47,7 +47,7 @@ export default function HomePage() {
             </h1>
             <p className="lede">
               I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff, founding
-              engineer at Pie. I build websites, apps, and browser
+              engineer at ZeroClick. I build websites, apps, and browser
               extensions — and the infrastructure and integrations for
               agentic AI.
             </p>
@@ -160,8 +160,9 @@ export default function HomePage() {
             <h3>AI-agent enablement for engineering teams</h3>
             <p>
               Your team has the AI tools and little shipped to show for
-              it. At Pie I shipped a product where AI agents wrote the whole
-              codebase — I&rsquo;ll set your team up to work that way.
+              it. At ZeroClick I shipped a product where AI agents wrote
+              the whole codebase — I&rsquo;ll set your team up to work that
+              way.
             </p>
             <span className="card-cta">Agent-readiness audit · $3,000</span>
           </Link>

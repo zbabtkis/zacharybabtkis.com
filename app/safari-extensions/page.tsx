@@ -44,7 +44,7 @@ export default function SafariExtensionsPage() {
               Apple&rsquo;s converter gives you an Xcode project that
               compiles — not a working extension, and not App Store
               approval. That part is the real work, and I&rsquo;ve done it
-              at Honey and at Pie.
+              at Honey and at ZeroClick.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">
@@ -88,7 +88,7 @@ export default function SafariExtensionsPage() {
             'App Store review keeps rejecting us, and the citations explain nothing.',
             'Users keep asking when we’re coming to Safari. We keep not answering.',
           ]}
-          close="I've hit every one of these already — first at Honey, then again at Pie."
+          close="I've hit every one of these already — first at Honey, then again at ZeroClick."
         />
       </Chapter>
 
@@ -97,9 +97,10 @@ export default function SafariExtensionsPage() {
           <p>
             At Honey I built the company&rsquo;s first iOS browser extension
             and ported its legacy Safari extension to Apple&rsquo;s modern
-            API. At Pie I owned everything Safari and iOS — Swift app
-            shells, Xcode Cloud deployment, and the content-blocking work
-            Safari forces through DeclarativeNetRequest. I&rsquo;ve also
+            API. At ZeroClick I owned Safari and iOS
+            for its Pie ad blocker — Swift app shells, Xcode Cloud
+            deployment, and the content-blocking work Safari forces through
+            DeclarativeNetRequest. I&rsquo;ve also
             taken an iOS Safari extension through App Review alone:{' '}
             <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>, a distraction blocker I designed,
             built, and shipped end to end — TapSmart called it &ldquo;much
@@ -211,7 +212,7 @@ export default function SafariExtensionsPage() {
           {
             question: 'Our extension uses webRequest to block or modify traffic. Is a port even possible?',
             answer:
-              'Usually, but as a redesign rather than a translation — Safari requires DeclarativeNetRequest. I shipped this migration at Pie. The assessment tells you what survives, what needs redesign, and what doesn’t make it.',
+              'Usually, but as a redesign rather than a translation — Safari requires DeclarativeNetRequest. I shipped this migration for Pie Adblock. The assessment tells you what survives, what needs redesign, and what doesn’t make it.',
           },
           {
             question: 'How long does a full port take?',

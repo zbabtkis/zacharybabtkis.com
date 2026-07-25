@@ -38,7 +38,7 @@ export default function DynamicDnrRulesPage() {
         },
       ]}
       ctaTitle="Porting runtime rule management to Safari?"
-      ctaBody="I ran this system in production at Pie, an ad blocker with two million users whose pause, allowlist, and partnership features all drew from one dynamic-rule pool across Chrome and Safari. The Safari port assessment is $2,500, credited toward follow-on work: I inventory your dynamic-rule usage, flag every rule Safari will drop, rewrite, or split, and hand you a fixed quote for the port."
+      ctaBody="I ran this system in production on Pie Adblock, ZeroClick's two-million-user ad blocker, whose pause, allowlist, and partnership features all drew from one dynamic-rule pool across Chrome and Safari. The Safari port assessment is $2,500, credited toward follow-on work: I inventory your dynamic-rule usage, flag every rule Safari will drop, rewrite, or split, and hand you a fixed quote for the port."
       ctaEmailSubject="Safari Port Assessment — dynamic DNR rules"
       ctaSource="dynamic-dnr-article"
     >
@@ -102,7 +102,7 @@ export default function DynamicDnrRulesPage() {
         removes &ldquo;the rules for this domain,&rdquo; it tears down the
         user&rsquo;s pause along with its own — and silently re-enables
         blocking the user explicitly turned off. We hit exactly this class
-        of bug at Pie: a partnership feature that auto-paused blocking on
+        of bug on Pie Adblock: a partnership feature that auto-paused blocking on
         specific sites had to check for an existing user pause first,
         because its automatic re-arm would otherwise have flipped the
         blocker back on about ten seconds after the user turned it off.
@@ -143,7 +143,7 @@ export default function DynamicDnrRulesPage() {
       <h2>Safari changes what your rules mean</h2>
       <p>
         The same rule JSON does not mean the same thing in Safari. Our
-        conversion layer at Pie handled, among other things:{' '}
+        conversion layer on Pie Adblock handled, among other things:{' '}
         <code>initiatorDomains</code> translated to the older{' '}
         <code>domains</code> key; <code>allowAllRequests</code> rules
         with domain filters dropped entirely, because Safari didn&rsquo;t
