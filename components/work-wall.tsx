@@ -106,9 +106,19 @@ export function WorkWall({ bare = false }: { bare?: boolean }) {
         })}
       </div>
       <p className="work-wall-minor">
-        Earlier: real-time location advertising infrastructure at Gimbal,
-        produce-supply-chain financing at ProducePay, and seismic data
-        visualization at UC Santa Barbara&rsquo;s Earth Research Institute.
+        Earlier: the{' '}
+        <a href="https://web.archive.org/web/20260510201534/https://userexperienceawards.com/2015-submissions/mobile-majoritys-end-to-end-mobile-advertising-platform/">
+          2015 UX Award–winning DSP dashboard
+        </a>{' '}
+        at The Mobile Majority (now Infillion),{' '}
+        <a href="https://producepay.com/pre-season-financing/">
+          ProducePay&rsquo;s Pre-Season financing platform
+        </a>
+        , and the NEES@UCSB real-time seismic data portal at{' '}
+        <a href="https://www.eri.ucsb.edu">
+          UC Santa Barbara&rsquo;s Earth Research Institute
+        </a>
+        .
       </p>
     </>
   );

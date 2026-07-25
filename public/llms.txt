@@ -44,8 +44,11 @@
 
 ## Background
 
-- [About](https://zacharybabtkis.com/about/): 12+ years shipping production
-  software — UC Santa Barbara Earth Research Institute, Gimbal, ProducePay,
+- [About](https://zacharybabtkis.com/about/): 14 years shipping production
+  software — UC Santa Barbara Earth Research Institute (NEES@UCSB seismic
+  data portal), The Mobile Majority/Gimbal (led the DSP dashboard that won
+  a 2015 UX Award), ProducePay (led Pre-Season financing platform
+  architecture),
   five years as Senior Staff engineer at PayPal (Honey: 20M+ users, 30,000+
   retailers, $4B exit to PayPal), then Pie/ZeroClick (2M+ user ad blocker;
   agent-commerce infrastructure). 20M+ combined users across the

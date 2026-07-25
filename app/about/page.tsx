@@ -29,13 +29,22 @@ export default function AboutPage() {
           />
           <div className="prose">
             <p>
-              I started in 2012 building real-time seismic data visualizations
-              at UC Santa Barbara&rsquo;s Earth Research Institute — web apps
-              scientists depended on for their research. From there I spent four
-              years at Gimbal building location-intelligence advertising
-              infrastructure: real-time microservices handling campaign
-              tracking at scale, and the client-facing UIs on top of them. I
-              led engineering on ProducePay&rsquo;s produce-financing platform
+              I started in 2012 at UC Santa Barbara&rsquo;s{' '}
+              <a href="https://www.eri.ucsb.edu">Earth Research Institute</a>,
+              where I built the NEES@UCSB seismic data portal — real-time
+              dashboards for permanently instrumented borehole sensor arrays
+              — and the websites around it. From there I spent four years at
+              The Mobile Majority (later Gimbal, now Infillion) building
+              mobile advertising infrastructure: real-time microservices
+              handling campaign tracking at scale, and the client-facing
+              platform on top of them. The DSP dashboard I led there{' '}
+              <a href="https://web.archive.org/web/20260510201534/https://userexperienceawards.com/2015-submissions/mobile-majoritys-end-to-end-mobile-advertising-platform/">
+                won a 2015 UX Award
+              </a>
+              . At ProducePay I led architecture for the{' '}
+              <a href="https://producepay.com/pre-season-financing/">
+                Pre-Season financing platform
+              </a>{' '}
               before joining Honey in 2019.
             </p>
             <p>
