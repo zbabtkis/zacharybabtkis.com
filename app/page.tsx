@@ -44,6 +44,24 @@ const CAREER = [
     ),
   },
   {
+    year: '2020',
+    text: (
+      <>
+        <strong>TrueRate</strong>
+        {' — founded my own LLC; shipped a hidden-hotel-fee Chrome extension solo'}
+      </>
+    ),
+  },
+  {
+    year: '2023',
+    text: (
+      <>
+        <strong>Unhabit</strong>
+        {' — my own iOS Safari extension for blocking distracting sites'}
+      </>
+    ),
+  },
+  {
     year: '2024',
     text: (
       <>

@@ -67,6 +67,19 @@ export default function AboutPage() {
               YouTube viewer I owned from conception to launch.
             </p>
             <p>
+              Alongside the day jobs, I&rsquo;ve founded and shipped my own
+              products under TrueRate LLC. TrueRate was a Chrome extension
+              that exposed the hidden fees — resort, wifi, parking — buried
+              in hotel listings on Expedia, Hotels.com, Travelocity, and
+              Orbitz; I built the whole thing solo, from the extension to
+              the scraping API behind it to an iOS app.{' '}
+              <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>{' '}
+              is an iOS Safari extension that blocks distracting sites with
+              cooldowns and scheduling, all on-device. Founding things
+              teaches you what employment can&rsquo;t: every decision is
+              yours, including the bill.
+            </p>
+            <p>
               Now I consult independently from Los Angeles. Most of my career
               has been platform work — extension APIs, Apple&rsquo;s
               toolchain, agent protocols — built into products that millions

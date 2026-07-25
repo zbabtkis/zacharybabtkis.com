@@ -97,10 +97,13 @@ export default function SafariExtensionsPage() {
             and ported its legacy Safari extension to Apple&rsquo;s modern
             API. At Pie I owned everything Safari and iOS — Swift app
             shells, Xcode Cloud deployment, and the content-blocking work
-            Safari forces through DeclarativeNetRequest. The gap between
-            WebExtension JavaScript and Apple&rsquo;s toolchain is exactly
-            where ports stall, and not many engineers work on both sides of
-            it.
+            Safari forces through DeclarativeNetRequest. I&rsquo;ve also
+            shipped my own:{' '}
+            <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>, an
+            iOS Safari extension I built and published under my own LLC. The
+            gap between WebExtension JavaScript and Apple&rsquo;s toolchain
+            is exactly where ports stall, and not many engineers work on
+            both sides of it.
           </p>
         </div>
       </Chapter>
