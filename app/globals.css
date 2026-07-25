@@ -231,6 +231,114 @@ h3 {
   margin: var(--space-xl) 0 var(--space-md);
 }
 
+.prose h3 {
+  font-size: var(--text-lg);
+  margin: var(--space-lg) 0 var(--space-sm);
+}
+
+.prose ul,
+.prose ol {
+  margin: var(--space-md) 0;
+  padding-left: 1.4rem;
+  display: grid;
+  gap: var(--space-xs);
+  color: var(--ink-soft);
+}
+
+.prose code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--accent-wash);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.prose pre {
+  background: var(--term-bg);
+  color: var(--term-ink);
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: var(--space-md) 0;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: var(--space-md) 0;
+  font-size: var(--text-sm);
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--rule);
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--paper-raised);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--amber);
+  padding-left: var(--space-md);
+  color: var(--ink-soft);
+  margin: var(--space-md) 0;
+}
+
+.article-hero {
+  padding-bottom: 0;
+}
+
+.article-hero h1 {
+  max-width: 30ch;
+  font-size: var(--text-2xl);
+}
+
+.article-meta {
+  margin-top: var(--space-md);
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+
+.guide-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-sm);
+  max-width: var(--measure);
+}
+
+.guide-list li {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.guide-list a {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.guide-list span {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  margin-top: 0.15rem;
+}
+
 /* ---------- Buttons ---------- */
 
 .button {

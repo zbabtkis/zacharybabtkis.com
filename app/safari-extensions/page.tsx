@@ -225,6 +225,53 @@ export default function SafariExtensionsPage() {
         ]}
       />
 
+      <section className="section">
+        <div className="wrap">
+          <h2>Guides</h2>
+          <p className="section-intro">
+            Written from shipping this work, not from the docs.
+          </p>
+          <ul className="guide-list">
+            <li>
+              <a href="/safari-extensions/convert-chrome-extension-to-safari/">
+                Converting a Chrome extension to Safari and iOS: the complete guide
+                <span>
+                  What the converter does, what breaks, DNR, signing, and App
+                  Review — the full map.
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/safari-extensions/webrequest-alternative/">
+                Safari has no blocking webRequest. Here&rsquo;s what to do instead.
+                <span>
+                  The declarativeNetRequest migration: what survives, what
+                  needs redesign.
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/safari-extensions/converter-not-working/">
+                The converter ran fine. So why is your extension broken?
+                <span>
+                  Six silent failure modes of converted extensions and how to
+                  diagnose each.
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/safari-extensions/app-store-rejection/">
+                Safari extension rejected? The usual reasons, and the fixes.
+                <span>
+                  App Review rejections translated into fixes, plus review
+                  notes that pass.
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <CrossLinks current="safari-extensions" />
 
       <CtaBand

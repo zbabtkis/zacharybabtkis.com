@@ -10,6 +10,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/poc-to-production',
     '/about',
     '/contact',
+    '/safari-extensions/convert-chrome-extension-to-safari',
+    '/safari-extensions/webrequest-alternative',
+    '/safari-extensions/converter-not-working',
+    '/safari-extensions/app-store-rejection',
   ];
 
   return routes.map((route) => ({
