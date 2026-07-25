@@ -21,7 +21,7 @@ export default function ContactPage() {
           <div className="hero-actions">
             {SITE.calUsername ? (
               <a className="button" href={calLink('contact')}>
-                Book a 20-minute call
+                Book an intro call
               </a>
             ) : null}
             <a
@@ -41,7 +41,7 @@ export default function ContactPage() {
             <h2>What happens next</h2>
             <p>
               I&rsquo;ll reply with a few questions or a link to book a
-              20-minute intro call. On the call we figure out whether your
+              short intro call. On the call we figure out whether your
               project and my experience fit. If they do, most engagements
               start with a fixed-price assessment, so you get something
               useful before committing to anything bigger. If they

@@ -10,8 +10,10 @@ export const SITE = {
   bookingNote: 'I personally reply within one business day.',
   availability: 'Currently booking September 2026',
   // Cal.com username. Empty string = booking disabled, CTAs fall back to email.
-  calUsername: '',
-  calEvent: 'intro-call',
+  calUsername: 'zack-babtkis',
+  // Existing default event type. Swap to a dedicated 'intro-call' (20 min)
+  // slug if one is created — verify https://cal.com/zack-babtkis/<slug> first.
+  calEvent: '30min',
 };
 
 // Booking link for a 20-minute intro call. `source` is the page slug that

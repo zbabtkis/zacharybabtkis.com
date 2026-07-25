@@ -166,7 +166,7 @@ export function CtaBand({ title, body, emailSubject, source }: CtaBandProps) {
           {booking ? (
             <>
               <a className="button" href={calLink(source ?? 'site')}>
-                Book a 20-minute call
+                Book an intro call
               </a>
               <a className="button secondary" href={mailto(emailSubject)}>
                 Or email me
