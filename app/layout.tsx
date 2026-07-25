@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter, Newsreader } from 'next/font/google';
 import Link from 'next/link';
-import { SITE, SERVICE_GROUPS, calLink } from '@/lib/site';
+import { SITE, calLink } from '@/lib/site';
 import { ConsoleEgg } from '@/components/console-egg';
-import { ServiceIcon } from '@/components/service-icons';
+import { NavServices } from '@/components/nav-services';
 import './globals.css';
 
 const inter = Inter({
@@ -46,24 +46,7 @@ export default function RootLayout({
               Zack Babtkis
             </Link>
             <nav className="site-nav" aria-label="Main">
-              <details className="nav-services">
-                <summary>Services</summary>
-                <div className="nav-dropdown nav-mega">
-                  {SERVICE_GROUPS.map((group) => (
-                    <div className="nav-group" key={group.key}>
-                      <p className="nav-group-label">{group.label}</p>
-                      {group.items.map((item) => (
-                        <Link key={item.name} href={item.href}>
-                          <span className="nav-icon">
-                            <ServiceIcon name={item.icon} size={18} />
-                          </span>
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </details>
+              <NavServices />
               <Link href="/guides/">Guides</Link>
               <Link href="/tools/safari-manifest-checker/">
                 Manifest Checker
