@@ -33,8 +33,9 @@ export default function AboutPage() {
               <a href="https://www.eri.ucsb.edu">Earth Research Institute</a>,
               where I built the NEES@UCSB seismic data portal — real-time
               dashboards for permanently instrumented borehole sensor arrays
-              — and the websites around it. From there I spent four years at
-              The Mobile Majority (later Gimbal, now Infillion) building
+              — and websites for the institute&rsquo;s research groups. I spent
+              the next four years at The Mobile Majority (later Gimbal, now
+              Infillion) building
               mobile advertising infrastructure: real-time microservices
               handling campaign tracking at scale, and the client-facing
               platform on top of them. The DSP dashboard I led there{' '}
@@ -44,21 +45,22 @@ export default function AboutPage() {
               . At ProducePay I led architecture for the{' '}
               <a href="https://producepay.com/pre-season-financing/">
                 Pre-Season financing platform
-              </a>{' '}
-              before joining Honey in 2019.
+              </a>
+              .
             </p>
             <p>
-              At <a href={RECEIPTS.paypalHoney}>Honey</a>
-              {' — through its $4 billion acquisition by PayPal — '}I spent
-              five years as a Senior Staff engineer on a browser extension
-              used by 20 million people across 30,000+ retailers, on
-              products generating hundreds of millions of dollars a year. I designed and built Honey&rsquo;s
-              first iOS browser extension, ported the legacy Safari extension
-              to Apple&rsquo;s modern extension API, led the effort to break
-              up and test the extension monolith, and built the A/B testing
-              platform that every Honey development team adopted. I also led
-              integrations with PayPal&rsquo;s credit and checkout products
-              through the acquisition.
+              I joined <a href={RECEIPTS.paypalHoney}>Honey</a> in 2019 and
+              spent five years there as a Senior Staff engineer, through
+              its $4 billion acquisition by PayPal. The extension served 20
+              million people across 30,000+ retailers and generated
+              hundreds of millions of dollars a year. I designed and built
+              Honey&rsquo;s first iOS browser extension, ported the legacy
+              Safari extension to Apple&rsquo;s modern extension API, led
+              the effort to break up and test the extension monolith, and
+              built the A/B testing platform that every Honey development
+              team adopted. During the acquisition I led the
+              extension&rsquo;s integrations with PayPal&rsquo;s credit and
+              checkout products.
             </p>
             <p>
               In 2024 one of Honey&rsquo;s co-founders invited me to help
@@ -76,21 +78,20 @@ export default function AboutPage() {
               YouTube viewer I owned from conception to launch.
             </p>
             <p>
-              I&rsquo;ve also built products of my own. TrueRate was a
-              Chrome extension that exposed the hidden fees — resort, wifi,
-              parking — buried in hotel listings on Expedia, Hotels.com,
-              Travelocity, and Orbitz; I built it solo, from the extension
-              to the scraping API behind it to an iOS app.{' '}
+              I&rsquo;ve also designed, built, and shipped two products
+              alone. TrueRate was a Chrome extension that exposed the
+              hidden fees — resort, wifi, parking — buried in hotel
+              listings on Expedia, Hotels.com, Travelocity, and Orbitz,
+              with a scraping API and an iOS app behind it.{' '}
               <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>{' '}
               is an iOS Safari extension that blocks distracting sites with
-              cooldowns and scheduling, all on-device. I designed, built,
-              and shipped both alone.
+              cooldowns and scheduling, all on-device.
             </p>
             <p>
-              Now I consult independently from Los Angeles. Most of my career
-              has been platform work — extension APIs, Apple&rsquo;s
-              toolchain, agent protocols — built into products that millions
-              of people use. I like small teams, clear scopes, and shipping.
+              Now I consult independently from Los Angeles. Most of my work
+              has been platform engineering — extension APIs, Apple&rsquo;s
+              toolchain, agent protocols — inside products that millions of
+              people use. I like small teams, clear scopes, and shipping.
             </p>
           </div>
         </div>
