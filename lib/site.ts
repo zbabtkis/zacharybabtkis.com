@@ -1,9 +1,9 @@
 export const SITE = {
   url: 'https://zacharybabtkis.com',
   name: 'Zack Babtkis',
-  title: 'Zack Babtkis — Senior Software Engineer for Hire',
+  title: 'Zack Babtkis — Engineering for Browsers and Agentic AI',
   description:
-    'Independent senior engineer (ex-PayPal/Honey, ex-Pie). Safari & iOS extension porting, MCP server development, and AI-agent engineering enablement.',
+    'Independent engineer, ex-PayPal Senior Staff (Honey), founding engineer at Pie. Websites, apps, browser extensions, and infrastructure and integrations for agentic AI.',
   email: 'zackbabtkis@gmail.com',
   linkedin: 'https://www.linkedin.com/in/zacharybabtkis',
   github: 'https://github.com/zbabtkis',

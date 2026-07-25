@@ -38,13 +38,18 @@ export default function HomePage() {
         <div className="wrap">
           <div className="hero-copy">
             <h1>
-              Senior engineer for browser <em>extensions</em> and{' '}
-              <span style={{ whiteSpace: 'nowrap' }}>AI-agent</span>{' '}
-              infrastructure.
+              <span className="h1-line">
+                First I plugged products into <em>browsers</em>.
+              </span>{' '}
+              <span className="h1-line">
+                Now I plug them into <em>AI agents</em>.
+              </span>
             </h1>
             <p className="lede">
-              I&rsquo;m Zack Babtkis, an independent engineer in Los
-              Angeles — ex-PayPal Senior Staff, founding engineer at Pie.
+              I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff, founding
+              engineer at Pie. I build websites, apps, and browser
+              extensions — and the infrastructure and integrations for
+              agentic AI.
             </p>
             <div className="hero-actions">
               <a
