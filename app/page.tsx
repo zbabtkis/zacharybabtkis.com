@@ -42,10 +42,10 @@ export default function HomePage() {
               <em>user&rsquo;s side</em>.
             </h1>
             <p className="lede">
-              In browsers, that meant ad blockers, coupon finders, and fee
-              exposers used by twenty million people. With AI agents, it
-              means integrations and harnesses that keep the human in
-              charge. I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff,
+              In browsers, that meant ad blockers, shopping tools, and
+              other browser extensions used by over twenty million people
+              worldwide. With AI agents, it means integrations and
+              harnesses that keep the human in charge. I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff,
               founding engineer at ZeroClick.
             </p>
             <div className="hero-actions">
