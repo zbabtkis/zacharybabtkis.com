@@ -260,6 +260,46 @@ h3 {
   }
 }
 
+/* Compact header on phones: smaller masthead, nav on its own tight rows */
+@media (max-width: 44rem) {
+  .site-header .wrap {
+    gap: var(--space-sm);
+    padding-bottom: 0.65rem;
+  }
+
+  .site-title {
+    font-size: var(--text-lg);
+  }
+
+  .site-tagline {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .site-nav {
+    width: 100%;
+    gap: 0.4rem 0.9rem;
+  }
+
+  .site-nav a,
+  .nav-services summary {
+    font-size: 0.85rem;
+  }
+
+  .site-nav .nav-cta {
+    padding: 0.3rem 0.7rem;
+  }
+
+  .hero {
+    padding: var(--space-lg) 0 var(--space-lg);
+  }
+
+  .hero .lede {
+    font-size: 1.05rem;
+    margin-top: var(--space-md);
+  }
+}
+
 .site-footer {
   border-top: 1px solid var(--rule);
   margin-top: var(--space-2xl);
