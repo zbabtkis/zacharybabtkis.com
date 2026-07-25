@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { CtaBand } from '@/components/sections';
 import { Chapter, StatBand } from '@/components/dossier';
 import { Wave } from '@/components/artifacts';
-import { Arrow } from '@/components/arrow';
 import { HeroPlug } from '@/components/hero-plug';
 import { ServiceIcon } from '@/components/service-icons';
 import { WorkWall } from '@/components/work-wall';
@@ -123,7 +122,7 @@ export default function HomePage() {
               <span className="card-icon">
                 <ServiceIcon name="mcp" />
               </span>
-              <h3>MCP servers that put your product in front of AI agents</h3>
+              <h3>MCP server development</h3>
               <p>
                 Your customers are asking for a Claude or ChatGPT
                 integration. I built agent-facing APIs at ZeroClick.
@@ -136,7 +135,7 @@ export default function HomePage() {
               <span className="card-icon">
                 <ServiceIcon name="harness" />
               </span>
-              <h3>AI-agent enablement for engineering teams</h3>
+              <h3>AI enablement for teams</h3>
               <p>
                 Your team has the AI tools and little shipped to show for
                 it. At ZeroClick I shipped a product where AI agents wrote
@@ -149,7 +148,7 @@ export default function HomePage() {
               <span className="card-icon">
                 <ServiceIcon name="poc" />
               </span>
-              <h3>Your AI-built POC, taken to production</h3>
+              <h3>Prototype to production</h3>
               <p>
                 You vibe-coded something that works in a demo. I make it
                 survive real users: tests, auth, data, deployment.
@@ -167,7 +166,7 @@ export default function HomePage() {
               <span className="card-icon">
                 <ServiceIcon name="safari" />
               </span>
-              <h3>Chrome <Arrow /> Safari &amp; iOS</h3>
+              <h3>Safari &amp; iOS porting</h3>
               <p>
                 Your extension doesn&rsquo;t exist on Safari or iPhone. I
                 built Honey&rsquo;s first iOS extension and owned
@@ -180,7 +179,7 @@ export default function HomePage() {
               <span className="card-icon">
                 <ServiceIcon name="extension" />
               </span>
-              <h3>A new extension, built from scratch</h3>
+              <h3>New extension from scratch</h3>
               <p>
                 Chrome, Safari, or Firefox. I shipped extension features to
                 twenty million users at Honey and Pie, and built TrueRate
@@ -192,7 +191,7 @@ export default function HomePage() {
               <span className="card-icon">
                 <ServiceIcon name="app-extension" />
               </span>
-              <h3>An extension for your existing iOS or Mac app</h3>
+              <h3>Extension for your existing app</h3>
               <p>
                 Your app, extended into Safari. I shipped Unhabit&rsquo;s
                 iOS Safari extension end to end and built Pie&rsquo;s app
