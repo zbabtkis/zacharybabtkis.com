@@ -45,7 +45,7 @@ export default function RootLayout({
             <Link href="/" className="site-title">
               Zack Babtkis
               <span className="site-tagline">
-                Production Software Engineering
+                Browser Extensions &amp; Agentic AI
               </span>
             </Link>
             <nav className="site-nav" aria-label="Main">
