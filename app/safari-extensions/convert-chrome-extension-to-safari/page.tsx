@@ -27,7 +27,7 @@ export default function ConvertGuidePage() {
         {
           question: 'Do I need a Mac and an Apple Developer account?',
           answer:
-            'Yes to both. The converter and Xcode only run on macOS, and distribution goes through the App Store, which requires an Apple Developer Program membership ($99/year). Budget a few days for Apple to approve a new developer account.',
+            'Yes to both. The converter and Xcode only run on macOS, and you need an Apple Developer Program membership ($99/year). On iOS, distribution is App Store only. On macOS, Safari 18.4 added a second path: a Developer ID–signed, notarized app distributed outside the store. Budget a few days for Apple to approve a new developer account.',
         },
         {
           question: 'How long does a real port take?',
@@ -70,9 +70,11 @@ export default function ConvertGuidePage() {
         That produces an Xcode project containing a small native app with
         your extension embedded inside it. This is the first structural
         difference from Chrome: a Safari extension is not a standalone
-        artifact you upload to a store. It ships inside a Mac or iOS app,
-        and users get it from the App Store, then enable it in
-        Safari&rsquo;s settings.
+        artifact you upload to a store. It ships inside a Mac or iOS app
+        and gets enabled in Safari&rsquo;s settings. On iOS the app comes
+        from the App Store. On macOS it comes from the App Store or, since
+        Safari 18.4, from direct distribution as a Developer ID&ndash;signed,
+        notarized app.
       </p>
       <p>
         The converter copies your JavaScript, your manifest, and your

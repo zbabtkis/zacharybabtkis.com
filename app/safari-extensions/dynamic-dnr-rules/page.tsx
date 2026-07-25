@@ -19,7 +19,7 @@ export default function DynamicDnrRulesPage() {
         {
           question: 'How many dynamic declarativeNetRequest rules can an extension have?',
           answer:
-            'The dynamic-rule budget has been on the order of 5,000 rules, and it is shared across your entire extension rather than allocated per feature. Exact limits vary by browser and version, so verify against the ones you ship to. The practical consequence is the same everywhere: every subsystem that adds rules at runtime spends from one pool, so you need to know what each operation costs in rules and garbage-collect stale ones.',
+            'Chrome allows 30,000 dynamic "safe" rules (block, allow, allowAllRequests, upgradeScheme) since Chrome 121, and 5,000 for rules that redirect or modify headers. Safari enforces its own, smaller budgets that differ by version. The practical consequence is the same everywhere: every subsystem that adds rules at runtime spends from one shared pool, so you need to know what each operation costs in rules and garbage-collect stale ones.',
         },
         {
           question: 'How do I debug which rule matched a request?',
@@ -60,8 +60,10 @@ export default function DynamicDnrRulesPage() {
       <h2>Every feature spends from one budget</h2>
       <p>
         The dynamic-rule budget belongs to your extension as a whole, not
-        to any one feature. In the versions we shipped against it was on
-        the order of 5,000 rules. A per-site pause, a partnership
+        to any one feature. Chrome allows 30,000 dynamic rules for
+        &ldquo;safe&rdquo; actions since Chrome 121 and 5,000 for
+        redirect and header-modifying rules; Safari&rsquo;s budgets are
+        smaller and vary by version. A per-site pause, a partnership
         allowlist, and a user opt-in system all draw from the same pool.
         At Pie, a single site pause cost two rules, so the accounting
         mattered: every runtime feature needed a known per-operation cost

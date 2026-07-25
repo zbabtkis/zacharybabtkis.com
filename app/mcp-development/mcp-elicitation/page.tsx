@@ -62,6 +62,18 @@ export default function McpElicitationPage() {
         back to the server, which continues the tool call.
       </p>
       <p>
+        A version note, as of July 2026. That request-over-an-open-stream
+        mechanism is how elicitation works on the 2025 spec versions
+        deployed everywhere today. The MCP 2026-07-28 spec restructures
+        it into a stateless shape: the server returns an
+        input-required result, and the client re-issues the call with
+        the answers attached, so any replica can pick up the resume.
+        That is the same suspend-and-resume design this article builds
+        by hand, adopted by the protocol itself. The store-based pattern
+        below is how you get that behavior on the spec versions your
+        clients actually speak, and it survives the migration.
+      </p>
+      <p>
         The schema is what makes this practical. I built a service at
         ZeroClick that provisioned third-party accounts from inside an
         agent session, and its first version asked questions as a plain
@@ -183,8 +195,11 @@ export default function McpElicitationPage() {
         The answer path is a write endpoint: &ldquo;here is the answer
         for job X.&rdquo; If it accepts any caller who knows a job ID,
         anyone who obtains or guesses an ID can inject answers into
-        someone else&rsquo;s flow. Elicitation answers frequently
-        become credentials, resource names, and destinations. In the
+        someone else&rsquo;s flow. Elicitation answers become resource
+        names, choices, and destinations that drive real actions. They
+        must never become secrets: the spec forbids form-mode elicitation
+        for credentials such as passwords or API keys, and the 2025-11-25
+        revision added URL-mode elicitation for exactly those flows. In the
         system I built, responding to an elicitation required a session
         token proving the caller owned the job. It took two validators:
         one for trusted server contexts, and a separate one for browser

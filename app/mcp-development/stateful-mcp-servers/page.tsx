@@ -52,6 +52,17 @@ export default function StatefulMcpServersPage() {
         stateless service, and an MCP server over streamable HTTP is not
         one.
       </p>
+      <p>
+        A version note before the details, as of July 2026. The MCP
+        2026-07-28 spec removes protocol-level sessions and the{' '}
+        <code>Mcp-Session-Id</code> header entirely, so that any request
+        can land on any replica. That is the protocol adopting the
+        conclusion this article argues for. Everything below applies to
+        the 2025 spec versions that every deployed SDK and client speaks
+        today, and to any server that keeps its own state in memory
+        regardless of spec version. Migrating a session-era server to
+        the new model is its own project.
+      </p>
 
       <h2>A session is an open stream in one process&rsquo;s memory</h2>
       <p>

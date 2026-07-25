@@ -43,7 +43,6 @@ const KNOWN_SUPPORTED = [
   'cookies',
   'contextMenus',
   'menus',
-  'declarativeNetRequestFeedback',
   'unlimitedStorage',
   'webNavigation',
   'clipboardWrite',
@@ -82,15 +81,13 @@ export function analyzeManifest(manifest: Manifest): Report {
   const has = (perm: string) => p.includes(perm);
 
   // --- Request interception ---
-  if (has('webRequestBlocking') || (has('webRequest') && mv === 2)) {
+  if (has('webRequestBlocking')) {
     findings.push({
       severity: 'blocker',
       title: 'Blocking webRequest does not exist in Safari',
       detail:
         'Safari never allowed extension code in the request path. Blocking and rewriting move to declarativeNetRequest: rules the browser applies itself. Logic that inspects requests at runtime needs a redesign; anything deciding from response content needs a different approach entirely.',
-      evidence: has('webRequestBlocking')
-        ? 'permissions: webRequestBlocking'
-        : 'permissions: webRequest (manifest v2)',
+      evidence: 'permissions: webRequestBlocking',
       guide: '/safari-extensions/webrequest-alternative/',
     });
   } else if (has('webRequest')) {
@@ -119,13 +116,23 @@ export function analyzeManifest(manifest: Manifest): Report {
   }
 
   // --- Background lifecycle ---
-  if (background.persistent === true) {
+  // Chrome MV2 backgrounds are persistent BY DEFAULT: an omitted
+  // `persistent` key means persistent, and `background.page` counts too.
+  const hasLegacyBackground =
+    Array.isArray(background.scripts) || typeof background.page === 'string';
+  if (
+    background.persistent === true ||
+    (mv === 2 && hasLegacyBackground && background.persistent !== false)
+  ) {
     findings.push({
       severity: 'redesign',
       title: 'Persistent background pages are not supported',
       detail:
         'Safari suspends background scripts aggressively. In-memory state, long-lived timers, and open sockets evaporate between events. Move state into storage and make everything event-driven. Chrome’s MV3 forced the same discipline.',
-      evidence: 'background.persistent: true',
+      evidence:
+        background.persistent === true
+          ? 'background.persistent: true'
+          : 'background page (persistent by default in manifest v2)',
       guide: '/safari-extensions/converter-not-working/',
     });
   } else if (typeof background.service_worker === 'string') {
@@ -221,10 +228,10 @@ export function analyzeManifest(manifest: Manifest): Report {
 
   if (manifest.devtools_page) {
     findings.push({
-      severity: 'blocker',
-      title: 'DevTools pages are not supported',
+      severity: 'partial',
+      title: 'Web Inspector extensions: verify your panel APIs',
       detail:
-        'Safari Web Inspector does not load extension devtools panels.',
+        'Safari 16 and later load extension panels in Web Inspector, but the devtools API surface is a subset of Chrome’s. Verify every devtools.* call you make against the Safari versions you target.',
       evidence: 'devtools_page',
     });
   }

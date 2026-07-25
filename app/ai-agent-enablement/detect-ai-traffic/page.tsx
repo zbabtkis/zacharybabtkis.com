@@ -19,7 +19,7 @@ export default function DetectAiTrafficPage() {
         {
           question: 'Can I detect ChatGPT traffic in Google Analytics?',
           answer:
-            'You can see half of it. A human who clicks a citation link in an AI product runs your JavaScript like any visitor, so a referral can show up under its referrer or campaign parameters. A crawler fetching your page to answer a question never executes your analytics tag, so that half is invisible to any client-side tool. Crawl detection requires server or edge instrumentation.',
+            'You can see part of it. A human who clicks a citation link runs your JavaScript like any visitor, and agentic browsers such as ChatGPT agent mode or Claude in Chrome execute JavaScript too. What client-side tools cannot see is the HTTP fetchers: GPTBot or ClaudeBot fetching your page to answer a question never executes your analytics tag. Fetcher detection requires server or edge instrumentation.',
         },
         {
           question: 'How do I tell an AI crawler from an AI referral?',
@@ -66,6 +66,17 @@ export default function DetectAiTrafficPage() {
         celebrate or worry.
       </p>
       <p>
+        A third category is growing fast enough to need its own bucket:
+        agentic browsers. ChatGPT&rsquo;s agent mode, Perplexity&rsquo;s
+        Comet, and Claude in Chrome drive a real browser on a
+        user&rsquo;s behalf. They execute JavaScript and fire analytics
+        tags, so they look like visitors, while a machine does the
+        clicking. Neither the crawl assumptions nor the referral
+        assumptions hold for them, so detect them separately, by user
+        agent where the product declares one and by behavior where it
+        doesn&rsquo;t.
+      </p>
+      <p>
         One naming trap from experience: my SDK first labeled the machine
         case <code>origin</code>. That was a mistake. In a library that lives at
         the edge and reads headers, &ldquo;origin&rdquo; collides with the
@@ -78,8 +89,9 @@ export default function DetectAiTrafficPage() {
       <h2>Where you can observe it</h2>
       <p>
         This is the part most teams get wrong. Client-side analytics tags
-        require JavaScript execution, and crawlers do not run your
-        JavaScript, so a JS tag can only ever see the referral half. At
+        require JavaScript execution, and HTTP fetchers like GPTBot and
+        ClaudeBot do not run your JavaScript, so a JS tag sees referrals
+        and agentic browsers while missing fetchers entirely. At
         the other end, CDN caching means a crawler&rsquo;s fetch may be
         served from cache and never reach your origin server, so origin
         request logs miss traffic too. The reliable observation point is
@@ -118,12 +130,13 @@ export default function DetectAiTrafficPage() {
       <p>
         The ordering reflects a tradeoff I learned the fast way. The first
         version of my SDK relied on campaign parameters alone. It needed
-        Referer support within a day. Parameter tagging is controlled by
-        the AI provider, and a provider can change or drop it unilaterally.
-        When that happens, your attribution goes dark without warning. Referer is
-        browser-controlled and harder to switch off centrally, but it gets
-        stripped by referrer policies and in-app browsers. Use both, in
-        that order, and record which one fired.
+        Referer support within a day. Both signals are ultimately
+        provider-controlled: a provider can drop its campaign parameters
+        unilaterally, and one Referrer-Policy header on its domain
+        silences the Referer for every click. They fail independently,
+        though, and in-app browsers and referrer policies strip one
+        while leaving the other. Use both, in that order, and record
+        which one fired.
       </p>
 
       <h2>Rebuild the URL before you read it</h2>

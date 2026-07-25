@@ -24,7 +24,7 @@ export default function SandboxingUntrustedCodePage() {
         {
           question: 'What should I use instead of the vm module?',
           answer:
-            'It depends on your threat model. For partner code you review and contract with, a same-process VM with a wrapped fetch, no ambient globals, and a timeout can be acceptable. If you need memory or CPU limits, move to a worker thread or a separate process you can kill. For fully adversarial code, such as anonymous users or model-generated scripts run at scale, use a microVM or container with its own kernel-level isolation and network policy. The injection-surface discipline is the same at every tier; the tiers differ in what happens when the code misbehaves.',
+            'It depends on your threat model. For partner code you review and contract with, a same-process VM with a wrapped fetch, no ambient globals, and a timeout can be acceptable. If you need memory or CPU limits, move to a worker thread or a separate process you can kill. For fully adversarial code, such as anonymous users or model-generated scripts run at scale, use a microVM such as Firecracker, which brings its own kernel, or a container hardened with gVisor or seccomp plus network policy. A plain container shares the host kernel and is not an isolation boundary by itself. The injection-surface discipline is the same at every tier; the tiers differ in what happens when the code misbehaves.',
         },
         {
           question:
