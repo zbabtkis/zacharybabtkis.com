@@ -98,12 +98,12 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     items: [
       { name: 'MCP server development', href: '/mcp-development/', icon: 'mcp' },
       {
-        name: 'AI-agent enablement for teams',
+        name: 'AI enablement for teams',
         href: '/ai-agent-enablement/',
         icon: 'harness',
       },
       {
-        name: 'AI-built POC to production',
+        name: 'Prototype to production',
         href: '/poc-to-production/',
         icon: 'poc',
       },
@@ -114,13 +114,13 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     label: 'Web extensions',
     items: [
       {
-        name: 'Chrome to Safari & iOS porting',
+        name: 'Safari & iOS porting',
         href: '/safari-extensions/',
         icon: 'safari',
       },
-      { name: 'New extension, built from scratch', href: '/contact/', icon: 'extension' },
+      { name: 'New extension from scratch', href: '/contact/', icon: 'extension' },
       {
-        name: 'Extension for your existing iOS or Mac app',
+        name: 'Extension for your existing app',
         href: '/contact/',
         icon: 'app-extension',
       },
