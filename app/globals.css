@@ -379,6 +379,12 @@ h3 {
   margin-bottom: var(--space-md);
 }
 
+.offer .offer-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
 /* ---------- Process ---------- */
 
 .process ol {

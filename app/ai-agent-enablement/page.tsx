@@ -228,6 +228,7 @@ export default function AiAgentEnablementPage() {
             'A sequenced rollout plan — who starts, on what work, measured how — with a fixed quote for the embedded engagement',
           ]}
           emailSubject="Agent-Readiness Audit"
+          source="ai-agent-enablement"
         />
       </div>
 

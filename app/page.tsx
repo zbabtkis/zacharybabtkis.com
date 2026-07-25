@@ -6,7 +6,7 @@ import {
   ExtensionPopup,
   PageSkeleton,
 } from '@/components/artifacts';
-import { SITE } from '@/lib/site';
+import { SITE, calLink } from '@/lib/site';
 
 const personJsonLd = {
   '@context': 'https://schema.org',
@@ -53,8 +53,14 @@ export default function HomePage() {
               of contract work. I&rsquo;ve done all three for a living.
             </p>
             <div className="hero-actions">
-              <a className="button" href="/contact/">
-                Work with me
+              <a
+                className="button"
+                href={SITE.calUsername ? calLink('home-hero') : '/contact/'}
+              >
+                Book an intro call
+              </a>
+              <a className="button secondary" href="/contact/">
+                Contact
               </a>
               <span className="availability">{SITE.availability}</span>
             </div>

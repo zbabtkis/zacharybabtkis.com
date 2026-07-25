@@ -115,6 +115,7 @@ export default function McpDevelopmentPage() {
             'Build-vs-buy recommendation and a fixed-bid quote for the implementation',
           ]}
           emailSubject="MCP Readiness Audit"
+          source="mcp-development"
         />
       </div>
 

@@ -49,6 +49,7 @@ type OfferProps = {
   timeline: string;
   deliverables: string[];
   emailSubject: string;
+  source?: string;
 };
 
 export function Offer({
@@ -58,7 +59,10 @@ export function Offer({
   timeline,
   deliverables,
   emailSubject,
+  source,
 }: OfferProps) {
+  const booking = Boolean(SITE.calUsername);
+
   return (
     <section className="section">
       <div className="wrap">
@@ -78,9 +82,23 @@ export function Offer({
             If we continue to a full engagement, the entire fee is credited
             toward the project.
           </p>
-          <a className="button" href={mailto(emailSubject)}>
-            Start with the {name.toLowerCase()}
-          </a>
+          {booking ? (
+            <div className="offer-actions">
+              <a
+                className="button"
+                href={calLink(source ? `${source}-offer` : 'offer')}
+              >
+                Book a call to start
+              </a>
+              <a className="button secondary" href={mailto(emailSubject)}>
+                Or email about the {name.toLowerCase()}
+              </a>
+            </div>
+          ) : (
+            <a className="button" href={mailto(emailSubject)}>
+              Start with the {name.toLowerCase()}
+            </a>
+          )}
         </div>
       </div>
     </section>

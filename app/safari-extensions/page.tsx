@@ -132,6 +132,7 @@ export default function SafariExtensionsPage() {
             'A written go/no-go recommendation you can take to your team — even if the answer is "don’t port"',
           ]}
           emailSubject="Safari Port Assessment"
+          source="safari-extensions"
         />
       </div>
 
