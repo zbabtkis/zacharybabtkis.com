@@ -30,58 +30,6 @@ const personJsonLd = {
   alumniOf: 'UC Santa Barbara',
 };
 
-const CAREER = [
-  { year: '2012', text: <>UC Santa Barbara — real-time seismic data visualization</> },
-  { year: '2014', text: <>Gimbal — real-time location adtech infrastructure</> },
-  { year: '2018', text: <>ProducePay — lead engineer, produce financing</> },
-  {
-    year: '2019',
-    text: (
-      <>
-        <strong>Honey → PayPal</strong> — Senior Staff engineer through the
-        $4B acquisition; built its first iOS extension
-      </>
-    ),
-  },
-  {
-    year: '2020',
-    text: (
-      <>
-        <strong>TrueRate</strong>
-        {' — founded my own LLC; shipped a hidden-hotel-fee Chrome extension solo'}
-      </>
-    ),
-  },
-  {
-    year: '2023',
-    text: (
-      <>
-        <strong>Unhabit</strong>
-        {' — my own iOS Safari extension for blocking distracting sites'}
-      </>
-    ),
-  },
-  {
-    year: '2024',
-    text: (
-      <>
-        <strong>Pie</strong>
-        {' — founding engineer; owned Safari & iOS, led the Creator Network to 2M+ users'}
-      </>
-    ),
-  },
-  {
-    year: '2025',
-    text: (
-      <>
-        <strong>ZeroClick</strong> — agent-commerce infrastructure; shipped
-        pie.yt, a product AI agents wrote end to end
-      </>
-    ),
-  },
-  { year: 'Now', text: <>Independent — Los Angeles</> },
-];
-
 export default function HomePage() {
   return (
     <>
@@ -94,9 +42,8 @@ export default function HomePage() {
               infrastructure.
             </h1>
             <p className="lede">
-              I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff, founding
-              engineer at Pie. I take on four kinds of contract work, and
-              I&rsquo;ve done every one of them for a living.
+              I&rsquo;m Zack Babtkis, an independent engineer in Los
+              Angeles — ex-PayPal Senior Staff, founding engineer at Pie.
             </p>
             <div className="hero-actions">
               <a
@@ -121,18 +68,14 @@ export default function HomePage() {
         stats={[
           {
             value: '20M+',
-            label: 'users across the products I’ve built at Honey and Pie',
+            label: 'users of extensions I helped build at Honey and Pie',
             href: RECEIPTS.paypalHoney,
           },
           {
             value: '$4B',
-            label: 'Honey’s exit to PayPal — I built through the acquisition',
+            label: 'Honey’s sale to PayPal — I led the extension’s PayPal integrations',
           },
-          {
-            value: '$100Ms',
-            label: 'per year in revenue across products I’ve built on',
-          },
-          { value: '12+', label: 'years shipping production software' },
+          { value: '14 yrs', label: 'shipping production software' },
         ]}
       />
 
@@ -153,14 +96,13 @@ export default function HomePage() {
               Apple&rsquo;s toolchain, and now the infrastructure AI agents
               buy through.
             </p>
-            <ul className="career-line">
-              {CAREER.map((entry) => (
-                <li key={entry.year}>
-                  <span className="year">{entry.year}</span>
-                  <span>{entry.text}</span>
-                </li>
-              ))}
-            </ul>
+            <p style={{ marginTop: 'var(--space-md)' }}>
+              Outside the day jobs I&rsquo;ve built products end to end by
+              myself — TrueRate, a Chrome extension that exposed hidden
+              hotel fees, and Unhabit, an iOS Safari extension for blocking
+              distracting sites. Nothing teaches engineering judgment like
+              being the only person accountable for it.
+            </p>
             <p className="bio-links">
               <a href={SITE.linkedin}>LinkedIn</a> ·{' '}
               <a href={SITE.github}>GitHub</a> ·{' '}

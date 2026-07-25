@@ -51,14 +51,14 @@ const WORK: WorkItem[] = [
   },
   {
     name: 'TrueRate',
-    role: 'Founder — Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz. Solo: extension, scraping API, iOS app.',
-    scale: 'My own LLC · 2019–2020',
+    role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz — extension, scraping API, and iOS app',
+    scale: 'Built solo · 2019–2020',
     image: { src: '/truerate.png', alt: 'TrueRate showing hidden fees on a hotel listing' },
   },
   {
     name: 'Unhabit',
-    role: 'Founder — iOS Safari extension that blocks distracting sites, with cooldowns, scheduling, and on-device privacy',
-    scale: 'Featured on Softonic',
+    role: 'iOS Safari extension that blocks distracting sites — cooldowns, scheduling, on-device privacy',
+    scale: 'iOS App Store · 2023',
     href: 'https://unhabit.en.softonic.com/iphone',
     image: {
       src: '/work-unhabit.jpg',
