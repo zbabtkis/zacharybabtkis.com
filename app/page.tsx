@@ -47,8 +47,8 @@ const CAREER = [
     year: '2024',
     text: (
       <>
-        <strong>Pie</strong> — founding engineer; owned Safari &amp; iOS,
-        led the Creator Network to 2M+ users
+        <strong>Pie</strong>
+        {' — founding engineer; owned Safari & iOS, led the Creator Network to 2M+ users'}
       </>
     ),
   },
