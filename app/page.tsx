@@ -80,7 +80,7 @@ export default function HomePage() {
         ]}
       />
 
-      <Chapter n="01" label="Who you're hiring" title="One engineer. The same one, the whole way through.">
+      <Chapter n="01" label="Who you're hiring" title="One engineer, start to finish.">
         <div className="bio-grid">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -91,18 +91,17 @@ export default function HomePage() {
           />
           <div className="bio-copy">
             <p>
-              I&rsquo;m not an agency — the person on the intro call is the
-              person who writes the code. Fourteen years of it, mostly on
-              platform work people use every day: browser extensions,
+              I&rsquo;m not an agency; the person on the intro call is the
+              person who writes the code. I&rsquo;ve spent fourteen years on
+              platform work people use every day — browser extensions,
               Apple&rsquo;s toolchain, and now the infrastructure AI agents
               buy through.
             </p>
             <p style={{ marginTop: 'var(--space-md)' }}>
-              Outside the day jobs I&rsquo;ve built products end to end by
-              myself — TrueRate, a Chrome extension that exposed hidden
-              hotel fees, and Unhabit, an iOS Safari extension for blocking
-              distracting sites. Nothing teaches engineering judgment like
-              being the only person accountable for it.
+              I&rsquo;ve also designed, built, and shipped two products
+              alone: TrueRate, a Chrome extension that exposed hidden hotel
+              fees on the major booking sites, and Unhabit, an iOS Safari
+              extension that blocks distracting websites.
             </p>
             <p className="bio-links">
               <a href={SITE.linkedin}>LinkedIn</a> ·{' '}
@@ -126,7 +125,8 @@ export default function HomePage() {
             <p>
               Your extension doesn&rsquo;t exist on Safari or iPhone. I
               built Honey&rsquo;s first iOS extension and owned
-              Pie&rsquo;s — I&rsquo;ll port yours through App Store review.
+              Pie&rsquo;s — I&rsquo;ll port yours and get it through App
+              Store review.
             </p>
             <span className="card-cta">Port assessment · $2,500</span>
           </Link>
@@ -140,9 +140,10 @@ export default function HomePage() {
             </span>
             <h3>MCP servers that put your product in front of AI agents</h3>
             <p>
-              Customers are asking for the Claude or ChatGPT integration. I
-              built agent-facing APIs at ZeroClick — I&rsquo;ll build yours
-              and take it through directory submission.
+              Your customers are asking for a Claude or ChatGPT
+              integration. I built agent-facing APIs at ZeroClick —
+              I&rsquo;ll build your MCP server and take it through directory
+              submission.
             </p>
             <span className="card-cta">MCP readiness audit · $2,000</span>
           </Link>
@@ -155,9 +156,9 @@ export default function HomePage() {
             </span>
             <h3>AI-agent enablement for engineering teams</h3>
             <p>
-              Licenses without results. At Pie I shipped a product where AI
-              agents wrote the whole codebase — I&rsquo;ll set your team up
-              to work that way.
+              Your team has the AI tools and little shipped to show for
+              it. At Pie I shipped a product where AI agents wrote the whole
+              codebase — I&rsquo;ll set your team up to work that way.
             </p>
             <span className="card-cta">Agent-readiness audit · $3,000</span>
           </Link>
