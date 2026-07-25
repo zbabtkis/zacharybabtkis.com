@@ -152,7 +152,7 @@ export function HeroPlug() {
           className={mode === 'browser' ? 'active' : ''}
           onClick={() => pick('browser')}
         >
-          into browsers
+          in the browser
         </button>
         <button
           type="button"
@@ -161,7 +161,7 @@ export function HeroPlug() {
           className={mode === 'agent' ? 'active' : ''}
           onClick={() => pick('agent')}
         >
-          into AI agents
+          with an AI agent
         </button>
       </div>
       <div className="plug-stage">

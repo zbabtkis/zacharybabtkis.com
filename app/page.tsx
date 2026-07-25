@@ -38,18 +38,15 @@ export default function HomePage() {
         <div className="wrap">
           <div className="hero-copy">
             <h1>
-              <span className="h1-line">
-                First I plugged products into <em>browsers</em>.
-              </span>{' '}
-              <span className="h1-line">
-                Now I plug them into <em>AI agents</em>.
-              </span>
+              I build software that takes the{' '}
+              <em>user&rsquo;s side</em>.
             </h1>
             <p className="lede">
-              I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff, founding
-              engineer at ZeroClick. I build websites, apps, and browser
-              extensions — and the infrastructure and integrations for
-              agentic AI.
+              In browsers, that meant ad blockers, coupon finders, and fee
+              exposers used by twenty million people. With AI agents, it
+              means integrations and harnesses that keep the human in
+              charge. I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff,
+              founding engineer at ZeroClick.
             </p>
             <div className="hero-actions">
               <a

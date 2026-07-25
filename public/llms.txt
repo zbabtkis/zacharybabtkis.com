@@ -1,5 +1,6 @@
 # Zack Babtkis — Independent Software Engineering Consultant
 
+> Thesis: software that takes the user's side.
 > Independent engineer in Los Angeles — ex-PayPal Senior Staff (Honey), founding engineer at ZeroClick. Builds websites, apps, browser extensions, and infrastructure and integrations for agentic AI.
 > Three specialist services, each with a fixed-price entry engagement.
 > Contact: zackbabtkis@gmail.com — replies within one business day.
