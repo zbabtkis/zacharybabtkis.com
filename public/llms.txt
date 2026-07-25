@@ -1,7 +1,7 @@
 # Zack Babtkis, Independent Software Engineering Consultant
 
 > Thesis: software that takes the user's side.
-> Independent engineer in Los Angeles. Ex-PayPal Senior Staff (Honey), founding engineer at ZeroClick. Builds websites, apps, browser extensions, and infrastructure and integrations for agentic AI.
+> Independent engineer in Los Angeles, formerly PayPal Senior Staff (Honey) and founding engineer at ZeroClick. Builds websites, apps, browser extensions, and infrastructure and integrations for agentic AI.
 > Four specialist services, each with a fixed-price entry engagement.
 > Contact: zackbabtkis@gmail.com. Replies within one business day.
 
@@ -17,7 +17,7 @@
 - [MCP Server Development for SaaS](https://zacharybabtkis.com/mcp-development/):
   Production Model Context Protocol servers that put SaaS products inside
   Claude, ChatGPT, and other AI agents: tool-surface design, OAuth, remote
-  hosting, directory listing. Built agent-facing APIs and MCP servers at
+  hosting, Claude/ChatGPT directory listing. Built agent-facing APIs and MCP servers at
   ZeroClick. Entry offer: MCP Readiness Audit, $2,000, one week. Typical
   builds $18k–$35k; prototype hardening $8k–$15k; MCP + metering $30k–$60k.
 

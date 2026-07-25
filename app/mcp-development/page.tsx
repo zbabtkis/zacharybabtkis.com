@@ -16,7 +16,7 @@ import { GUIDES } from '@/lib/guides';
 export const metadata: Metadata = {
   title: 'MCP Server Development for SaaS',
   description:
-    'I build production MCP servers that put your product inside Claude, ChatGPT, and other AI agents, with OAuth, documentation, and directory listing. Built agent-facing infrastructure at ZeroClick.',
+    'I build production MCP servers that put your product inside Claude, ChatGPT, and other AI agents, with OAuth, documentation, and Claude/ChatGPT directory listing. Built agent-facing infrastructure at ZeroClick.',
 };
 
 const serviceJsonLd = {
@@ -61,7 +61,7 @@ export default function McpDevelopmentPage() {
         stats={[
           {
             value: '2 yrs',
-            label: 'building agent-facing APIs and MCP servers at ZeroClick, starting the year the protocol launched',
+            label: 'spent building agent-facing APIs and MCP servers at ZeroClick, starting the year the protocol launched',
             href: RECEIPTS.zeroclick,
           },
           {
@@ -154,7 +154,7 @@ export default function McpDevelopmentPage() {
             {
               name: 'Listing & handoff',
               description:
-                'I drive directory submission, document everything, and train your team to extend the tool surface themselves.',
+                'I drive the Claude and ChatGPT directory submissions, document everything, and train your team to extend the tool surface themselves.',
             },
           ]}
         />

@@ -41,8 +41,8 @@ const WORK: WorkItem[] = [
   },
   {
     name: 'ZeroClick',
-    role: 'Agent-commerce infrastructure: APIs and MCP servers where AI agents are the customer',
-    scale: '2 years in production',
+    role: 'Founding engineer. Built the agent-facing APIs and MCP servers for its agent-commerce infrastructure.',
+    scale: '2024–2026',
     href: RECEIPTS.zeroclick,
     image: {
       src: '/work-zeroclick.jpg',

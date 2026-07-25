@@ -47,8 +47,9 @@ export default function HomePage() {
               other browser extensions used by over twenty million people
               worldwide. With AI agents, it means integrations and
               harnesses that keep the human in charge. I&rsquo;m Zack
-              Babtkis, ex-PayPal Senior Staff and founding engineer at
-              ZeroClick.
+              Babtkis. I was a Senior Staff engineer at PayPal and a
+              founding engineer at ZeroClick, and I now consult
+              independently.
             </p>
             <div className="hero-actions">
               <a
@@ -126,8 +127,8 @@ export default function HomePage() {
               <p>
                 Your customers are asking for a Claude or ChatGPT
                 integration. I built agent-facing APIs at ZeroClick.
-                I&rsquo;ll build your MCP server and take it through
-                directory submission.
+                I&rsquo;ll build your MCP server and submit it to the
+                Claude and ChatGPT directories.
               </p>
               <span className="card-cta">MCP readiness audit · $2,000</span>
             </Link>

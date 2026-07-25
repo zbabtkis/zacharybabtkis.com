@@ -5,7 +5,7 @@ import { RECEIPTS } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Zack Babtkis, independent software engineering consultant. Ex-PayPal Senior Staff engineer, founding engineer at ZeroClick. Fourteen years shipping production software.',
+    'Zack Babtkis, independent software engineering consultant. Formerly PayPal Senior Staff engineer and ZeroClick founding engineer. Fourteen years shipping production software.',
 };
 
 export default function AboutPage() {
