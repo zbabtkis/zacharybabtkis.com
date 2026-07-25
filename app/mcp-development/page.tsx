@@ -12,6 +12,7 @@ import { CrossLinks } from '@/components/cross-links';
 import { Wave, ToolCallCard } from '@/components/artifacts';
 import { Arrow } from '@/components/arrow';
 import { SITE, RECEIPTS } from '@/lib/site';
+import { GUIDES } from '@/lib/guides';
 
 export const metadata: Metadata = {
   title: 'MCP Server Development for SaaS',
@@ -175,6 +176,29 @@ export default function McpDevelopmentPage() {
           },
         ]}
       />
+
+      <section className="section" id="guides">
+        <div className="wrap">
+          <h2>Guides</h2>
+          <p className="section-intro">
+            Written from running MCP servers in production, not from the
+            spec. If a guide solves your problem outright, you don&rsquo;t
+            need me.
+          </p>
+          <ul className="guide-list">
+            {GUIDES.filter(
+              (guide) => guide.topic === 'mcp-development',
+            ).map((guide) => (
+              <li key={guide.slug}>
+                <a href={guide.slug}>
+                  {guide.title}
+                  <span>{guide.blurb}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <Faq
         items={[

@@ -9,6 +9,7 @@ import {
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, TerminalCard } from '@/components/artifacts';
 import { SITE, RECEIPTS, mailto, calLink } from '@/lib/site';
+import { GUIDES } from '@/lib/guides';
 
 export const metadata: Metadata = {
   title: 'AI-Agent Development Enablement — Harness Engineering for Teams',
@@ -319,6 +320,29 @@ export default function AiAgentEnablementPage() {
               there&rsquo;s a path. Often the timing is just wrong.
               I&rsquo;ll tell you which it is.
             </li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="section" id="guides">
+        <div className="wrap">
+          <h2>Guides</h2>
+          <p className="section-intro">
+            Written from building agent infrastructure that ran in
+            production. If a guide solves your problem outright, you
+            don&rsquo;t need me.
+          </p>
+          <ul className="guide-list">
+            {GUIDES.filter(
+              (guide) => guide.topic === 'ai-agent-enablement',
+            ).map((guide) => (
+              <li key={guide.slug}>
+                <a href={guide.slug}>
+                  {guide.title}
+                  <span>{guide.blurb}</span>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </section>
