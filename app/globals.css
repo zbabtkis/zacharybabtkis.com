@@ -99,8 +99,9 @@ h3 {
 
 .site-title {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: 600;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--ink);
   text-decoration: none;
 }
@@ -183,9 +184,20 @@ h3 {
   min-width: 0;
   width: max-content;
   max-width: min(54rem, calc(100vw - 2rem));
-  left: auto;
-  right: 0;
-  transform: none;
+}
+
+/* Pip pointing up at the Services link */
+.nav-mega::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--paper-raised);
+  border-left: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
 }
 
 .nav-mega a {
@@ -220,17 +232,18 @@ h3 {
   padding: 0.45rem 0.95rem;
 }
 
-@media (max-width: 52rem) {
+/* Below this width a centered three-column panel can clip the viewport
+   edge, so it collapses to one column anchored at the Services link. */
+@media (max-width: 60rem) {
   .nav-dropdown.nav-mega {
-    position: fixed;
-    left: 1rem;
-    right: 1rem;
-    top: 4.5rem;
-    width: auto;
-    max-width: none;
     grid-template-columns: 1fr;
-    max-height: 70vh;
-    overflow-y: auto;
+    left: -0.75rem;
+    transform: none;
+  }
+
+  .nav-mega::before {
+    left: 2.25rem;
+    transform: rotate(45deg);
   }
 }
 
