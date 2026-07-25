@@ -16,7 +16,7 @@ import { GUIDES } from '@/lib/guides';
 export const metadata: Metadata = {
   title: 'MCP Server Development for SaaS',
   description:
-    'I build production MCP servers that put your product inside Claude, ChatGPT, and every AI agent — with real auth, real docs, and directory listing. Built agent-facing infrastructure at ZeroClick.',
+    'I build production MCP servers that put your product inside Claude, ChatGPT, and other AI agents, with OAuth, documentation, and directory listing. Built agent-facing infrastructure at ZeroClick.',
 };
 
 const serviceJsonLd = {
@@ -83,9 +83,8 @@ export default function McpDevelopmentPage() {
             documentation that integrators build against, and Activation
             Ads, an agent-native ad format I originated. Before that I
             spent five years at PayPal building Honey at consumer scale.
-            Most agencies selling MCP work learned the protocol from the
-            docs. I learned it shipping to agents in production, and I use
-            agent tooling every day, so I know a badly designed tool
+            I learned the protocol shipping to agents in production, and I
+            use agent tooling every day, so I know a badly designed tool
             surface when an agent trips over one.
           </p>
         </div>
@@ -94,12 +93,12 @@ export default function McpDevelopmentPage() {
       <OfferBand
         n="02"
         label="Start here"
-        title="Know exactly what agents need from you."
+        title="Know what agents need from you."
         name="MCP Readiness Audit"
         price="$2,000"
         timeline="One week"
         deliverables={[
-          'Review of your API for agent consumption — what agents need that it doesn’t expose',
+          'Review of your API for agent consumption: what agents need that it doesn’t expose',
           'Designed MCP tool surface: the tools, their schemas, and the descriptions that make agents use them correctly',
           'Auth architecture recommendation (OAuth flows, scopes, what an agent may do on a user’s behalf)',
           'Claude and ChatGPT directory requirements gap list',
@@ -112,7 +111,7 @@ export default function McpDevelopmentPage() {
 
       <Chapter n="03" label="Rates" title="What builds cost" id="rates">
         <RatesTable
-          intro="Fixed-bid from the audit. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds — I'm typically under both, because you're paying for an engineer, not a bench."
+          intro="The audit produces a fixed bid. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds. I typically come in under both because you hire one engineer."
           rates={[
             {
               name: 'MCP server for an existing SaaS',
@@ -124,7 +123,7 @@ export default function McpDevelopmentPage() {
             {
               name: <>Prototype <Arrow /> production</>,
               scope:
-                'Your internal MCP demo hardened into something that survives real auth, rate limits, and multi-tenancy — without a rewrite where possible.',
+                'Your internal MCP demo hardened into something that survives real auth, rate limits, and multi-tenancy, without a rewrite where possible.',
               duration: '2–3 weeks',
               price: '$8k–$15k',
             },
@@ -145,12 +144,12 @@ export default function McpDevelopmentPage() {
             {
               name: 'Audit',
               description:
-                'Fixed price, one week. Tool-surface design, auth plan, and directory gap list — useful even if you build in-house.',
+                'Fixed price, one week. Tool-surface design, auth plan, and directory gap list. It is useful even if you build in-house.',
             },
             {
               name: 'The build',
               description:
-                'Fixed bid. I implement the MCP server — remote-hosted, with OAuth, rate limiting, logging, and tests — in your repos.',
+                'Fixed bid. I implement the MCP server in your repos: remote-hosted, with OAuth, rate limiting, logging, and tests.',
             },
             {
               name: 'Listing & handoff',
@@ -188,12 +187,12 @@ export default function McpDevelopmentPage() {
           {
             question: 'What does a production MCP server cost?',
             answer:
-              'Published market rates for production-grade MCP implementations run $25,000–$120,000 through agencies. My builds typically land under agency pricing because there’s no bench and no project-manager layer — the audit gives you a fixed number for your scope.',
+              'Published market rates for production-grade MCP implementations run $25,000–$120,000 through agencies. My builds typically land under agency pricing because there’s no bench and no project-manager layer. The audit gives you a fixed number for your scope.',
           },
           {
             question: 'MCP, ChatGPT apps, or both?',
             answer:
-              'They share most of their design thinking, and MCP increasingly works across both ecosystems. The audit answers this for your product — including whether one well-designed MCP server covers you everywhere, which it often does.',
+              'They share most of their design thinking, and MCP increasingly works across both ecosystems. The audit answers this for your product, including whether one MCP server covers both, which it often does.',
           },
           {
             question: 'How do we keep an agent from doing something destructive with a user’s account?',
@@ -203,7 +202,7 @@ export default function McpDevelopmentPage() {
           {
             question: 'Can’t we just point agents at our existing REST API?',
             answer:
-              'You can. Agents will fumble it. Tool design for agents is different from API design for developers: fewer tools with clearer purposes, descriptions the model can follow, and responses shaped for reasoning instead of parsing. Most failed integrations fail on that design gap.',
+              'You can. Agents will fumble it. Tool design for agents is different from API design for developers: fewer tools with clearer purposes, descriptions the model can follow, and responses shaped for reasoning instead of parsing.',
           },
           {
             question: 'Who owns the code? Will you sign an NDA?',

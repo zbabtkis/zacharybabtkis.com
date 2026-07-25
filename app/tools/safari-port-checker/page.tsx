@@ -4,9 +4,9 @@ import { Faq } from '@/components/sections';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Safari Port Checker — Will Your Chrome Extension Work in Safari?',
+  title: 'Safari Port Checker: Will Your Chrome Extension Work in Safari?',
   description:
-    'Free tool: paste your Chrome extension’s manifest.json and get an instant Safari and iOS compatibility report — blocking webRequest, background lifecycle, unsupported APIs, and App Store considerations.',
+    'Free tool: paste your Chrome extension’s manifest.json and get an instant Safari and iOS compatibility report covering blocking webRequest, background lifecycle, unsupported APIs, and App Store considerations.',
 };
 
 const jsonLd = {
@@ -29,11 +29,11 @@ export default function PortCheckerPage() {
         <div className="wrap">
           <h1>Will your Chrome extension work in Safari?</h1>
           <p className="lede">
-            Paste your manifest.json and find out in five seconds — which
+            Paste your manifest.json and find out in five seconds which
             APIs carry over, which need a redesign, and which don&rsquo;t
-            exist in Safari at all. Built from the checklist I use on paid
-            port assessments. Everything runs in your browser; nothing is
-            uploaded.
+            exist in Safari at all. The checks come from the checklist I
+            use on paid port assessments. Everything runs in your browser;
+            nothing is uploaded.
           </p>
         </div>
       </section>
@@ -47,13 +47,13 @@ export default function PortCheckerPage() {
       <section className="section">
         <div className="wrap">
           <div className="prose">
-            <h2>What this checks — and what it can&rsquo;t</h2>
+            <h2>What this checks, and what it can&rsquo;t</h2>
             <p>
               The manifest declares what your extension is allowed to do,
               so it reveals the structural port risks: blocking
               webRequest, persistent backgrounds, page overrides, and APIs
               Safari doesn&rsquo;t implement. What it can&rsquo;t see is
-              your code — background lifecycle assumptions, API behavior
+              your code: background lifecycle assumptions, API behavior
               differences, storage timing, and everything iOS. That half is
               what the{' '}
               <a href="/safari-extensions/">paid port assessment</a> covers,
@@ -73,12 +73,12 @@ export default function PortCheckerPage() {
           {
             question: 'My extension passed. Does that mean the port is easy?',
             answer:
-              'It means the manifest has no structural blockers — a real signal, not a guarantee. Most port pain lives in code the manifest can’t show: background lifecycle, API behavior differences, and App Store review. That’s what the one-week assessment covers.',
+              'It means the manifest has no structural blockers. That is a signal, not a guarantee. Most port pain lives in code the manifest can’t show: background lifecycle, API behavior differences, and App Store review. That’s what the one-week assessment covers.',
           },
           {
             question: 'It flagged blockers. Is the port dead?',
             answer:
-              'Usually not. Most blockers have Safari-shaped redesigns — blocking webRequest becomes declarativeNetRequest, chrome.identity becomes web-based OAuth. The question is cost, which is exactly what the assessment answers with a fixed bid.',
+              'Usually not. Most blockers have Safari-shaped redesigns: blocking webRequest becomes declarativeNetRequest, and chrome.identity becomes web-based OAuth. The question is cost, which is what the assessment answers with a fixed bid.',
           },
         ]}
       />

@@ -41,7 +41,7 @@ export function PortChecker() {
       parsed = JSON.parse(text);
     } catch {
       setError(
-        'That isn’t valid JSON. Paste the contents of your manifest.json — comments and trailing commas need to come out first.',
+        'That isn’t valid JSON. Paste the contents of your manifest.json. Comments and trailing commas need to come out first.',
       );
       return;
     }
@@ -101,7 +101,7 @@ export function PortChecker() {
       {report ? (
         <div className="checker-report">
           <h2>
-            {report.name ? `${report.name} — ` : ''}the manifest read
+            {report.name ? `${report.name}: ` : ''}the manifest read
           </h2>
           <p className="checker-verdict">{verdict(report)}</p>
 
@@ -153,8 +153,8 @@ export function PortChecker() {
               This is the manifest layer only. The paid assessment runs your
               actual codebase: every API call checked, a
               DeclarativeNetRequest migration plan if you need one, App
-              Store review risks, and a fixed-bid quote — one week, $2,500,
-              credited toward the port.
+              Store review risks, and a fixed-bid quote. It takes one week,
+              costs $2,500, and is credited toward the port.
             </p>
             <div className="offer-actions">
               <a

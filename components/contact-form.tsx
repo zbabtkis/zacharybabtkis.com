@@ -17,7 +17,7 @@ export function ContactForm() {
     event.preventDefault();
 
     const subject = `Project inquiry from ${name || 'your website'}`;
-    const body = `${message}\n\n— ${name}${email ? ` (${email})` : ''}`;
+    const body = `${message}\n\n${name}${email ? ` (${email})` : ''}`;
     window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(
       subject,
     )}&body=${encodeURIComponent(body)}`;
@@ -62,7 +62,7 @@ export function ContactForm() {
         </button>
       </div>
       <p className="form-note">
-        Sending opens your mail app with the message ready to go — nothing is
+        Sending opens your mail app with the message ready to go. Nothing is
         stored here. Prefer to write directly? {SITE.email}
       </p>
     </form>

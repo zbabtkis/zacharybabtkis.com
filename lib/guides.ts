@@ -11,7 +11,7 @@ export const GUIDES: Guide[] = [
     title:
       'Converting a Chrome extension to Safari and iOS: the complete guide',
     blurb:
-      'What the converter does, what breaks, DNR, signing, and App Review — the full map.',
+      'What the converter does, what breaks, DNR, signing, and App Review.',
     topic: 'safari-extensions',
   },
   {
@@ -74,7 +74,7 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: '/mcp-development/tool-design-for-agents/',
-    title: 'Designing MCP tools that models actually call correctly',
+    title: 'Designing MCP tools that models call correctly',
     blurb:
       'Server instructions, filtering server-side, error results over exceptions, and tool output as prompt surface.',
     topic: 'mcp-development',

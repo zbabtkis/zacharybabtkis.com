@@ -110,7 +110,7 @@ export function analyzeManifest(manifest: Manifest): Report {
   ) {
     findings.push({
       severity: 'note',
-      title: 'DNR carries over — budget for rule limits',
+      title: 'DNR carries over, but budget for rule limits',
       detail:
         'Safari enforces its own rule-count limits, and they differ from Chrome’s and by Safari version. Large or dynamic rule sets need a compilation and prioritization strategy.',
       evidence: 'permissions: declarativeNetRequest',
@@ -124,7 +124,7 @@ export function analyzeManifest(manifest: Manifest): Report {
       severity: 'redesign',
       title: 'Persistent background pages are not supported',
       detail:
-        'Safari suspends background scripts aggressively. In-memory state, long-lived timers, and open sockets evaporate between events. Move state into storage and make everything event-driven — the same discipline Chrome’s MV3 forced.',
+        'Safari suspends background scripts aggressively. In-memory state, long-lived timers, and open sockets evaporate between events. Move state into storage and make everything event-driven. Chrome’s MV3 forced the same discipline.',
       evidence: 'background.persistent: true',
       guide: '/safari-extensions/converter-not-working/',
     });
@@ -133,7 +133,7 @@ export function analyzeManifest(manifest: Manifest): Report {
       severity: 'note',
       title: 'Service-worker background: test the lifecycle',
       detail:
-        'Modern Safari runs MV3 service workers, but suspension timing differs from Chrome. Bugs show up as flakiness after idle — add handshakes around the first message after wake.',
+        'Modern Safari runs MV3 service workers, but suspension timing differs from Chrome. Bugs show up as flakiness after idle. Add handshakes around the first message after wake.',
       evidence: 'background.service_worker',
       guide: '/safari-extensions/converter-not-working/',
     });
@@ -190,7 +190,7 @@ export function analyzeManifest(manifest: Manifest): Report {
       findings.push({
         severity: 'blocker',
         title: `${perm} is not available in Safari`,
-        detail: `${why} Features built on it need a redesign or get cut — the assessment weighs which.`,
+        detail: `${why} Features built on it need a redesign or get cut. The assessment weighs which.`,
         evidence: `permissions: ${perm}`,
       });
     }
@@ -205,7 +205,7 @@ export function analyzeManifest(manifest: Manifest): Report {
       severity: 'blocker',
       title: 'Page overrides (new tab, history, bookmarks) don’t exist',
       detail:
-        'Safari does not let extensions replace built-in pages. A new-tab product needs a different form on Safari — usually a popover or a standalone surface.',
+        'Safari does not let extensions replace built-in pages. A new-tab product needs a different form on Safari, usually a popover or a standalone surface.',
       evidence: `chrome_url_overrides: ${Object.keys(overrides).join(', ')}`,
     });
   }
@@ -296,13 +296,13 @@ export function verdict(report: Report): string {
   const redesigns = report.findings.filter((f) => f.severity === 'redesign');
 
   if (blockers.length > 0) {
-    return `${blockers.length} ${blockers.length === 1 ? 'capability' : 'capabilities'} in this manifest ${blockers.length === 1 ? 'does' : 'do'} not exist in Safari. A port means redesigning around ${blockers.length === 1 ? 'it' : 'them'} — possible more often than teams expect, but it is engineering, not conversion.`;
+    return `${blockers.length} ${blockers.length === 1 ? 'capability' : 'capabilities'} in this manifest ${blockers.length === 1 ? 'does' : 'do'} not exist in Safari. A port means redesigning around ${blockers.length === 1 ? 'it' : 'them'}. That is possible more often than teams expect, but it is engineering, not conversion.`;
   }
   if (redesigns.length > 0) {
     return `No hard blockers in the manifest, but ${redesigns.length} ${redesigns.length === 1 ? 'area needs' : 'areas need'} a redesign around Safari's model. A port looks feasible with real engineering in those spots.`;
   }
   if (report.findings.length > 0) {
-    return 'No blockers and no redesigns in the manifest — verify the flagged items against the Safari versions you target, and this port looks straightforward.';
+    return 'No blockers and no redesigns in the manifest. Verify the flagged items against the Safari versions you target, and this port looks straightforward.';
   }
-  return 'Nothing in this manifest fights Safari. The remaining risk lives in the code, not the manifest — background lifecycle assumptions and API behavior differences.';
+  return 'Nothing in this manifest fights Safari. The remaining risk lives in the code: background lifecycle assumptions and API behavior differences.';
 }

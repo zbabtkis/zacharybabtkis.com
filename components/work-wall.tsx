@@ -16,7 +16,7 @@ const WORK: WorkItem[] = [
     href: RECEIPTS.paypalHoney,
     image: {
       src: '/work-honey.jpg',
-      alt: 'PayPal Honey — cash back, no hunting needed',
+      alt: 'PayPal Honey marketing banner',
     },
   },
   {
@@ -26,17 +26,17 @@ const WORK: WorkItem[] = [
     href: RECEIPTS.pieStore,
     image: {
       src: '/work-pie.jpg',
-      alt: 'Pie Adblock — premium ad blocking, for free',
+      alt: 'Pie Adblock marketing banner',
     },
   },
   {
     name: 'pie.yt',
-    role: 'Built and shipped it solo — the entire codebase written by AI agents I directed',
-    scale: 'Live — go try it',
+    role: 'Built and shipped it solo. AI agents I directed wrote the entire codebase.',
+    scale: 'Live · try it',
     href: RECEIPTS.pieYt,
     image: {
       src: '/work-pieyt.jpg',
-      alt: 'pie.yt — watch any YouTube video ad-free',
+      alt: 'pie.yt, an ad-free YouTube viewer',
     },
   },
   {
@@ -46,23 +46,23 @@ const WORK: WorkItem[] = [
     href: RECEIPTS.zeroclick,
     image: {
       src: '/work-zeroclick.jpg',
-      alt: 'ZeroClick — sell your product to AI agents',
+      alt: 'ZeroClick marketing site',
     },
   },
   {
     name: 'TrueRate',
-    role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz — extension, scraping API, and iOS app',
+    role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz, with a scraping API and an iOS app behind it',
     scale: 'Built solo · 2019–2020',
     image: { src: '/truerate.png', alt: 'TrueRate showing hidden fees on a hotel listing' },
   },
   {
     name: 'Unhabit',
-    role: 'iOS Safari extension that blocks distracting sites — cooldowns, scheduling, on-device privacy',
+    role: 'iOS Safari extension that blocks distracting sites with cooldowns and scheduling, all on-device',
     scale: 'iOS App Store · 2023',
     href: 'https://www.tapsmart.com/features/content-blockers-guide/',
     image: {
       src: '/work-unhabit.jpg',
-      alt: 'Unhabit — it hurts to be addicted; the app blocking a distracting site',
+      alt: 'Unhabit blocking a distracting site on iPhone',
     },
   },
 ];

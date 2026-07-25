@@ -53,9 +53,9 @@ export function ArticleLayout({
         <div className="wrap">
           <h1>{title}</h1>
           <p className="article-meta">
-            By Zack Babtkis —{' '}
+            By Zack Babtkis.{' '}
             {byline ??
-              'I shipped Safari and iOS extensions at Honey and ZeroClick'}{' '}
+              'I shipped Safari and iOS extensions at Honey and ZeroClick.'}{' '}
             · Updated{' '}
             {new Date(dateModified ?? datePublished).toLocaleDateString(
               'en-US',

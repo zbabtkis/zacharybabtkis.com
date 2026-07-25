@@ -5,7 +5,7 @@ import { RECEIPTS } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Zack Babtkis — independent software engineering consultant. Ex-PayPal/Honey Senior Staff engineer, ex-Pie. Fourteen years shipping production software.',
+    'Zack Babtkis, independent software engineering consultant. Ex-PayPal Senior Staff engineer, founding engineer at ZeroClick. Fourteen years shipping production software.',
 };
 
 export default function AboutPage() {
@@ -31,9 +31,10 @@ export default function AboutPage() {
             <p>
               I started in 2012 at UC Santa Barbara&rsquo;s{' '}
               <a href="https://www.eri.ucsb.edu">Earth Research Institute</a>,
-              where I built the NEES@UCSB seismic data portal — real-time
-              dashboards for permanently instrumented borehole sensor arrays
-              — and websites for the institute&rsquo;s research groups. I spent
+              where I built the NEES@UCSB seismic data portal, real-time
+              dashboards for permanently instrumented borehole sensor
+              arrays, and websites for the institute&rsquo;s research
+              groups. I spent
               the next four years at The Mobile Majority (later Gimbal, now
               Infillion) building
               mobile advertising infrastructure: real-time microservices
@@ -66,21 +67,21 @@ export default function AboutPage() {
               In 2024 one of Honey&rsquo;s co-founders invited me to help
               start <a href={RECEIPTS.pieStore}>Pie</a>, a free ad blocker
               that grew past two million users.
-              I led the Creator Network — a system letting YouTube creators
+              I led the Creator Network, a system that let YouTube creators
               partner with Pie so supporters could choose to unblock their
-              ads — and owned the iOS and Safari extensions end to end:
+              ads. I owned the iOS and Safari extensions end to end:
               Swift, Xcode Cloud deployment, and Safari&rsquo;s
               content-blocking APIs. When the company became ZeroClick and
               pivoted to building infrastructure for AI-agent commerce, I
               built agent-facing APIs and MCP servers, and shipped the
               company&rsquo;s first product built entirely through AI-agent
-              development — <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
+              development: <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
               YouTube viewer I owned from conception to launch.
             </p>
             <p>
               I&rsquo;ve also designed, built, and shipped two products
               alone. TrueRate was a Chrome extension that exposed the
-              hidden fees — resort, wifi, parking — buried in hotel
+              hidden fees (resort, wifi, parking) buried in hotel
               listings on Expedia, Hotels.com, Travelocity, and Orbitz,
               with a scraping API and an iOS app behind it.{' '}
               <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>{' '}
@@ -90,9 +91,9 @@ export default function AboutPage() {
             </p>
             <p>
               Now I consult independently from Los Angeles. Most of my work
-              has been platform engineering — extension APIs, Apple&rsquo;s
-              toolchain, agent protocols — inside products that millions of
-              people use. I like small teams, clear scopes, and shipping.
+              has been platform engineering inside products that millions
+              of people use: extension APIs, Apple&rsquo;s toolchain, agent
+              protocols. I like small teams, clear scopes, and shipping.
             </p>
           </div>
         </div>

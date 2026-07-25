@@ -3,7 +3,7 @@ import { SERVICES } from '@/lib/site';
 
 const BLURBS: Record<string, string> = {
   'safari-extensions':
-    'I port Chrome extensions to Safari, macOS, and iOS — the way I did at Honey and Pie.',
+    'I port Chrome extensions to Safari, macOS, and iOS, the way I did at Honey and Pie.',
   'mcp-development':
     'I build production MCP servers that put SaaS products inside Claude and ChatGPT.',
   'ai-agent-enablement':

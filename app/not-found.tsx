@@ -7,7 +7,7 @@ export default function NotFound() {
     <section className="hero">
       <div className="wrap">
         <div className="hero-copy">
-          <h1>404 — this page doesn&rsquo;t exist.</h1>
+          <h1>404: this page doesn&rsquo;t exist.</h1>
           <p className="lede">
             The link may be old, or the page moved. Everything worth
             finding is one step away:

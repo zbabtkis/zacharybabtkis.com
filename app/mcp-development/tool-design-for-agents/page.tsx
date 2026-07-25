@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 
 export const metadata: Metadata = {
-  title: 'Designing MCP Tools That Models Actually Call Correctly',
+  title: 'Designing MCP Tools That Models Call Correctly',
   description:
     'Models skip your tools, call them in the wrong order, or mangle the parameters. The fix is in tool design: server instructions, server-side filtering, a two-tool surface, error results, and tool output written as a prompt.',
 };
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function ToolDesignForAgentsPage() {
   return (
     <ArticleLayout
-      title="Designing MCP tools that models actually call correctly"
-      description="Server instructions, server-side filtering, two-tool surfaces, and results written as prompts — the design decisions that determine whether a model uses your MCP server."
+      title="Designing MCP tools that models call correctly"
+      description="Server instructions, server-side filtering, two-tool surfaces, and results written as prompts: the design decisions that determine whether a model uses your MCP server."
       datePublished="2026-07-25"
       slug="/mcp-development/tool-design-for-agents/"
       byline="I built and shipped MCP servers and agent tooling at ZeroClick"
@@ -19,12 +19,12 @@ export default function ToolDesignForAgentsPage() {
         {
           question: 'How many tools is too many for one MCP server?',
           answer:
-            'There is no hard limit, but selection accuracy drops as the count rises, because every tool description competes for the model’s attention on every turn. A discovery tool plus an execute tool covers a surprising range of products. Add a third tool when it has a genuinely distinct job, not to split one job into steps — steps belong inside a single tool.',
+            'There is no hard limit, but selection accuracy drops as the count rises, because every tool description competes for the model’s attention on every turn. A discovery tool plus an execute tool covers a wide range of products. Add a third tool only when it has a distinct job. Steps of one job belong inside a single tool.',
         },
         {
           question: 'Why won’t the model call my tool at all?',
           answer:
-            'Usually the server never told the model when it is relevant. Tool descriptions say what a tool does; server-level instructions say when this server applies. Add concrete trigger situations — the actual user phrasings that should activate the server — and state the order to call tools in. If the model still skips it, your tool’s description likely overlaps with a built-in capability the model prefers.',
+            'Usually the server never told the model when it is relevant. Tool descriptions say what a tool does; server-level instructions say when this server applies. Add concrete trigger situations, meaning the user phrasings that should activate the server, and state the order to call tools in. If the model still skips it, your tool’s description likely overlaps with a built-in capability the model prefers.',
         },
         {
           question: 'Should tool descriptions be written for humans?',
@@ -34,11 +34,11 @@ export default function ToolDesignForAgentsPage() {
         {
           question: 'How do I test tool selection?',
           answer:
-            'Run realistic prompts against a real model with your server connected, not unit tests against the handlers. Check three things separately: does the model pick the server up at all for prompts that should trigger it, does it pick the right tool among several, and does it recover when a tool returns an error result. Each failure has a different fix — instructions, descriptions, and error formatting respectively.',
+            'Run realistic prompts against a real model with your server connected, rather than unit tests against the handlers. Check three things separately: does the model pick the server up at all for prompts that should trigger it, does it pick the right tool among several, and does it recover when a tool returns an error result. Each failure has a different fix: instructions, descriptions, and error formatting respectively.',
         },
       ]}
       ctaTitle="Is your MCP server designed for the model that has to call it?"
-      ctaBody="I audit MCP servers against exactly these failure modes: whether models pick the server up, pick the right tool, survive your error paths, and can act on your results. Fixed price, $2,000, one week, credited toward any follow-on implementation work."
+      ctaBody="I audit MCP servers against these failure modes: whether models pick the server up, pick the right tool, survive your error paths, and can act on your results. Fixed price, $2,000, one week, credited toward any follow-on implementation work."
       ctaEmailSubject="MCP Server Audit"
       ctaSource="tool-design-article"
     >
@@ -49,9 +49,9 @@ export default function ToolDesignForAgentsPage() {
         invents a parameter value that was never on offer. None of these
         are model bugs you can fix. All of them are design decisions you
         control. What follows is what held up in production, drawn from an
-        MCP server I built that let agents set up third-party services for
-        a user — demoed to partners and advertisers, and the seed of the
-        company&rsquo;s next product direction.
+        MCP server I built that let agents set up third-party services
+        for a user. That server was demoed to partners and advertisers
+        and seeded the company&rsquo;s next product direction.
       </p>
 
       <h2>Server instructions decide whether your tools get called</h2>
@@ -83,8 +83,8 @@ Call sequence:
 
       <h2>Filter server-side so the model cannot pick something unusable</h2>
       <p>
-        In the system I built, the discovery tool returned only items that
-        were actually actionable — every result it surfaced could be
+        In the system I built, the discovery tool returned only
+        actionable items. Every result it surfaced could be
         executed by the second tool. Options that existed in the catalog
         but could not be provisioned were filtered out before the model
         ever saw them. This closes off a whole failure class: the model
@@ -106,24 +106,25 @@ Call sequence:
         That second half matters as much as the first. The execute tool in
         my system internally kicked off a provisioning job, polled for
         status, surfaced any human-input requests, redeemed a one-time
-        token, and returned the result. Five distinct protocol steps. The
-        model saw one synchronous call. Every step you expose as a
-        separate tool is a step the model can skip, reorder, or retry
-        incorrectly. Hide the protocol; expose the intent.
+        token, and returned the result. That is five distinct protocol
+        steps, and the model saw one synchronous call. Every step you
+        expose as a separate tool is a step the model can skip, reorder,
+        or retry incorrectly. Hide the protocol behind a single tool and
+        expose only the intent.
       </p>
 
       <h2>Tool results are prompt surface</h2>
       <p>
         A tool result goes straight into the model&rsquo;s context as
         text. That makes it the best place to steer the next call, better
-        placed than the system prompt, because it arrives at exactly the
+        placed than the system prompt, because it arrives at the
         moment the model is deciding what to do next. Two habits follow from this. First, format
         identifiers so the model can lift them back out: my discovery tool
         returned markdown with each item&rsquo;s ID set off clearly, so
         copying an ID into the execute call was a mechanical operation
         rather than an extraction problem. Second, end the result with an
-        explicit next-step sentence — &ldquo;to provision one of these,
-        call the execute tool with its ID.&rdquo; The model follows
+        explicit next-step sentence, such as &ldquo;to provision one of
+        these, call the execute tool with its ID.&rdquo; The model follows
         directions it just read.
       </p>
 
@@ -137,20 +138,19 @@ Call sequence:
         the string. In my system, user-input specifications moved between
         the two tools as a single JSON string parameter for exactly this
         reason. Reserve structured parameters for values the model is
-        genuinely deciding; use strings for values it is merely carrying.
+        deciding; use strings for values it is carrying.
       </p>
 
-      <h2>Return errors, don&rsquo;t throw them</h2>
+      <h2>Return errors instead of throwing them</h2>
       <p>
-        A thrown exception ends the turn. An error result — the MCP{' '}
-        <code>isError</code> flag plus a human-readable message — stays in
+        A thrown exception ends the turn. An error result, the MCP{' '}
+        <code>isError</code> flag plus a human-readable message, stays in
         context, and the model reads it like any other tool output. My
         server returned errors as results with a plain-language
         explanation of what went wrong, and models routinely corrected the
         input and retried without any human involvement. Write the message
         for the model: state what was wrong and what a valid call looks
-        like. An error result is a steering opportunity; an exception is a
-        dead end.
+        like.
       </p>
 
       <h2>When the caller is a model, return instructions</h2>
@@ -158,7 +158,7 @@ Call sequence:
         The strangest-looking design choice held up best. A successful
         execute call in my system did not return a raw payload of
         credentials and endpoints for the model to interpret. It returned
-        a block of instructions — prose written for the model, with the
+        a block of instructions, prose written for the model with the
         live values interpolated into it: here is your API key, here is
         the endpoint, do this next. A payload requires the model to figure
         out what the fields mean and what to do with them. Instructions
@@ -173,7 +173,7 @@ Call sequence:
         and context bound in at session setup, rather than resolving
         identity inside each tool handler. Two things fall out of this.
         Tools cannot be invoked with the wrong tenant&rsquo;s identity,
-        because the identity was fixed before any tool existed — there is
+        because the identity was fixed before any tool existed. There is
         no tenant parameter for the model to get wrong. And request-scoped
         values, like the client IP you need for downstream calls, are
         available wherever a handler needs them without threading them
@@ -188,11 +188,11 @@ Call sequence:
         separately: does the model pick the server up at all when a prompt
         should trigger it; does it pick the right tool when several could
         plausibly apply; and does it recover when a tool returns an error
-        result. Each maps to a different artifact — server instructions,
-        tool descriptions, and error formatting — so a failure tells you
-        which text to rewrite. Run the prompts your users will actually
-        type, not the ones your tools were designed around. The gap
-        between those two sets is where integrations die.
+        result. Each maps to a different artifact: server instructions,
+        tool descriptions, and error formatting. A failure tells you
+        which text to rewrite. Run the prompts your users will
+        type rather than the ones your tools were designed around. The
+        gap between those two sets is where integrations fail.
       </p>
     </ArticleLayout>
   );

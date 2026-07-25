@@ -16,7 +16,7 @@ import { GUIDES } from '@/lib/guides';
 export const metadata: Metadata = {
   title: 'Chrome to Safari & iOS Extension Porting',
   description:
-    'I port Chrome extensions to Safari, macOS, and iOS — and get them through App Store review. I built Honey’s first iOS browser extension and owned Pie’s Safari extensions (2M+ users).',
+    'I port Chrome extensions to Safari, macOS, and iOS, and I get them through App Store review. I built Honey’s first iOS browser extension and owned Pie’s Safari extensions (2M+ users).',
 };
 
 const serviceJsonLd = {
@@ -41,9 +41,9 @@ export default function SafariExtensionsPage() {
             </h1>
             <p className="lede">
               Apple&rsquo;s converter gives you an Xcode project that
-              compiles — not a working extension, and not App Store
-              approval. That part is the real work, and I&rsquo;ve done it
-              at Honey and at ZeroClick.
+              compiles. It does not give you a working extension or App
+              Store approval. I&rsquo;ve done that part at Honey and at
+              ZeroClick.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">
@@ -53,7 +53,7 @@ export default function SafariExtensionsPage() {
                 className="button secondary"
                 href="/tools/safari-port-checker/"
               >
-                Check your manifest — free
+                Try the free port checker
               </a>
               <span className="availability">{SITE.availability}</span>
             </div>
@@ -68,7 +68,7 @@ export default function SafariExtensionsPage() {
         stats={[
           {
             value: '1st',
-            label: 'iOS browser extension at Honey — designed and built it',
+            label: 'iOS browser extension at Honey, designed and built by me',
             href: RECEIPTS.paypalHoney,
           },
           {
@@ -90,12 +90,12 @@ export default function SafariExtensionsPage() {
             At Honey I built the company&rsquo;s first iOS browser extension
             and ported its legacy Safari extension to Apple&rsquo;s modern
             API. At ZeroClick I owned Safari and iOS
-            for its Pie ad blocker — Swift app shells, Xcode Cloud
+            for its Pie ad blocker: Swift app shells, Xcode Cloud
             deployment, and the content-blocking work Safari forces through
             DeclarativeNetRequest. I&rsquo;ve also
             taken an iOS Safari extension through App Review alone:{' '}
             <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>, a distraction blocker I designed,
-            built, and shipped end to end — TapSmart called it &ldquo;much
+            built, and shipped end to end. TapSmart called it &ldquo;much
             better and far more user-friendly than Apple&rsquo;s
             solution.&rdquo;
             The gap between WebExtension JavaScript and Apple&rsquo;s
@@ -108,16 +108,16 @@ export default function SafariExtensionsPage() {
       <OfferBand
         n="02"
         label="Start here"
-        title="Know exactly what a port will take."
+        title="Know what a port will take."
         name="Safari Port Assessment"
         price="$2,500"
         timeline="One week"
         deliverables={[
-          'Every API that breaks, cataloged — with the Safari-equivalent approach for each',
+          'Every API that breaks, cataloged with the Safari-equivalent approach for each',
           'DeclarativeNetRequest migration plan, if you block or intercept requests',
           'App Store review risk assessment',
           'Fixed-bid quote for the full port (macOS and iOS separately)',
-          'A written go/no-go recommendation — even if the answer is "don’t port"',
+          'A written go/no-go recommendation, even if the answer is "don’t port"',
         ]}
         emailSubject="Safari Port Assessment"
         source="safari-extensions"
@@ -126,7 +126,7 @@ export default function SafariExtensionsPage() {
 
       <Chapter n="03" label="Rates" title="What ports cost" id="rates">
         <RatesTable
-          intro="Fixed-bid from the assessment — you know the number before committing. These are the ranges most projects land in."
+          intro="The assessment produces a fixed bid, so you know the number before committing. These are the ranges most projects land in."
           rates={[
             {
               name: <>Extension <Arrow /> Safari macOS</>,
@@ -169,7 +169,7 @@ export default function SafariExtensionsPage() {
             {
               name: 'App Store & handoff',
               description:
-                'I drive submission through approval, document the Safari layer, and hand off — retainer optional.',
+                'I drive submission through approval, document the Safari layer, and hand off. A maintenance retainer is optional.',
             },
           ]}
         />
@@ -199,12 +199,12 @@ export default function SafariExtensionsPage() {
           {
             question: 'Do we need our own Apple Developer account?',
             answer:
-              'Yes — the extension ships under your account and your brand. Setting one up takes Apple a few days, so we start early.',
+              'Yes. The extension ships under your account and your brand. Setting one up takes Apple a few days, so we start early.',
           },
           {
             question: 'Our extension uses webRequest to block or modify traffic. Is a port even possible?',
             answer:
-              'Usually, but as a redesign rather than a translation — Safari requires DeclarativeNetRequest. I shipped this migration for Pie Adblock. The assessment tells you what survives, what needs redesign, and what doesn’t make it.',
+              'Usually, but as a redesign rather than a translation, because Safari requires DeclarativeNetRequest. I shipped this migration for Pie Adblock. The assessment tells you what survives, what needs redesign, and what doesn’t make it.',
           },
           {
             question: 'How long does a full port take?',

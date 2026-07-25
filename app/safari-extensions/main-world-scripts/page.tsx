@@ -5,43 +5,43 @@ export const metadata: Metadata = {
   title:
     'MAIN World Content Scripts: Running Extension Code in the Page’s Context',
   description:
-    'When a browser extension needs to run code in the page’s own JavaScript world — wrapping fetch, reading in-page state — and how to coordinate across the isolated-world boundary. Registration order, sessionStorage handshakes, and surviving a hostile page.',
+    'When a browser extension needs to run code in the page’s own JavaScript world (wrapping fetch, reading in-page state) and how to coordinate across the isolated-world boundary. Registration order, sessionStorage handshakes, and surviving a hostile page.',
 };
 
 export default function MainWorldScriptsPage() {
   return (
     <ArticleLayout
       title="Running extension code in the page's world, and coordinating across the boundary"
-      description="When an extension genuinely needs MAIN-world content scripts, and the patterns that make the two worlds cooperate."
+      description="When an extension needs MAIN-world content scripts, and the patterns that make the two worlds cooperate."
       datePublished="2026-07-25"
       slug="/safari-extensions/main-world-scripts/"
       byline="I shipped Safari and iOS extensions at Honey and Pie"
       faq={[
         {
-          question: 'When do I actually need a MAIN-world content script?',
+          question: 'When do I need a MAIN-world content script?',
           answer:
-            'Only when you have to touch the page’s own JavaScript objects: wrapping fetch or XHR to see responses the app requested, reading state the app puts on window, or altering data before the app consumes it. If the job is reading or editing the DOM, stay in the isolated world — you keep extension APIs and messaging there.',
+            'Only when you have to touch the page’s own JavaScript objects: wrapping fetch or XHR to see responses the app requested, reading state the app puts on window, or altering data before the app consumes it. If the job is reading or editing the DOM, stay in the isolated world, where you keep extension APIs and messaging.',
         },
         {
           question:
             'How do I send a message from a MAIN-world script to my background worker?',
           answer:
-            'You can’t, directly — MAIN-world code has no extension APIs. Bridge through something both sides can reach: a custom DOM event relayed by an isolated-world script, a DOM attribute, or page-scoped storage. The background worker can write into the page with scripting.executeScript, and the MAIN-world script reads what it wrote.',
+            'You can’t, directly. MAIN-world code has no extension APIs. Bridge through something both sides can reach: a custom DOM event relayed by an isolated-world script, a DOM attribute, or page-scoped storage. The background worker can write into the page with scripting.executeScript, and the MAIN-world script reads what it wrote.',
         },
         {
           question: 'Why did my MAIN-world script run too late to wrap fetch?',
           answer:
-            'Wrapping only works if your wrapper is installed before the page makes the call, which means registering at document_start. If you register the script programmatically after a page has already loaded, the page needs a reload — you cannot intercept a response that already came back.',
+            'Wrapping only works if your wrapper is installed before the page makes the call, which means registering at document_start. If you register the script programmatically after a page has already loaded, the page needs a reload. You cannot intercept a response that already came back.',
         },
         {
           question: 'Does Safari support MAIN-world content scripts?',
           answer:
-            'Yes. Modern Safari supports the world: "MAIN" option for content scripts and for scripting.executeScript, and I shipped a production feature that relied on it. Auxiliary behavior still differs — for example, storage-quota-sensitive caching we used elsewhere was disabled on Safari — so verify each supporting piece per platform.',
+            'Yes. Modern Safari supports the world: "MAIN" option for content scripts and for scripting.executeScript, and I shipped a production feature that relied on it. Auxiliary behavior still differs; for example, storage-quota-sensitive caching we used elsewhere was disabled on Safari. Verify each supporting piece per platform.',
         },
       ]}
       ctaTitle="Porting an extension that lives in both worlds?"
-      ctaBody="MAIN-world scripts, registration ordering, and cross-world handshakes are exactly where Safari ports break quietly. The Safari port assessment is $2,500, maps every script and channel in your extension to its Safari answer, and is credited toward follow-on work."
-      ctaEmailSubject="Safari Port Assessment — MAIN-world scripts"
+      ctaBody="MAIN-world scripts, registration ordering, and cross-world handshakes are where Safari ports break silently. The Safari port assessment is $2,500, maps every script and channel in your extension to its Safari answer, and is credited toward follow-on work."
+      ctaEmailSubject="Safari Port Assessment: MAIN-world scripts"
       ctaSource="main-world-article"
     >
       <p>
@@ -55,8 +55,9 @@ export default function MainWorldScriptsPage() {
       </p>
       <p>
         Some jobs need the other side. If the work involves the page&rsquo;s
-        own JavaScript objects — the functions it calls, the state it keeps —
-        your code has to run in the page&rsquo;s world, called the MAIN world.
+        own JavaScript objects, meaning the functions it calls and the state
+        it keeps, your code has to run in the page&rsquo;s world, called the
+        MAIN world.
         And the moment part of your extension lives there, you have a
         coordination problem: MAIN-world code has no extension APIs, and your
         background worker can&rsquo;t reach page variables. The two halves
@@ -68,7 +69,7 @@ export default function MainWorldScriptsPage() {
 
       <h2>What each world can see</h2>
       <p>
-        The isolated world gets the DOM and the extension APIs — runtime
+        The isolated world gets the DOM and the extension APIs: runtime
         messaging, storage, everything under the extension namespace. It does
         not get the page&rsquo;s JavaScript objects. A global the app sets, a
         function the app patched, a framework&rsquo;s in-memory state: all
@@ -82,12 +83,12 @@ export default function MainWorldScriptsPage() {
         else&rsquo;s runtime, with only the tools the page itself has.
       </p>
 
-      <h2>When you genuinely need MAIN</h2>
-      <p>Three jobs actually require it:</p>
+      <h2>When you need MAIN</h2>
+      <p>Three jobs require it:</p>
       <ul>
         <li>
           <strong>Observing or wrapping page-level APIs.</strong> If you need
-          to inspect a response the app requested — not a request you made —
+          to inspect a response the app requested rather than one you made,
           you wrap the page&rsquo;s <code>fetch</code>. The isolated
           world&rsquo;s <code>fetch</code> is a different binding; the
           app&rsquo;s calls never pass through it.
@@ -107,7 +108,7 @@ export default function MainWorldScriptsPage() {
         <code>world: &ldquo;MAIN&rdquo;</code> at <code>document_start</code>,
         because a wrapper installed after the app&rsquo;s first call is
         useless. In the system I worked on, they were registered and
-        unregistered programmatically as the feature toggled — and when a
+        unregistered programmatically as the feature toggled. When a
         script had to be disabled for a page that was already loaded, the tab
         was reloaded, because you can&rsquo;t undo surgery on a response that
         already came back.
@@ -119,7 +120,7 @@ export default function MainWorldScriptsPage() {
         decides who wins. The system I maintained had a measurement script
         that read metadata out of a response payload and a blocking script
         that deleted parts of that same payload. The measurement script had to
-        be registered first. Register it second and it reports nothing — you
+        be registered first. Register it second and it reports nothing. You
         cannot observe a payload you already deleted.
       </p>
       <p>
@@ -139,8 +140,8 @@ export default function MainWorldScriptsPage() {
         by an isolated-world script.
       </p>
       <p>
-        Here is a shape that shipped. The background worker decided — from
-        state only it had — that the MAIN-world script should skip its normal
+        Here is a shape that shipped. The background worker decided, from
+        state only it had, that the MAIN-world script should skip its normal
         behavior on one specific page. It executed a tiny function in the tab
         that wrote a session-scoped flag: a page-scoped sessionStorage entry
         whose key included the exact page URL. The MAIN-world script checked
@@ -160,15 +161,15 @@ export default function MainWorldScriptsPage() {
       <h2>You are a guest in a hostile context</h2>
       <p>
         MAIN-world code shares the runtime with the page, and the page got
-        there first — or will patch things after you. Two consequences:
+        there first or will patch things after you. Two consequences:
       </p>
       <ul>
         <li>
           <strong>Capture native references before you patch.</strong> If your{' '}
           <code>fetch</code> wrapper reads response bodies, save your own
-          references to the native <code>Response</code> methods —{' '}
-          <code>clone</code>, <code>text</code> — at install time and call
-          those. The production wrapper I worked on did exactly this, so later
+          references to the native <code>Response</code> methods,{' '}
+          <code>clone</code> and <code>text</code>, at install time and call
+          those. The production wrapper I worked on did this, so later
           page-level patches of the same methods couldn&rsquo;t interfere with
           or observe its reads.
         </li>
@@ -196,8 +197,8 @@ export default function MainWorldScriptsPage() {
         For counting, the element&rsquo;s identity came from a hash of its
         serialized HTML, so when the app re-rendered the same element,
         repeated sightings collapsed to one ID instead of inflating the
-        count. No side table to keep in sync with a DOM that a framework
-        rewrites at will — the DOM itself carries the state.
+        count. There is no side table to keep in sync with a DOM that a
+        framework rewrites at will. The DOM itself carries the state.
       </p>
 
       <h2>Platform caveats</h2>
@@ -208,16 +209,15 @@ export default function MainWorldScriptsPage() {
         because storage-quota behavior differs there. That is the general
         rule: the MAIN-world mechanism itself ports, but every storage,
         caching, and lifecycle assumption around it needs verification per
-        platform. Test on the Safari versions you actually support rather
+        platform. Test on the Safari versions you support rather
         than assuming parity from a compatibility table.
       </p>
       <p>
         The summary I&rsquo;d give another engineer: keep as much as you can
-        in the isolated world, put only the code that truly needs page objects
+        in the isolated world, put only the code that needs page objects
         in MAIN, make registration order explicit, and pick one boring
-        channel — a URL-keyed flag, an attribute, an event — for the two
-        halves to meet. Everything else about the pattern is discipline, not
-        cleverness.
+        channel for the two halves to meet: a URL-keyed flag, an attribute,
+        or an event.
       </p>
     </ArticleLayout>
   );

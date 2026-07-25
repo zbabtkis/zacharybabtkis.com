@@ -4,7 +4,7 @@ import { ArticleLayout } from '@/components/article';
 export const metadata: Metadata = {
   title: 'Dynamic declarativeNetRequest Rules: Scoping, Budgeting, and Safely Undoing Them',
   description:
-    'How to manage dynamic declarativeNetRequest rules at runtime: the shared rule budget, encoding provenance in rule IDs, provenance-aware teardown, and the ways Safari quietly changes what your rules mean — from an engineer who ran this in a 2M-user ad blocker.',
+    'How to manage dynamic declarativeNetRequest rules at runtime: the shared rule budget, encoding provenance in rule IDs, provenance-aware teardown, and the ways Safari silently changes what your rules mean, from an engineer who ran this in a 2M-user ad blocker.',
 };
 
 export default function DynamicDnrRulesPage() {
@@ -19,17 +19,17 @@ export default function DynamicDnrRulesPage() {
         {
           question: 'How many dynamic declarativeNetRequest rules can an extension have?',
           answer:
-            'The dynamic-rule budget has been on the order of 5,000 rules, and it is shared across your entire extension — not allocated per feature. Exact limits vary by browser and version, so verify against the ones you ship to. The practical consequence is the same everywhere: every subsystem that adds rules at runtime spends from one pool, so you need to know what each operation costs in rules and garbage-collect stale ones.',
+            'The dynamic-rule budget has been on the order of 5,000 rules, and it is shared across your entire extension rather than allocated per feature. Exact limits vary by browser and version, so verify against the ones you ship to. The practical consequence is the same everywhere: every subsystem that adds rules at runtime spends from one pool, so you need to know what each operation costs in rules and garbage-collect stale ones.',
         },
         {
           question: 'How do I debug which rule matched a request?',
           answer:
-            'In Chrome, an unpacked extension with the declarativeNetRequestFeedback permission can listen to onRuleMatchedDebug and see every match. Safari has no equivalent, so you fall back to reading your installed rules with getDynamicRules, decoding your own rule-ID scheme to see which subsystem installed what, and testing behavior against real sites. This is one of the reasons encoding provenance in rule IDs pays off — without it, a dump of installed rules is just integers and match patterns.',
+            'In Chrome, an unpacked extension with the declarativeNetRequestFeedback permission can listen to onRuleMatchedDebug and see every match. Safari has no equivalent, so you fall back to reading your installed rules with getDynamicRules, decoding your own rule-ID scheme to see which subsystem installed what, and testing behavior against real sites. This is one of the reasons encoding provenance in rule IDs pays off. Without it, a dump of installed rules is only integers and match patterns.',
         },
         {
           question: 'When should I use static rulesets instead of dynamic rules?',
           answer:
-            'Use static rulesets for anything you know at build time: filter lists, baseline blocking, rules that only need to be toggled on or off as a set. They don’t spend your dynamic budget and they’re validated at package time. Reserve dynamic rules for state you genuinely cannot know until runtime — per-site pauses, user opt-ins, server-driven allowlists. If a rule’s content never changes and only its enabled state does, it belongs in a static ruleset.',
+            'Use static rulesets for anything you know at build time: filter lists, baseline blocking, rules that only need to be toggled on or off as a set. They don’t spend your dynamic budget and they’re validated at package time. Reserve dynamic rules for state you cannot know until runtime: per-site pauses, user opt-ins, server-driven allowlists. If a rule’s content never changes and only its enabled state does, it belongs in a static ruleset.',
         },
         {
           question: 'Do dynamic DNR rules behave the same in Safari as in Chrome?',
@@ -39,14 +39,14 @@ export default function DynamicDnrRulesPage() {
       ]}
       ctaTitle="Porting runtime rule management to Safari?"
       ctaBody="I ran this system in production on Pie Adblock, ZeroClick's two-million-user ad blocker, whose pause, allowlist, and partnership features all drew from one dynamic-rule pool across Chrome and Safari. The Safari port assessment is $2,500, credited toward follow-on work: I inventory your dynamic-rule usage, flag every rule Safari will drop, rewrite, or split, and hand you a fixed quote for the port."
-      ctaEmailSubject="Safari Port Assessment — dynamic DNR rules"
+      ctaEmailSubject="Safari Port Assessment: dynamic DNR rules"
       ctaSource="dynamic-dnr-article"
     >
       <p>
         Static <code>declarativeNetRequest</code> rulesets are the easy
         half of the API. You compile a filter list at build time, ship it
         in the package, and the browser validates it before your extension
-        ever runs. The hard half is dynamic rules — the ones you add and
+        ever runs. The hard half is dynamic rules: the ones you add and
         remove at runtime in response to user state. A user pauses
         blocking on one site. A feature temporarily allows requests
         somewhere. Server config changes an allowlist. Each of those is an{' '}
@@ -59,9 +59,9 @@ export default function DynamicDnrRulesPage() {
 
       <h2>Every feature spends from one budget</h2>
       <p>
-        The dynamic-rule budget — on the order of 5,000 rules in the
-        versions we shipped against — belongs to your extension as a
-        whole, not to any one feature. A per-site pause, a partnership
+        The dynamic-rule budget belongs to your extension as a whole, not
+        to any one feature. In the versions we shipped against it was on
+        the order of 5,000 rules. A per-site pause, a partnership
         allowlist, and a user opt-in system all draw from the same pool.
         At Pie, a single site pause cost two rules, so the accounting
         mattered: every runtime feature needed a known per-operation cost
@@ -88,9 +88,9 @@ export default function DynamicDnrRulesPage() {
         digits held a timestamp or a hash. That scheme turned an opaque
         integer namespace into a queryable one. A predicate like
         &ldquo;is this domain paused, and by whom?&rdquo; became a matter
-        of listing installed rules and decoding IDs — no parallel
+        of listing installed rules and decoding IDs, with no parallel
         bookkeeping store that could drift out of sync with what the
-        browser actually had installed.
+        browser had installed.
       </p>
 
       <h2>Teardown must be provenance-aware</h2>
@@ -100,8 +100,8 @@ export default function DynamicDnrRulesPage() {
         blocking on a domain; later, an automatic feature pauses the same
         domain for its own reasons. If that feature&rsquo;s cleanup step
         removes &ldquo;the rules for this domain,&rdquo; it tears down the
-        user&rsquo;s pause along with its own — and silently re-enables
-        blocking the user explicitly turned off. We hit exactly this class
+        user&rsquo;s pause along with its own, and silently re-enables
+        blocking the user explicitly turned off. We hit this class
         of bug on Pie Adblock: a partnership feature that auto-paused blocking on
         specific sites had to check for an existing user pause first,
         because its automatic re-arm would otherwise have flipped the
@@ -118,7 +118,7 @@ export default function DynamicDnrRulesPage() {
       <p>
         <code>allow</code> and <code>allowAllRequests</code> rules scope
         by URL pattern and initiator domain. That sounds flexible until
-        you need something finer than a domain — and you cannot express
+        you need something finer than a domain. You cannot express
         &ldquo;this rule applies to one section of a site.&rdquo; At Pie
         I led a partnership feature that had to let ads through on
         specific channels of a video platform. On YouTube, ad media is
@@ -136,7 +136,7 @@ export default function DynamicDnrRulesPage() {
         for a few seconds, and separate state tracked which tab was in
         which mode. The rules themselves never knew channels existed. If
         you find yourself trying to encode application logic into match
-        patterns, stop — put the logic where it can see the page, and let
+        patterns, stop. Put the logic where it can see the page, and let
         DNR handle the on/off.
       </p>
 
@@ -168,8 +168,8 @@ export default function DynamicDnrRulesPage() {
       <h2>Patterns that held up in production</h2>
       <p>
         <strong>Recompute, don&rsquo;t react.</strong> Build a rule
-        compiler: a function from current state — user settings, server
-        config, active pauses — to the rule set that should exist. When
+        compiler: a function from current state (user settings, server
+        config, active pauses) to the rule set that should exist. When
         state changes, recompute and diff against what&rsquo;s installed.
         You cannot make rule decisions per request anyway; DNR
         doesn&rsquo;t run your code in the request path.
@@ -198,8 +198,8 @@ export default function DynamicDnrRulesPage() {
       </p>
       <p>
         Each of these patterns exists because a bug forced it. The API
-        surface is small — <code>updateDynamicRules</code>,{' '}
-        <code>getDynamicRules</code>, and an integer namespace — and the
+        surface is small: <code>updateDynamicRules</code>,{' '}
+        <code>getDynamicRules</code>, and an integer namespace. The
         structure it doesn&rsquo;t provide, you have to build: an ID
         scheme, a budget ledger, and a teardown discipline that respects
         both.

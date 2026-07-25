@@ -45,8 +45,9 @@ export default function HomePage() {
               In browsers, that meant ad blockers, shopping tools, and
               other browser extensions used by over twenty million people
               worldwide. With AI agents, it means integrations and
-              harnesses that keep the human in charge. I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff,
-              founding engineer at ZeroClick.
+              harnesses that keep the human in charge. I&rsquo;m Zack
+              Babtkis, ex-PayPal Senior Staff and founding engineer at
+              ZeroClick.
             </p>
             <div className="hero-actions">
               <a
@@ -127,7 +128,7 @@ export default function HomePage() {
             <p>
               Your extension doesn&rsquo;t exist on Safari or iPhone. I
               built Honey&rsquo;s first iOS extension and owned
-              Pie&rsquo;s — I&rsquo;ll port yours and get it through App
+              Pie&rsquo;s. I&rsquo;ll port yours and get it through App
               Store review.
             </p>
               <span className="card-cta">Port assessment · $2,500</span>
@@ -148,7 +149,7 @@ export default function HomePage() {
             <h3>MCP servers that put your product in front of AI agents</h3>
             <p>
               Your customers are asking for a Claude or ChatGPT
-              integration. I built agent-facing APIs at ZeroClick —
+              integration. I built agent-facing APIs at ZeroClick.
               I&rsquo;ll build your MCP server and take it through directory
               submission.
             </p>
@@ -165,7 +166,7 @@ export default function HomePage() {
             <p>
               Your team has the AI tools and little shipped to show for
               it. At ZeroClick I shipped a product where AI agents wrote
-              the whole codebase — I&rsquo;ll set your team up to work that
+              the whole codebase. I&rsquo;ll set your team up to work that
               way.
             </p>
             <span className="card-cta">Agent-readiness audit · $3,000</span>
@@ -180,7 +181,7 @@ export default function HomePage() {
             </span>
             <h3>Your AI-built POC, taken to production</h3>
             <p>
-              You vibe-coded something that works — mostly. I make it
+              You vibe-coded something that works in a demo. I make it
               survive real users: tests, auth, data, deployment.
             </p>
             <span className="card-cta">Production readiness audit · $2,500</span>

@@ -17,7 +17,7 @@ export default function ContactPage() {
           <p className="lede">
             The fastest way to start is to grab a slot on my calendar. Or
             email me what you&rsquo;re building, what&rsquo;s blocking you,
-            and any timeline you&rsquo;re working against — three or four
+            and any timeline you&rsquo;re working against. Three or four
             sentences is plenty. {SITE.bookingNote}
           </p>
           <div className="hero-actions">
@@ -41,8 +41,8 @@ export default function ContactPage() {
         <div className="wrap">
           <h2>Or send it from here</h2>
           <p className="section-intro">
-            Send whatever you have — a brief, a repo link, a hypothesis.
-            You&rsquo;ll get a real reply with a plan, not an autoresponder.
+            Send whatever you have: a brief, a repo link, a hypothesis.
+            I reply within one business day.
           </p>
           <ContactForm />
         </div>

@@ -56,7 +56,7 @@ export function SafariChecklist() {
 
   return (
     <div ref={rootRef}>
-      <BrowserWindow url="your-extension — Safari · macOS + iOS" variant="safari">
+      <BrowserWindow url="your-extension · Safari · macOS + iOS" variant="safari">
         <div
           className="ext-popup"
           style={{ margin: 0, maxWidth: 'none', boxShadow: 'none', border: 'none' }}

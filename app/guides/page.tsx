@@ -5,7 +5,7 @@ import { GUIDES, TOPIC_LABELS, type Guide } from '@/lib/guides';
 export const metadata: Metadata = {
   title: 'Guides',
   description:
-    'Engineering guides on Safari extension porting, MCP development, and AI-agent engineering — written from shipping the work at Honey, Pie, and ZeroClick, not from the docs.',
+    'Engineering guides on Safari extension porting, MCP development, and AI-agent engineering, written from shipping the work at Honey, Pie, and ZeroClick.',
 };
 
 export default function GuidesPage() {
@@ -18,9 +18,10 @@ export default function GuidesPage() {
           <h1>Guides</h1>
           <p className="lede">
             Written from shipping the work, not from the docs. If a guide
-            answers your question completely, take the answer and go — no
-            gate, no email wall. If it tells you that your problem is bigger
-            than an afternoon, that&rsquo;s what I&rsquo;m for.
+            answers your question completely, take the answer and go.
+            There is no gate and no email wall. If it tells you that your
+            problem is bigger than an afternoon, that&rsquo;s what
+            I&rsquo;m for.
           </p>
         </div>
       </section>
