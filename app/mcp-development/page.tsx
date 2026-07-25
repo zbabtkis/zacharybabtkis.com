@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
+import { Faq, CtaBand } from '@/components/sections';
 import {
-  ProofBar,
-  Symptoms,
-  Offer,
-  ExampleProjects,
-  Process,
-  Faq,
-  CtaBand,
-} from '@/components/sections';
+  Chapter,
+  StatBand,
+  Voices,
+  RatesTable,
+  Timeline,
+  OfferBand,
+} from '@/components/dossier';
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, ToolCallCard } from '@/components/artifacts';
 import { Arrow } from '@/components/arrow';
@@ -58,7 +58,7 @@ export default function McpDevelopmentPage() {
         </div>
       </section>
 
-      <ProofBar
+      <StatBand
         stats={[
           {
             value: '2 yrs',
@@ -67,150 +67,147 @@ export default function McpDevelopmentPage() {
           },
           {
             value: '20M+',
-            label: 'users of extensions I helped build at Honey and Pie',
+            label: 'combined users of Honey and Pie',
             href: RECEIPTS.pieStore,
           },
           { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },
         ]}
       />
 
-      <Symptoms
-        title="Sound familiar?"
-        items={[
-          'Customers keep asking for a ChatGPT or Claude integration and it’s sitting unowned in the backlog.',
-          'Competitors are already listed in the Claude connectors directory and you’re not.',
-          'You have a great REST API, but agents fumble it — wrong endpoints, hallucinated parameters, abandoned sessions.',
-          'Someone built an internal MCP prototype and it can’t survive real auth, rate limits, or multi-tenancy.',
-          'Security keeps blocking the project because nobody can answer what an agent is allowed to do on a user’s behalf.',
-          'You’re not sure whether you need MCP, a ChatGPT app, or both — and don’t want to build the wrong one.',
-        ]}
-        close="I did this work at ZeroClick, where the agents were the customer."
-      />
-
-      <section className="section">
-        <div className="wrap">
-          <h2>Why me</h2>
-          <div className="prose">
-            <p>
-              I spent two years at <a href={RECEIPTS.zeroclick}>ZeroClick</a>,
-              a company whose pitch is &ldquo;the OS for selling to
-              agents,&rdquo; writing the
-              agent-facing side of the stack: the APIs and MCP servers that
-              AI agents consume, the developer documentation that
-              integrators build against, and Activation Ads, an agent-native
-              ad format I originated that provisions third-party services
-              inside an agent&rsquo;s workflow. Before that I spent five years
-              at PayPal building Honey at consumer scale. Most
-              agencies selling MCP work learned the protocol from the docs.
-              I learned it shipping to agents in production, and I use agent
-              tooling every day, so I know a badly designed tool surface
-              when an agent trips over one.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Wave />
-
-      <div id="offer">
-        <Offer
-          title="Start small: know exactly what agents need from you"
-          name="MCP Readiness Audit"
-          price="$2,000"
-          timeline="One week"
-          deliverables={[
-            'Review of your API and product for agent consumption — what agents need that your API doesn’t expose',
-            'Designed MCP tool surface: the tools, their schemas, and the descriptions that make agents use them correctly',
-            'Auth architecture recommendation (OAuth flows, scopes, what an agent may do on a user’s behalf)',
-            'Claude connectors directory & ChatGPT apps requirements gap list — exactly what stands between you and listing',
-            'Build-vs-buy recommendation and a fixed-bid quote for the implementation',
+      <Chapter n="01" label="The problem" title="Sound familiar?" id="problem">
+        <Voices
+          items={[
+            'Customers keep asking for the Claude integration, and it sits unowned in the backlog.',
+            'Our competitors are in the connectors directory. We’re not.',
+            'We have a great REST API, and agents fumble it.',
+            'Someone built an MCP prototype. It can’t survive real auth or rate limits.',
+            'Security keeps blocking it, because nobody can say what an agent is allowed to do.',
           ]}
-          emailSubject="MCP Readiness Audit"
-          source="mcp-development"
+          close="I did this work at ZeroClick, where the agents were the customer."
         />
-      </div>
+      </Chapter>
 
-      <ExampleProjects
-        intro="Fixed-bid from the audit. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds — I'm typically under both, because you're paying for an engineer, not a bench."
-        items={[
-          {
-            name: 'MCP server for an existing SaaS',
-            scope:
-              'Tool-surface design, OAuth with scoped permissions, remote hosting, logging, tests, and directory submission for Claude and ChatGPT.',
-            range: '$18k–$35k',
-            duration: '4–7 weeks',
-          },
-          {
-            name: <>Prototype <Arrow /> production</>,
-            scope:
-              'Your internal MCP demo hardened into something that survives real auth, rate limits, and multi-tenancy — without a rewrite where possible.',
-            range: '$8k–$15k',
-            duration: '2–3 weeks',
-          },
-          {
-            name: 'MCP + usage metering',
-            scope:
-              'For API-first companies that want agents as paying customers: the MCP surface plus metering, quotas, and billing integration.',
-            range: '$30k–$60k',
-            duration: '6–10 weeks',
-          },
-        ]}
-      />
-
-      <Process
-        steps={[
-          {
-            name: 'Audit',
-            description:
-              'Fixed price, one week. You get the tool-surface design, auth plan, and directory gap list — useful even if you build in-house.',
-          },
-          {
-            name: 'The build',
-            description:
-              'Fixed bid. I implement the MCP server — remote-hosted with OAuth, rate limiting, logging, and tests — in your infrastructure, in your repos.',
-          },
-          {
-            name: 'Listing & handoff',
-            description:
-              'I drive directory submission (Claude connectors / ChatGPT apps), document everything, and train your team to extend the tool surface themselves.',
-          },
-        ]}
-      />
-
-      <section className="section" id="guides">
-        <div className="wrap">
-          <h2>Guides</h2>
-          <p className="section-intro">
-            Written from running MCP servers in production, not from the
-            spec. If a guide solves your problem outright, you don&rsquo;t
-            need me.
+      <Chapter n="02" label="Why me" title="I built the side of the stack agents talk to." id="proof">
+        <div className="prose">
+          <p>
+            I spent two years at <a href={RECEIPTS.zeroclick}>ZeroClick</a>,
+            a company whose pitch is &ldquo;the OS for selling to
+            agents,&rdquo; writing the agent-facing side of the stack: the
+            APIs and MCP servers that AI agents consume, the developer
+            documentation that integrators build against, and Activation
+            Ads, an agent-native ad format I originated. Before that I
+            spent five years at PayPal building Honey at consumer scale.
+            Most agencies selling MCP work learned the protocol from the
+            docs. I learned it shipping to agents in production, and I use
+            agent tooling every day, so I know a badly designed tool
+            surface when an agent trips over one.
           </p>
-          <ul className="guide-list">
-            {GUIDES.filter(
-              (guide) => guide.topic === 'mcp-development',
-            ).map((guide) => (
+        </div>
+      </Chapter>
+
+      <OfferBand
+        n="03"
+        label="Start here"
+        title="Know exactly what agents need from you."
+        name="MCP Readiness Audit"
+        price="$2,000"
+        timeline="One week"
+        deliverables={[
+          'Review of your API for agent consumption — what agents need that it doesn’t expose',
+          'Designed MCP tool surface: the tools, their schemas, and the descriptions that make agents use them correctly',
+          'Auth architecture recommendation (OAuth flows, scopes, what an agent may do on a user’s behalf)',
+          'Claude and ChatGPT directory requirements gap list',
+          'Build-vs-buy recommendation and a fixed-bid quote for the implementation',
+        ]}
+        emailSubject="MCP Readiness Audit"
+        source="mcp-development"
+        id="offer"
+      />
+
+      <Chapter n="04" label="Rates" title="What builds cost" id="rates">
+        <RatesTable
+          intro="Fixed-bid from the audit. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds — I'm typically under both, because you're paying for an engineer, not a bench."
+          rates={[
+            {
+              name: 'MCP server for an existing SaaS',
+              scope:
+                'Tool-surface design, OAuth with scoped permissions, remote hosting, logging, tests, and directory submission for Claude and ChatGPT.',
+              duration: '4–7 weeks',
+              price: '$18k–$35k',
+            },
+            {
+              name: <>Prototype <Arrow /> production</>,
+              scope:
+                'Your internal MCP demo hardened into something that survives real auth, rate limits, and multi-tenancy — without a rewrite where possible.',
+              duration: '2–3 weeks',
+              price: '$8k–$15k',
+            },
+            {
+              name: 'MCP + usage metering',
+              scope:
+                'For API-first companies that want agents as paying customers: the MCP surface plus metering, quotas, and billing integration.',
+              duration: '6–10 weeks',
+              price: '$30k–$60k',
+            },
+          ]}
+        />
+      </Chapter>
+
+      <Chapter n="05" label="Process" title="How working with me goes" id="process">
+        <Timeline
+          steps={[
+            {
+              name: 'Audit',
+              description:
+                'Fixed price, one week. Tool-surface design, auth plan, and directory gap list — useful even if you build in-house.',
+            },
+            {
+              name: 'The build',
+              description:
+                'Fixed bid. I implement the MCP server — remote-hosted, with OAuth, rate limiting, logging, and tests — in your repos.',
+            },
+            {
+              name: 'Listing & handoff',
+              description:
+                'I drive directory submission, document everything, and train your team to extend the tool surface themselves.',
+            },
+          ]}
+        />
+      </Chapter>
+
+      <Chapter n="06" label="Guides" title="Read before you hire anyone" id="guides">
+        <p className="section-intro">
+          Written from running MCP servers in production, not from the
+          spec. If a guide solves your problem outright, you don&rsquo;t
+          need me.
+        </p>
+        <ul className="guide-list">
+          {GUIDES.filter((guide) => guide.topic === 'mcp-development').map(
+            (guide) => (
               <li key={guide.slug}>
                 <a href={guide.slug}>
                   {guide.title}
                   <span>{guide.blurb}</span>
                 </a>
               </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+            ),
+          )}
+        </ul>
+      </Chapter>
+
+      <Wave />
 
       <Faq
         items={[
           {
             question: 'What does a production MCP server cost?',
             answer:
-              'Published market rates for production-grade MCP implementations run $25,000–$120,000 through agencies. My builds typically land well under agency pricing because there’s no bench and no project-manager layer — the audit gives you a fixed number for your scope.',
+              'Published market rates for production-grade MCP implementations run $25,000–$120,000 through agencies. My builds typically land under agency pricing because there’s no bench and no project-manager layer — the audit gives you a fixed number for your scope.',
           },
           {
             question: 'MCP, ChatGPT apps, or both?',
             answer:
-              'They share most of their design thinking, and MCP increasingly works across both ecosystems. The audit answers this concretely for your product — including whether one well-designed MCP server covers you everywhere, which it often does.',
+              'They share most of their design thinking, and MCP increasingly works across both ecosystems. The audit answers this for your product — including whether one well-designed MCP server covers you everywhere, which it often does.',
           },
           {
             question: 'How do we keep an agent from doing something destructive with a user’s account?',
