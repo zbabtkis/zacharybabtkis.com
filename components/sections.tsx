@@ -88,10 +88,10 @@ export function Offer({
                 className="button"
                 href={calLink(source ? `${source}-offer` : 'offer')}
               >
-                Book a call to start
+                Book a free intro call
               </a>
               <a className="button secondary" href={mailto(emailSubject)}>
-                Or email about the {name.toLowerCase()}
+                Email me instead
               </a>
             </div>
           ) : (
@@ -184,10 +184,10 @@ export function CtaBand({ title, body, emailSubject, source }: CtaBandProps) {
           {booking ? (
             <>
               <a className="button" href={calLink(source ?? 'site')}>
-                Book an intro call
+                Book a free intro call
               </a>
               <a className="button secondary" href={mailto(emailSubject)}>
-                Or email me
+                Email me instead
               </a>
             </>
           ) : (

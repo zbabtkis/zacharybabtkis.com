@@ -53,7 +53,7 @@ export default function AiAgentEnablementPage() {
                     : mailto('AI enablement — scoping call')
                 }
               >
-                Book a scoping call
+                Book a free scoping call
               </a>
               <span className="availability">{SITE.availability}</span>
             </div>

@@ -57,7 +57,7 @@ export default function HomePage() {
                 className="button"
                 href={SITE.calUsername ? calLink('home-hero') : '/contact/'}
               >
-                Book an intro call
+                Book a free intro call
               </a>
               <a className="button secondary" href="/contact/">
                 Contact

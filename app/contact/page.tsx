@@ -21,7 +21,7 @@ export default function ContactPage() {
           <div className="hero-actions">
             {SITE.calUsername ? (
               <a className="button" href={calLink('contact')}>
-                Book an intro call
+                Book a free intro call
               </a>
             ) : null}
             <a
