@@ -3,7 +3,7 @@ import { CtaBand } from '@/components/sections';
 import { Chapter, StatBand } from '@/components/dossier';
 import { Wave } from '@/components/artifacts';
 import { Arrow } from '@/components/arrow';
-import { HeroDemo } from '@/components/hero-demo';
+import { HeroPlug } from '@/components/hero-plug';
 import { WorkWall } from '@/components/work-wall';
 import { SITE, RECEIPTS, calLink } from '@/lib/site';
 
@@ -65,7 +65,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="hero-art">
-            <HeroDemo />
+            <HeroPlug />
           </div>
         </div>
       </section>
