@@ -289,15 +289,6 @@ h3 {
   .site-nav .nav-cta {
     padding: 0.3rem 0.7rem;
   }
-
-  .hero {
-    padding: var(--space-lg) 0 var(--space-lg);
-  }
-
-  .hero .lede {
-    font-size: 1.05rem;
-    margin-top: var(--space-md);
-  }
 }
 
 .site-footer {
@@ -370,6 +361,19 @@ h3 {
   max-width: var(--measure);
   font-size: var(--text-lg);
   color: var(--ink-soft);
+}
+
+/* Phones: pull the hero up under the header and restore type hierarchy.
+   Must come after the base .hero rules — same specificity, order decides. */
+@media (max-width: 44rem) {
+  .hero {
+    padding: var(--space-lg) 0 var(--space-lg);
+  }
+
+  .hero .lede {
+    font-size: 1.05rem;
+    margin-top: var(--space-md);
+  }
 }
 
 .hero .hero-actions {
