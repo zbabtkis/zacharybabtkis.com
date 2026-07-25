@@ -46,18 +46,23 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     slug: 'safari-extensions',
-    navLabel: 'Safari Extensions',
+    navLabel: 'Safari & iOS extension porting',
     title: 'Chrome → Safari & iOS Extension Porting',
   },
   {
     slug: 'mcp-development',
-    navLabel: 'MCP Development',
+    navLabel: 'MCP server development',
     title: 'MCP Server Development for SaaS',
   },
   {
     slug: 'ai-agent-enablement',
-    navLabel: 'AI Enablement',
+    navLabel: 'AI-agent enablement for teams',
     title: 'AI-Agent Development Enablement',
+  },
+  {
+    slug: 'poc-to-production',
+    navLabel: 'AI-built POC → production',
+    title: 'AI-Built POC to Production',
   },
 ];
 

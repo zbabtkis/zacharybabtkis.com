@@ -8,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     '',
     ...SERVICES.map((service) => `/${service.slug}`),
-    '/poc-to-production',
     '/guides',
     '/about',
     '/contact',

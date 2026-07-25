@@ -8,6 +8,8 @@ const BLURBS: Record<string, string> = {
     'I build production MCP servers that put SaaS products inside Claude and ChatGPT.',
   'ai-agent-enablement':
     'I get engineering teams shipping production software with AI coding agents.',
+  'poc-to-production':
+    'I take AI-built prototypes to production: tests, auth, data, deployment.',
 };
 
 export function CrossLinks({ current }: { current: string }) {

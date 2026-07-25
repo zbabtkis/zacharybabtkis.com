@@ -50,8 +50,9 @@ export default function HomePage() {
               engineer building Honey. After that I helped build Pie, an ad
               blocker that grew past two million users, and stayed on as it
               became ZeroClick, building infrastructure that lets businesses
-              sell software and services to AI agents. I take on three kinds
-              of contract work. I&rsquo;ve done all three for a living.
+              sell software and services to AI agents. I take on four kinds
+              of contract work. I&rsquo;ve done every one of them for a
+              living.
             </p>
             <div className="hero-actions">
               <a

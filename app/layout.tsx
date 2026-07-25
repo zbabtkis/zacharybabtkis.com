@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Newsreader } from 'next/font/google';
 import Link from 'next/link';
-import { SITE, SERVICES } from '@/lib/site';
+import { SITE, SERVICES, calLink } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
@@ -43,14 +43,22 @@ export default function RootLayout({
               Zack Babtkis
             </Link>
             <nav className="site-nav" aria-label="Main">
-              {SERVICES.map((service) => (
-                <Link key={service.slug} href={`/${service.slug}/`}>
-                  {service.navLabel}
-                </Link>
-              ))}
+              <details className="nav-services">
+                <summary>Services</summary>
+                <div className="nav-dropdown">
+                  {SERVICES.map((service) => (
+                    <Link key={service.slug} href={`/${service.slug}/`}>
+                      {service.navLabel}
+                    </Link>
+                  ))}
+                </div>
+              </details>
               <Link href="/guides/">Guides</Link>
               <Link href="/about/">About</Link>
               <Link href="/contact/">Contact</Link>
+              <a className="button nav-cta" href={calLink('nav')}>
+                Book a call
+              </a>
             </nav>
           </div>
         </header>
