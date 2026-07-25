@@ -260,8 +260,12 @@ h3 {
   }
 }
 
-/* Compact header on phones: smaller masthead, nav on its own tight rows */
+/* Compact header on phones: smaller masthead, nav as one scrollable row */
 @media (max-width: 44rem) {
+  .site-header {
+    position: relative;
+  }
+
   .site-header .wrap {
     gap: var(--space-sm);
     padding-bottom: 0.65rem;
@@ -278,18 +282,40 @@ h3 {
 
   .site-nav {
     width: 100%;
-    gap: 0.4rem 0.9rem;
+    flex-wrap: nowrap;
+    gap: 0.9rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .site-nav a,
   .nav-services summary {
     font-size: 0.85rem;
+    white-space: nowrap;
   }
 
   /* One primary CTA per viewport: the hero button. The nav pill also
-     breaks the shared baseline of the wrapped text rows. */
+     breaks the shared height of the nav row. */
   .site-nav .nav-cta {
     display: none;
+  }
+
+  /* The scrolling nav would clip an absolutely-positioned child, so the
+     dropdown anchors to the header instead and spans the viewport. */
+  .nav-services {
+    position: static;
+  }
+
+  .nav-dropdown.nav-mega {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    max-width: none;
+    transform: none;
   }
 }
 
