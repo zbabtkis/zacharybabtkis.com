@@ -101,7 +101,8 @@ export default function HomePage() {
               I&rsquo;ve also designed, built, and shipped two products
               alone: TrueRate, a Chrome extension that exposed hidden hotel
               fees on the major booking sites, and Unhabit, an iOS Safari
-              extension that blocks distracting websites.
+              extension that blocks distracting websites. Together they
+              reached tens of thousands of installs.
             </p>
             <p className="bio-links">
               <a href={SITE.linkedin}>LinkedIn</a> ·{' '}

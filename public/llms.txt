@@ -53,7 +53,7 @@
   retailers, $4B exit to PayPal), then Pie/ZeroClick (2M+ user ad blocker;
   agent-commerce infrastructure). 20M+ combined users across the
   extensions he helped build; led Honey's extension integrations with
-  PayPal through the $4B acquisition. Solo products: TrueRate
+  PayPal through the $4B acquisition. Solo products (tens of thousands of installs combined): TrueRate
   (hidden-hotel-fee Chrome extension, 2019–2020) and Unhabit (iOS Safari
   extension for blocking distracting sites,
   https://www.tapsmart.com/features/content-blockers-guide/).

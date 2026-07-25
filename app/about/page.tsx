@@ -85,7 +85,8 @@ export default function AboutPage() {
               with a scraping API and an iOS app behind it.{' '}
               <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>{' '}
               is an iOS Safari extension that blocks distracting sites with
-              cooldowns and scheduling, all on-device.
+              cooldowns and scheduling, all on-device. The two reached tens
+              of thousands of installs between them.
             </p>
             <p>
               Now I consult independently from Los Angeles. Most of my work
