@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE, SERVICES } from '@/lib/site';
+import { GUIDES } from '@/lib/guides';
 
 export const dynamic = 'force-static';
 
@@ -8,12 +9,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     ...SERVICES.map((service) => `/${service.slug}`),
     '/poc-to-production',
+    '/guides',
     '/about',
     '/contact',
-    '/safari-extensions/convert-chrome-extension-to-safari',
-    '/safari-extensions/webrequest-alternative',
-    '/safari-extensions/converter-not-working',
-    '/safari-extensions/app-store-rejection',
+    ...GUIDES.map((guide) => guide.slug.replace(/\/$/, '')),
   ];
 
   return routes.map((route) => ({

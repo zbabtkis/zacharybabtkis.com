@@ -34,6 +34,14 @@
   Production Readiness Audit, $2,500. Finish-line engagements typically
   $20k–$50k fixed.
 
+## Guides
+
+- [All guides](https://zacharybabtkis.com/guides/)
+- [Converting a Chrome extension to Safari and iOS: the complete guide](https://zacharybabtkis.com/safari-extensions/convert-chrome-extension-to-safari/)
+- [Safari has no blocking webRequest — what to do instead](https://zacharybabtkis.com/safari-extensions/webrequest-alternative/)
+- [Why a converted Safari extension compiles but doesn't work](https://zacharybabtkis.com/safari-extensions/converter-not-working/)
+- [Safari extension App Store rejections, translated into fixes](https://zacharybabtkis.com/safari-extensions/app-store-rejection/)
+
 ## Background
 
 - [About](https://zacharybabtkis.com/about/): 12+ years shipping production

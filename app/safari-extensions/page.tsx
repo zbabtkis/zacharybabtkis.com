@@ -11,6 +11,7 @@ import {
 import { CrossLinks } from '@/components/cross-links';
 import { Wave, BrowserWindow } from '@/components/artifacts';
 import { SITE, RECEIPTS } from '@/lib/site';
+import { GUIDES } from '@/lib/guides';
 
 export const metadata: Metadata = {
   title: 'Chrome to Safari & iOS Extension Porting',
@@ -195,6 +196,29 @@ export default function SafariExtensionsPage() {
         ]}
       />
 
+      <section className="section">
+        <div className="wrap">
+          <h2>Guides — read before you hire anyone</h2>
+          <p className="section-intro">
+            Written from shipping this work at Honey and Pie, not from the
+            docs. If a guide solves your problem outright, you don&rsquo;t
+            need me.
+          </p>
+          <ul className="guide-list">
+            {GUIDES.filter(
+              (guide) => guide.topic === 'safari-extensions',
+            ).map((guide) => (
+              <li key={guide.slug}>
+                <a href={guide.slug}>
+                  {guide.title}
+                  <span>{guide.blurb}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <Faq
         items={[
           {
@@ -224,53 +248,6 @@ export default function SafariExtensionsPage() {
           },
         ]}
       />
-
-      <section className="section">
-        <div className="wrap">
-          <h2>Guides</h2>
-          <p className="section-intro">
-            Written from shipping this work, not from the docs.
-          </p>
-          <ul className="guide-list">
-            <li>
-              <a href="/safari-extensions/convert-chrome-extension-to-safari/">
-                Converting a Chrome extension to Safari and iOS: the complete guide
-                <span>
-                  What the converter does, what breaks, DNR, signing, and App
-                  Review — the full map.
-                </span>
-              </a>
-            </li>
-            <li>
-              <a href="/safari-extensions/webrequest-alternative/">
-                Safari has no blocking webRequest. Here&rsquo;s what to do instead.
-                <span>
-                  The declarativeNetRequest migration: what survives, what
-                  needs redesign.
-                </span>
-              </a>
-            </li>
-            <li>
-              <a href="/safari-extensions/converter-not-working/">
-                The converter ran fine. So why is your extension broken?
-                <span>
-                  Six silent failure modes of converted extensions and how to
-                  diagnose each.
-                </span>
-              </a>
-            </li>
-            <li>
-              <a href="/safari-extensions/app-store-rejection/">
-                Safari extension rejected? The usual reasons, and the fixes.
-                <span>
-                  App Review rejections translated into fixes, plus review
-                  notes that pass.
-                </span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
       <CrossLinks current="safari-extensions" />
 
