@@ -5,7 +5,7 @@ import { RECEIPTS } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Zack Babtkis — independent software engineering consultant. Ex-PayPal/Honey Senior Staff engineer, ex-Pie. Twelve years shipping production software.',
+    'Zack Babtkis — independent software engineering consultant. Ex-PayPal/Honey Senior Staff engineer, ex-Pie. Fourteen years shipping production software.',
 };
 
 export default function AboutPage() {
@@ -81,7 +81,7 @@ export default function AboutPage() {
               parking — buried in hotel listings on Expedia, Hotels.com,
               Travelocity, and Orbitz; I built it solo, from the extension
               to the scraping API behind it to an iOS app.{' '}
-              <a href="https://unhabit.en.softonic.com/iphone">Unhabit</a>{' '}
+              <a href="https://www.tapsmart.com/features/content-blockers-guide/">Unhabit</a>{' '}
               is an iOS Safari extension that blocks distracting sites with
               cooldowns and scheduling, all on-device. I designed, built,
               and shipped both alone.
