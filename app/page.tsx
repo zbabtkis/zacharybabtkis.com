@@ -45,10 +45,12 @@ export default function HomePage() {
               In browsers, that meant ad blockers, shopping tools, and
               other browser extensions used by over twenty million people
               worldwide. With AI agents, it means integrations and
-              harnesses that keep the human in charge. I&rsquo;m Zack
-              Babtkis. I was a Senior Staff engineer at PayPal and a
-              founding engineer at ZeroClick, and I now consult
-              independently.
+              harnesses that keep the human in charge.
+            </p>
+            <p className="hero-bio">
+              I&rsquo;m Zack Babtkis. I was a Senior Staff engineer at
+              PayPal and a founding engineer at ZeroClick, and I now
+              consult independently.
             </p>
             <div className="hero-actions">
               <a
