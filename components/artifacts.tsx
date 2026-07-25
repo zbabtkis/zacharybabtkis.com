@@ -3,31 +3,8 @@
    here so pages keep one import path. */
 
 export { TerminalCard, ToolCallCard } from './terminal-card';
+export { Wave } from './wave';
 
-export function Wave() {
-  return (
-    <div className="wave" aria-hidden="true">
-      <svg width="100%" height="12" preserveAspectRatio="none">
-        <defs>
-          <pattern
-            id="wavePattern"
-            width="30"
-            height="12"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M0 6 Q7.5 0 15 6 Q22.5 12 30 6"
-              fill="none"
-              stroke="var(--amber)"
-              strokeWidth="1.5"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="12" fill="url(#wavePattern)" />
-      </svg>
-    </div>
-  );
-}
 
 type BrowserWindowProps = {
   url: string;
