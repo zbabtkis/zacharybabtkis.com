@@ -96,7 +96,7 @@ export default function AiAgentEnablementPage() {
             label: 'pie.yt from first commit to public launch, agents writing the code',
             href: RECEIPTS.pieYt,
           },
-          { value: '12+ yrs', label: 'engineering standards to hold the output to (ex-PayPal Senior Staff)' },
+          { value: '14 yrs', label: 'of engineering standards to hold the output to (ex-PayPal Senior Staff)' },
         ]}
       />
 
@@ -154,7 +154,7 @@ export default function AiAgentEnablementPage() {
 
       <section className="section">
         <div className="wrap">
-          <h2>What agent-ready actually looks like</h2>
+          <h2>What agent-ready looks like</h2>
           <p className="section-intro">
             Agents usually fail because the codebase and workflow give them
             nothing to hold onto, not because the models are weak. Here is
@@ -356,7 +356,7 @@ export default function AiAgentEnablementPage() {
       <CrossLinks current="ai-agent-enablement" />
 
       <CtaBand
-        title="Find out what's actually in your team's way."
+        title="Find out what's in your team's way."
         body="Book a scoping call. Tell me your team size, your stack, and what you've tried. I'll give you a straight answer, including 'you're not ready yet, and here's what to fix first.'"
         emailSubject="AI enablement — scoping call"
         source="ai-agent-enablement"

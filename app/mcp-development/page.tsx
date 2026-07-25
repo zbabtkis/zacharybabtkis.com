@@ -59,17 +59,13 @@ export default function McpDevelopmentPage() {
       <ProofBar
         stats={[
           {
-            value: 'Day 1',
-            label: 'building MCP servers since the protocol launched in 2024',
-          },
-          {
             value: '2 yrs',
-            label: 'building agent-facing APIs and MCP servers at ZeroClick',
+            label: 'building agent-facing APIs and MCP servers at ZeroClick, starting the year the protocol launched',
             href: RECEIPTS.zeroclick,
           },
           {
-            value: '2M+',
-            label: 'users at Pie — I know consumer-scale traffic',
+            value: '20M+',
+            label: 'users of extensions I helped build at Honey and Pie',
             href: RECEIPTS.pieStore,
           },
           { value: '5 yrs', label: 'Senior Staff engineer at PayPal (Honey)' },

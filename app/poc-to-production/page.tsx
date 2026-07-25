@@ -41,10 +41,9 @@ export default function PocToProductionPage() {
               You built something real with Claude, Cursor, or Lovable — it
               demos well, people want it, and you know it isn&rsquo;t ready.
               I take AI-built prototypes to production: tests, auth, data,
-              deployment, and the parts the demo skipped. I work with agents
-              myself — I shipped a product where they wrote the whole
-              codebase — which is why this costs a fraction of a traditional
-              rebuild.
+              deployment, and the parts the demo skipped. I build with
+              agents myself — I shipped a product where they wrote the
+              whole codebase — so I know where they cut corners.
             </p>
             <div className="hero-actions">
               <a className="button" href="#offer">
@@ -92,8 +91,7 @@ export default function PocToProductionPage() {
             value: '10 wks',
             label: 'from its first commit to public launch at a 2M-user company',
           },
-          { value: '12+ yrs', label: 'production engineering to hold it to (ex-PayPal Senior Staff)' },
-          { value: 'Fixed', label: 'prices on everything — no open-ended hourly meter' },
+          { value: '14 yrs', label: 'of production engineering to hold it to (ex-PayPal Senior Staff)' },
         ]}
       />
 
@@ -230,7 +228,7 @@ export default function PocToProductionPage() {
       <CrossLinks current="poc-to-production" />
 
       <CtaBand
-        title="Find out what you actually have."
+        title="What's the real state of your POC?"
         body="Send me the one-paragraph story: what you built, what it does, and what scares you about real users. I'll tell you within a day whether the audit would pay for itself."
         emailSubject="POC to production inquiry"
         source="poc-to-production"
