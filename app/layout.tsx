@@ -44,6 +44,9 @@ export default function RootLayout({
           <div className="wrap">
             <Link href="/" className="site-title">
               Zack Babtkis
+              <span className="site-tagline">
+                Production Software Engineering
+              </span>
             </Link>
             <nav className="site-nav" aria-label="Main">
               <NavServices />
