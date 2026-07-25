@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ProofBar, CtaBand } from '@/components/sections';
+import { CtaBand } from '@/components/sections';
+import { Chapter, StatBand } from '@/components/dossier';
 import { Wave } from '@/components/artifacts';
 import { HeroDemo } from '@/components/hero-demo';
 import { WorkWall } from '@/components/work-wall';
@@ -29,6 +30,40 @@ const personJsonLd = {
   alumniOf: 'UC Santa Barbara',
 };
 
+const CAREER = [
+  { year: '2012', text: <>UC Santa Barbara — real-time seismic data visualization</> },
+  { year: '2014', text: <>Gimbal — real-time location adtech infrastructure</> },
+  { year: '2018', text: <>ProducePay — lead engineer, produce financing</> },
+  {
+    year: '2019',
+    text: (
+      <>
+        <strong>Honey → PayPal</strong> — Senior Staff engineer through the
+        $4B acquisition; built its first iOS extension
+      </>
+    ),
+  },
+  {
+    year: '2024',
+    text: (
+      <>
+        <strong>Pie</strong> — founding engineer; owned Safari &amp; iOS,
+        led the Creator Network to 2M+ users
+      </>
+    ),
+  },
+  {
+    year: '2025',
+    text: (
+      <>
+        <strong>ZeroClick</strong> — agent-commerce infrastructure; shipped
+        pie.yt, a product AI agents wrote end to end
+      </>
+    ),
+  },
+  { year: 'Now', text: <>Independent — Los Angeles</> },
+];
+
 export default function HomePage() {
   return (
     <>
@@ -41,14 +76,9 @@ export default function HomePage() {
               infrastructure.
             </h1>
             <p className="lede">
-              I&rsquo;m Zack Babtkis, an independent engineer in Los
-              Angeles. I spent five years at PayPal as a Senior Staff
-              engineer building Honey. After that I helped build Pie, an ad
-              blocker that grew past two million users, and stayed on as it
-              became ZeroClick, building infrastructure that lets businesses
-              sell software and services to AI agents. I take on four kinds
-              of contract work. I&rsquo;ve done every one of them for a
-              living.
+              I&rsquo;m Zack Babtkis — ex-PayPal Senior Staff, founding
+              engineer at Pie. I take on four kinds of contract work, and
+              I&rsquo;ve done every one of them for a living.
             </p>
             <div className="hero-actions">
               <a
@@ -69,7 +99,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ProofBar
+      <StatBand
         stats={[
           {
             value: '20M+',
@@ -78,112 +108,121 @@ export default function HomePage() {
           },
           {
             value: '$4B',
-            label: 'Honey’s exit to PayPal — I was part of it and built through the acquisition',
+            label: 'Honey’s exit to PayPal — I built through the acquisition',
           },
           {
             value: '$100Ms',
             label: 'per year in revenue across products I’ve built on',
           },
-          { value: '12+ yrs', label: 'shipping production software' },
+          { value: '12+', label: 'years shipping production software' },
         ]}
       />
 
+      <Chapter n="01" label="Who you're hiring" title="One engineer. The same one, the whole way through.">
+        <div className="bio-grid">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/zack-portrait.jpg"
+            alt="Zack Babtkis in Bilbao, in front of the Guggenheim"
+            width={640}
+            height={800}
+          />
+          <div className="bio-copy">
+            <p>
+              I&rsquo;m not an agency — the person on the intro call is the
+              person who writes the code. Fourteen years of it, mostly on
+              platform work people use every day: browser extensions,
+              Apple&rsquo;s toolchain, and now the infrastructure AI agents
+              buy through.
+            </p>
+            <ul className="career-line">
+              {CAREER.map((entry) => (
+                <li key={entry.year}>
+                  <span className="year">{entry.year}</span>
+                  <span>{entry.text}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="bio-links">
+              <a href={SITE.linkedin}>LinkedIn</a> ·{' '}
+              <a href={SITE.github}>GitHub</a> ·{' '}
+              <a href="/about/">the longer story</a> · references on request
+            </p>
+          </div>
+        </div>
+      </Chapter>
+
+      <Chapter n="02" label="Services" title="What I'm hired for">
+        <div className="service-cards grid-2x2">
+          <Link className="service-card" href="/safari-extensions/">
+            <span className="card-icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M16.5 7.5 L13.5 13.5 L7.5 16.5 L10.5 10.5 Z" fill="currentColor" stroke="none" />
+              </svg>
+            </span>
+            <h3>Chrome → Safari &amp; iOS extension porting</h3>
+            <p>
+              Your extension doesn&rsquo;t exist on Safari or iPhone. I
+              built Honey&rsquo;s first iOS extension and owned
+              Pie&rsquo;s — I&rsquo;ll port yours through App Store review.
+            </p>
+            <span className="card-cta">Port assessment · $2,500 →</span>
+          </Link>
+          <Link className="service-card" href="/mcp-development/">
+            <span className="card-icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M9 7 V4.5 M15 7 V4.5" strokeLinecap="round" />
+                <rect x="6" y="7" width="12" height="8" rx="2" />
+                <path d="M12 15 V19 M8 19 H16" strokeLinecap="round" />
+              </svg>
+            </span>
+            <h3>MCP servers that put your product in front of AI agents</h3>
+            <p>
+              Customers are asking for the Claude or ChatGPT integration. I
+              built agent-facing APIs at ZeroClick — I&rsquo;ll build yours
+              and take it through directory submission.
+            </p>
+            <span className="card-cta">MCP readiness audit · $2,000 →</span>
+          </Link>
+          <Link className="service-card" href="/ai-agent-enablement/">
+            <span className="card-icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <rect x="3.5" y="5" width="17" height="14" rx="2" />
+                <path d="M7 9.5 L10 12 L7 14.5 M12 15 H16.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <h3>AI-agent enablement for engineering teams</h3>
+            <p>
+              Licenses without results. At Pie I shipped a product where AI
+              agents wrote the whole codebase — I&rsquo;ll set your team up
+              to work that way.
+            </p>
+            <span className="card-cta">Agent-readiness audit · $3,000 →</span>
+          </Link>
+          <Link className="service-card" href="/poc-to-production/">
+            <span className="card-icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M5 19 C5 13, 8 6, 12 4 C16 6, 19 13, 19 19" strokeLinejoin="round" />
+                <circle cx="12" cy="10" r="2" />
+                <path d="M8 19 L12 16 L16 19" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <h3>Your AI-built POC, taken to production</h3>
+            <p>
+              You vibe-coded something that works — mostly. I make it
+              survive real users: tests, auth, data, deployment.
+            </p>
+            <span className="card-cta">Production readiness audit · $2,500 →</span>
+          </Link>
+        </div>
+      </Chapter>
+
       <Wave />
 
-      <section className="section">
-        <div className="wrap">
-          <h2>What I&rsquo;m hired for</h2>
-          <div className="service-cards grid-2x2">
-            <Link className="service-card" href="/safari-extensions/">
-              <span className="card-icon">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M16.5 7.5 L13.5 13.5 L7.5 16.5 L10.5 10.5 Z" fill="currentColor" stroke="none" />
-                </svg>
-              </span>
-              <h3>Chrome → Safari &amp; iOS extension porting</h3>
-              <p>
-                Your extension works in Chrome and doesn&rsquo;t exist on
-                Safari or iPhone. I built Honey&rsquo;s first iOS browser
-                extension and owned Pie&rsquo;s Safari and iOS extensions —
-                I&rsquo;ll port yours and get it through App Store review.
-              </p>
-              <span className="card-cta">Port assessment · $2,500 →</span>
-            </Link>
-            <Link className="service-card" href="/mcp-development/">
-              <span className="card-icon">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path d="M9 7 V4.5 M15 7 V4.5" strokeLinecap="round" />
-                  <rect x="6" y="7" width="12" height="8" rx="2" />
-                  <path d="M12 15 V19 M8 19 H16" strokeLinecap="round" />
-                </svg>
-              </span>
-              <h3>MCP servers that put your product in front of AI agents</h3>
-              <p>
-                Your customers are asking for a Claude or ChatGPT
-                integration. I spent two years at ZeroClick building APIs and
-                MCP servers where AI agents were the customer. I&rsquo;ll
-                build yours and take it through directory submission.
-              </p>
-              <span className="card-cta">MCP readiness audit · $2,000 →</span>
-            </Link>
-            <Link className="service-card" href="/ai-agent-enablement/">
-              <span className="card-icon">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="3.5" y="5" width="17" height="14" rx="2" />
-                  <path d="M7 9.5 L10 12 L7 14.5 M12 15 H16.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <h3>AI-agent enablement for engineering teams</h3>
-              <p>
-                Your team has the AI tools and little to show for it. At Pie
-                I shipped a production product where AI agents wrote the
-                whole codebase. I&rsquo;ll set your team up to work that way.
-              </p>
-              <span className="card-cta">Agent-readiness audit · $3,000 →</span>
-            </Link>
-            <Link className="service-card" href="/poc-to-production/">
-              <span className="card-icon">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path d="M5 19 C5 13, 8 6, 12 4 C16 6, 19 13, 19 19" strokeLinejoin="round" />
-                  <circle cx="12" cy="10" r="2" />
-                  <path d="M8 19 L12 16 L16 19" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <h3>Your AI-built POC, taken to production</h3>
-              <p>
-                You vibe-coded something that works — mostly. I turn AI-built
-                prototypes into products that survive real users: tests,
-                auth, data, deployment. I shipped a fully agent-built product
-                myself, so I know exactly where they break.
-              </p>
-              <span className="card-cta">Production readiness audit · $2,500 →</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <WorkWall />
-
-      <section className="person-strip">
-        <div className="wrap">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/zack-square.jpg" alt="Zack Babtkis" width={400} height={400} />
-          <div className="person-copy">
-            <p>
-              You&rsquo;re hiring one person, not an agency — the same
-              engineer on the call writes the code. My work history is
-              public: <a href={SITE.linkedin}>LinkedIn</a>,{' '}
-              <a href={RECEIPTS.pieStore}>Pie on the Chrome Web Store</a>,{' '}
-              <a href={RECEIPTS.pieYt}>pie.yt</a>. References available on
-              request.
-            </p>
-            <p className="person-links">
-              <a href="/about/">More about me →</a>
-            </p>
-          </div>
-        </div>
-      </section>
+      <Chapter n="03" label="Track record" title="Where I've shipped">
+        <WorkWall bare />
+      </Chapter>
 
       <CtaBand
         title="Working on something like this?"
