@@ -46,8 +46,10 @@ export default function AboutPage() {
               . At ProducePay I led architecture for the{' '}
               <a href="https://producepay.com/pre-season-financing/">
                 Pre-Season financing platform
-              </a>
-              .
+              </a>{' '}
+              and helped build the trading platform, including the
+              messaging system growers and distributors use to negotiate
+              trades.
             </p>
             <p>
               I joined <a href={RECEIPTS.paypalHoney}>Honey</a> in 2019 and
