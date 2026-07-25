@@ -51,9 +51,9 @@ export default function SafariExtensionsPage() {
               </a>
               <a
                 className="button secondary"
-                href="/tools/safari-port-checker/"
+                href="/tools/safari-manifest-checker/"
               >
-                Try the free port checker
+                Try the free manifest checker
               </a>
               <span className="availability">{SITE.availability}</span>
             </div>

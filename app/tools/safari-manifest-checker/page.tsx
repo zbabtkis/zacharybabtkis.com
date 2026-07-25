@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { PortChecker } from '@/components/port-checker';
+import { ManifestChecker } from '@/components/manifest-checker';
 import { Faq } from '@/components/sections';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Safari Port Checker: Will Your Chrome Extension Work in Safari?',
+  title: 'Safari WebExtension Manifest Checker: Will Your Chrome Extension Work in Safari?',
   description:
     'Free tool: paste your Chrome extension’s manifest.json and get an instant Safari and iOS compatibility report covering blocking webRequest, background lifecycle, unsupported APIs, and App Store considerations.',
 };
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Safari Port Checker',
-  url: `${SITE.url}/tools/safari-port-checker/`,
+  name: 'Safari WebExtension Manifest Checker',
+  url: `${SITE.url}/tools/safari-manifest-checker/`,
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -22,7 +22,7 @@ const jsonLd = {
     'Instant Safari and iOS compatibility report for Chrome extension manifests.',
 };
 
-export default function PortCheckerPage() {
+export default function ManifestCheckerPage() {
   return (
     <>
       <section className="hero article-hero">
@@ -40,7 +40,7 @@ export default function PortCheckerPage() {
 
       <section className="section">
         <div className="wrap">
-          <PortChecker />
+          <ManifestChecker />
         </div>
       </section>
 

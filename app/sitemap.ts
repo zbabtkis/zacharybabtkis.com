@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/guides',
     '/about',
     '/contact',
-    '/tools/safari-port-checker',
+    '/tools/safari-manifest-checker',
     ...GUIDES.map((guide) => guide.slug.replace(/\/$/, '')),
   ];
 

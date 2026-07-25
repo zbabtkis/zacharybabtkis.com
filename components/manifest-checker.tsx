@@ -28,7 +28,7 @@ const SEVERITY_META: Record<Severity, { label: string; className: string }> = {
 
 const SEVERITY_ORDER: Severity[] = ['blocker', 'redesign', 'partial', 'note'];
 
-export function PortChecker() {
+export function ManifestChecker() {
   const [input, setInput] = useState('');
   const [report, setReport] = useState<Report | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -161,7 +161,7 @@ export function PortChecker() {
                 className="button"
                 href={
                   SITE.calUsername
-                    ? calLink('port-checker')
+                    ? calLink('manifest-checker')
                     : mailto('Safari Port Assessment')
                 }
               >

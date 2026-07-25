@@ -37,7 +37,7 @@
 
 ## Tools
 
-- [Safari Port Checker](https://zacharybabtkis.com/tools/safari-port-checker/):
+- [Safari WebExtension Manifest Checker](https://zacharybabtkis.com/tools/safari-manifest-checker/):
   Free in-browser tool: paste a Chrome extension manifest.json and get an
   instant Safari and iOS compatibility report: blocking webRequest,
   persistent backgrounds, unsupported APIs, page overrides, permission-prompt
