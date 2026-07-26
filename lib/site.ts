@@ -13,7 +13,7 @@ export const SITE = {
   calUsername: 'zack-babtkis',
   calEvent: 'intro-call',
   // GA4 Measurement ID (G-XXXXXXXXXX). Empty string = no analytics loaded.
-  gaId: '',
+  gaId: 'G-X1V6T30EX6',
 };
 
 // Booking link for a 20-minute intro call. `source` is the page slug that
