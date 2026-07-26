@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SITE, calLink } from '@/lib/site';
 import { AnalyticsEvents } from '@/components/analytics-events';
+import { ConsentBanner } from '@/components/consent-banner';
 import { ConsoleEgg } from '@/components/console-egg';
 import { NavServices } from '@/components/nav-services';
 import { MobileMenu } from '@/components/mobile-menu';
@@ -42,6 +43,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
       <body style={{ fontFamily: 'var(--font-body), system-ui, sans-serif' }}>
+        {SITE.gaId ? (
+          // Consent Mode v2 defaults, pushed before gtag.js loads: analytics
+          // denied by default in the EEA/UK/CH (Google resolves the region),
+          // granted elsewhere. Ads signals denied everywhere; this site runs
+          // no ads. A stored banner choice is replayed on every page view.
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500,region:['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']});
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});
+try{var c=localStorage.getItem('analytics-consent');if(c==='granted'||c==='denied'){gtag('consent','update',{analytics_storage:c});}}catch(e){}`,
+            }}
+          />
+        ) : null}
         <ConsoleEgg />
         <header className="site-header">
           <div className="wrap">
@@ -76,6 +91,7 @@ export default function RootLayout({
               <a href="/tools/safari-manifest-checker/">
                 Safari Manifest Checker
               </a>
+              <a href="/privacy/">Privacy</a>
               <a href={SITE.linkedin}>LinkedIn</a>
               <a href={SITE.github}>GitHub</a>
               <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
@@ -86,6 +102,7 @@ export default function RootLayout({
           <>
             <GoogleAnalytics gaId={SITE.gaId} />
             <AnalyticsEvents />
+            <ConsentBanner />
           </>
         ) : null}
       </body>

@@ -368,6 +368,43 @@ h3 {
   }
 }
 
+/* ---------- Consent banner (EEA/UK/CH only) ---------- */
+
+.consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--paper-raised);
+  border-top: 1px solid var(--rule);
+  box-shadow: 0 -6px 20px rgba(28, 30, 33, 0.08);
+}
+
+.consent-banner p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  max-width: 44rem;
+}
+
+.consent-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex: 0 0 auto;
+}
+
+.consent-actions .button {
+  font-size: var(--text-sm);
+  padding: 0.4rem 0.9rem;
+}
+
 .site-footer {
   border-top: 1px solid var(--rule);
   margin-top: var(--space-2xl);

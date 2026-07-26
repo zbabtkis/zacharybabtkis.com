@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/contact',
     '/tools/safari-manifest-checker',
+    '/privacy',
     ...GUIDES.map((guide) => guide.slug.replace(/\/$/, '')),
   ];
 
