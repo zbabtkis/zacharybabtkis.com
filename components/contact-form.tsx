@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SITE } from '@/lib/site';
+import { track } from '@/lib/analytics';
 
 /**
  * Interim form: packages the message into a mailto so it works with zero
@@ -15,6 +16,7 @@ export function ContactForm() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    track('contact_form_send', { page: window.location.pathname });
 
     const subject = `Project inquiry from ${name || 'your website'}`;
     const body = `${message}\n\n${name}${email ? ` (${email})` : ''}`;

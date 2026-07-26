@@ -8,6 +8,7 @@ import {
   type Severity,
 } from '@/lib/safari-compat';
 import { SITE, mailto, calLink } from '@/lib/site';
+import { track } from '@/lib/analytics';
 
 const EXAMPLE = `{
   "manifest_version": 3,
@@ -49,7 +50,12 @@ export function ManifestChecker() {
       setError('That JSON isn’t a manifest object.');
       return;
     }
-    setReport(analyzeManifest(parsed as Record<string, unknown>));
+    const result = analyzeManifest(parsed as Record<string, unknown>);
+    setReport(result);
+    track('manifest_check', {
+      blockers: result.findings.filter((f) => f.severity === 'blocker').length,
+      findings: result.findings.length,
+    });
   };
 
   const onFile = async (file: File | undefined) => {

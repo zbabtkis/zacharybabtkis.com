@@ -12,6 +12,8 @@ export const SITE = {
   // Cal.com username. Empty string = booking disabled, CTAs fall back to email.
   calUsername: 'zack-babtkis',
   calEvent: 'intro-call',
+  // GA4 Measurement ID (G-XXXXXXXXXX). Empty string = no analytics loaded.
+  gaId: '',
 };
 
 // Booking link for a 20-minute intro call. `source` is the page slug that

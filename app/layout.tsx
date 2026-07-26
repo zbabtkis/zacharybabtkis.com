@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter, Newsreader } from 'next/font/google';
 import Link from 'next/link';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { SITE, calLink } from '@/lib/site';
+import { AnalyticsEvents } from '@/components/analytics-events';
 import { ConsoleEgg } from '@/components/console-egg';
 import { NavServices } from '@/components/nav-services';
 import { MobileMenu } from '@/components/mobile-menu';
@@ -80,6 +82,12 @@ export default function RootLayout({
             </nav>
           </div>
         </footer>
+        {SITE.gaId ? (
+          <>
+            <GoogleAnalytics gaId={SITE.gaId} />
+            <AnalyticsEvents />
+          </>
+        ) : null}
       </body>
     </html>
   );
