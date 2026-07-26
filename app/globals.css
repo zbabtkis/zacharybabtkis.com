@@ -46,12 +46,29 @@ html {
   scroll-behavior: smooth;
 }
 
+/* No horizontal panning, ever. `clip` forbids scrolling in that axis
+   without creating a scroll container the way `hidden` does. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: var(--paper);
   color: var(--ink);
   font-size: var(--text-base);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Wide media and unbreakable strings are the usual overflow sources */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose {
+  overflow-wrap: break-word;
 }
 
 a {
