@@ -140,9 +140,9 @@ export default function HomePage() {
               <h3>AI enablement for teams</h3>
               <p>
                 Your team has the AI tools and little shipped to show for
-                it. At ZeroClick I shipped a product where AI agents wrote
-                the whole codebase. I&rsquo;ll set your team up to work
-                that way.
+                it. At ZeroClick I engineered the harness of conventions,
+                tooling, and review gates that let agents ship production
+                code. I&rsquo;ll build that system for your team.
               </p>
               <span className="card-cta">Agent-readiness audit · $3,000</span>
             </Link>
@@ -170,10 +170,10 @@ export default function HomePage() {
               </span>
               <h3>Safari &amp; iOS porting</h3>
               <p>
-                Your extension doesn&rsquo;t exist on Safari or iPhone. I
-                built Honey&rsquo;s first iOS extension and owned
-                Pie&rsquo;s. I&rsquo;ll port yours and get it through App
-                Store review.
+                Your Chrome extension doesn&rsquo;t exist on Safari or
+                iPhone. I built Honey&rsquo;s first iOS extension and
+                owned Pie&rsquo;s. I&rsquo;ll port yours from Chrome and
+                get it through App Store review.
               </p>
               <span className="card-cta">Port assessment · $2,500</span>
             </Link>
