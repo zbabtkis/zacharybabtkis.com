@@ -102,7 +102,8 @@ export default function SpaPageIdentityPage() {
 
       <h2>Detecting that navigation happened</h2>
       <p>
-        Some apps tell you. YouTube dispatches its own{' '}
+        So how do you find out the user went somewhere? Some apps tell
+        you. YouTube dispatches its own{' '}
         <code>yt-page-data-updated</code> event after each in-app
         navigation, and listening for it is the cheapest correct answer.
         Twitch emits no equivalent, so there we fell back to a throttled{' '}

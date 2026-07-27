@@ -15,26 +15,26 @@ export default function ConverterNotWorkingPage() {
       datePublished="2026-07-24"
       slug="/safari-extensions/converter-not-working/"
       ctaTitle="Stuck on a converted extension that won't behave?"
-      ctaBody="Send me your extension's store link or repo. The port assessment catalogs what's broken and what it takes to fix. It takes one week at a fixed price, and the fee credits toward the port."
+      ctaBody="Send me your extension's store link or repo. The port assessment catalogs what's broken and what it'll take to fix. It takes one week at a fixed price, and the fee credits toward the port."
       ctaEmailSubject="Safari Port Assessment: converter issues"
       ctaSource="converter-article"
     >
       <p>
         <code>xcrun safari-web-extension-converter</code> is honest about
         exactly one thing: packaging. It wraps your extension in an Xcode
-        project that builds. It makes no promises that the extension inside
-        works, and its warnings cover only a fraction of what differs.
-        Here&rsquo;s where converted extensions break, in the
-        order I usually find them.
+        project that builds. It makes no promise that the extension inside
+        works, and its warnings cover only a fraction of what differs. So
+        where do converted extensions break? Here are the six places, in
+        the order I usually find them.
       </p>
 
       <h2>1. APIs that exist but do nothing</h2>
       <p>
         Safari implements the WebExtension namespace broadly enough that
         feature detection often passes. The property is there while the
-        behavior is missing or different. Your code takes the happy path
-        and silently no-ops. Don&rsquo;t trust{' '}
-        <code>{"typeof browser.x !== 'undefined'"}</code>; test the actual
+        behavior is missing or different, so your code takes the happy
+        path and silently no-ops. Don&rsquo;t trust{' '}
+        <code>{"typeof browser.x !== 'undefined'"}</code>. Test the real
         behavior of every API you depend on, in the oldest Safari you plan
         to support.
       </p>
@@ -43,11 +43,12 @@ export default function ConverterNotWorkingPage() {
       <p>
         Safari suspends background scripts aggressively. In-memory state,
         <code>setInterval</code> loops, and module-level variables holding
-        session data all evaporate when the script is torn down
-        between events. Symptoms look like flakiness: works right after
-        install, breaks &ldquo;randomly&rdquo; later. The fix is
-        event-driven structure with state in <code>storage</code>, the same
-        discipline Chrome&rsquo;s MV3 service workers require.
+        session data all evaporate when the script gets torn down
+        between events. The symptoms look like flakiness: the extension
+        works right after install, then breaks &ldquo;randomly&rdquo;
+        later. The fix is event-driven structure with state in{' '}
+        <code>storage</code>, the same discipline Chrome&rsquo;s MV3
+        service workers require.
       </p>
 
       <h2>3. Blocking webRequest, silently gone</h2>
@@ -63,12 +64,12 @@ export default function ConverterNotWorkingPage() {
 
       <h2>4. Manifest keys Safari ignores</h2>
       <p>
-        The converter carries your manifest over mostly untouched and warns
-        about some unsupported keys, but not all of them. Behavior tied to ignored
-        keys doesn&rsquo;t happen. Commands, some background
-        configurations, and Chrome-specific keys are frequent culprits.
-        Audit the manifest key by key against what Safari documents, not
-        against what the converter accepted.
+        The converter carries your manifest over mostly untouched. It
+        warns about some unsupported keys, but not all of them, and
+        behavior tied to ignored keys simply doesn&rsquo;t happen.
+        Commands, some background configurations, and Chrome-specific keys
+        are the frequent culprits. Audit the manifest key by key against
+        what Safari documents, not against what the converter accepted.
       </p>
 
       <h2>5. Storage and messaging edge cases</h2>
@@ -83,13 +84,14 @@ export default function ConverterNotWorkingPage() {
 
       <h2>6. It works in Xcode and nowhere else</h2>
       <p>
-        The build-and-run flow signs with your development identity. The
-        moment a teammate, a tester, or TestFlight needs a build,
-        you&rsquo;re into provisioning profiles, entitlements,
-        and distribution signing. This is Apple platform work rather than
-        an extension problem, and it&rsquo;s the most
-        common place JavaScript teams stall. Set up CI with proper signing
-        in week one and the whole class of problem disappears.
+        The build-and-run flow signs with your development identity, so
+        everything looks fine on your machine. The moment a teammate, a
+        tester, or TestFlight needs a build, you&rsquo;re into
+        provisioning profiles, entitlements, and distribution signing.
+        This is Apple platform work rather than an extension problem, and
+        it&rsquo;s the most common place JavaScript teams stall. Set up CI
+        with proper signing in week one and the whole class of problem
+        disappears.
       </p>
 
       <h2>How to debug systematically</h2>
@@ -101,13 +103,14 @@ export default function ConverterNotWorkingPage() {
         </li>
         <li>
           Write a one-page inventory of every WebExtension API you call.
-          Check each against Safari&rsquo;s documented support and test the
-          three or four your product depends on.
+          Check each one against Safari&rsquo;s documented support and
+          test the three or four your product depends on.
         </li>
         <li>
-          Assume the background script dies constantly. If behavior
-          improves with the inspector open (which keeps it alive),
-          you&rsquo;ve found your bug class.
+          Assume the background script dies constantly. Here&rsquo;s a
+          quick experiment: if behavior improves with the inspector open
+          (the inspector keeps the script alive), you&rsquo;ve found your
+          bug class.
         </li>
         <li>Test on iOS hardware rather than only the simulator.</li>
       </ol>

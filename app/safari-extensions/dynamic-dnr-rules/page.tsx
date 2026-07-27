@@ -29,7 +29,7 @@ export default function DynamicDnrRulesPage() {
         {
           question: 'When should I use static rulesets instead of dynamic rules?',
           answer:
-            'Use static rulesets for anything you know at build time: filter lists, baseline blocking, rules that only need to be toggled on or off as a set. They don’t spend your dynamic budget and they’re validated at package time. Reserve dynamic rules for state you cannot know until runtime: per-site pauses, user opt-ins, server-driven allowlists. If a rule’s content never changes and only its enabled state does, it belongs in a static ruleset.',
+            'Use static rulesets for anything you know at build time: filter lists, baseline blocking, rules that only need to be toggled on or off as a set. They don’t spend your dynamic budget and they’re validated at package time. Reserve dynamic rules for state you can’t know until runtime: per-site pauses, user opt-ins, server-driven allowlists. If a rule’s content never changes and only its enabled state does, it belongs in a static ruleset.',
         },
         {
           question: 'Do dynamic DNR rules behave the same in Safari as in Chrome?',
@@ -53,8 +53,8 @@ export default function DynamicDnrRulesPage() {
         <code>updateDynamicRules</code> call, and the API gives you almost
         no structure for managing what accumulates. At Pie, a 2M+ user ad
         blocker where I owned the Safari and iOS extension domain, dynamic
-        rules were where every hard DNR problem lived. Here is what held
-        up.
+        rules were where every hard DNR problem lived. Here&rsquo;s what
+        held up.
       </p>
 
       <h2>Every feature spends from one budget</h2>
@@ -75,12 +75,13 @@ export default function DynamicDnrRulesPage() {
 
       <h2>Rule IDs are the only metadata you get</h2>
       <p>
-        A dynamic rule is identified by an integer. There is no label
+        A dynamic rule is identified by an integer. There&rsquo;s no label
         field, no tag, no metadata slot. Six months from now,{' '}
         <code>getDynamicRules</code> hands you back integers and match
         conditions, and nothing in the payload tells you which subsystem
-        installed a rule or why. The fix is to make the integer carry the
-        answer: encode provenance in the ID itself.
+        installed a rule or why. So where does the metadata live? The ID
+        is the only field you have, which means the integer has to carry
+        the answer: encode provenance in the ID itself.
       </p>
       <p>
         At Pie we kept an enum of leading digits. One prefix meant
@@ -98,7 +99,8 @@ export default function DynamicDnrRulesPage() {
       <h2>Teardown must be provenance-aware</h2>
       <p>
         The ID scheme earns its keep at removal time. Several independent
-        features can each pause or allow the same site. A user pauses
+        features can each pause or allow the same site, and everything
+        works until their cleanup paths collide. A user pauses
         blocking on a domain; later, an automatic feature pauses the same
         domain for its own reasons. If that feature&rsquo;s cleanup step
         removes &ldquo;the rules for this domain,&rdquo; it tears down the
@@ -120,7 +122,7 @@ export default function DynamicDnrRulesPage() {
       <p>
         <code>allow</code> and <code>allowAllRequests</code> rules scope
         by URL pattern and initiator domain. That sounds flexible until
-        you need something finer than a domain. You cannot express
+        you need something finer than a domain. You can&rsquo;t express
         &ldquo;this rule applies to one section of a site.&rdquo; At Pie
         I led a partnership feature that had to let ads through on
         specific channels of a video platform. On YouTube, ad media is
@@ -173,7 +175,7 @@ export default function DynamicDnrRulesPage() {
         compiler: a function from current state (user settings, server
         config, active pauses) to the rule set that should exist. When
         state changes, recompute and diff against what&rsquo;s installed.
-        You cannot make rule decisions per request anyway; DNR
+        You can&rsquo;t make rule decisions per request anyway; DNR
         doesn&rsquo;t run your code in the request path.
       </p>
       <p>

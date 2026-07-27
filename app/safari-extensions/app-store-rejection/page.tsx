@@ -21,43 +21,42 @@ export default function AppStoreRejectionPage() {
     >
       <p>
         Safari extensions ship inside apps, so they live and die by App
-        Review. App Review rejections cite guidelines and leave you to
-        work out the fix.
-        Here&rsquo;s the translation table I&rsquo;ve built shipping
-        extensions through review at Honey and Pie, roughly in order of how
-        often each one bites.
+        Review. And App Review rejections cite guidelines, then leave you
+        to work out the fix on your own. Here&rsquo;s the translation
+        table I&rsquo;ve built shipping extensions through review at Honey
+        and Pie, roughly in order of how often each one bites.
       </p>
 
       <h2>&ldquo;Your app provides minimal functionality&rdquo;</h2>
       <p>
-        The containing app can&rsquo;t be an empty shell. It doesn&rsquo;t
-        need features. It needs a purpose: explain what the extension
-        does, show whether it&rsquo;s enabled, and walk the user through
-        turning it on in Safari settings. A well-designed onboarding screen
-        with live extension state satisfies this. A blank window with your
-        logo doesn&rsquo;t.
+        You may be wondering why Apple cares about an app whose whole job
+        is carrying an extension. It cares. The containing app can&rsquo;t
+        be an empty shell. It doesn&rsquo;t need features, just a purpose:
+        explain what the extension does, show whether it&rsquo;s enabled,
+        and walk the user through turning it on in Safari settings. A
+        well-designed onboarding screen with live extension state
+        satisfies this. A blank window with your logo doesn&rsquo;t.
       </p>
 
       <h2>Broad permissions without justification</h2>
       <p>
         An extension that requests access to all websites is asking for a
-        lot, and review treats it that way. Two fixes, used together:
-        request the narrowest permissions your product needs, and
-        explain the remainder in the review notes <em>and</em> in the
-        user-facing UI. &ldquo;This extension needs access to shopping
-        sites to find coupons at checkout&rdquo; passes; unexplained
-        all-sites access invites rejection or a request for justification
-        that stalls you a cycle.
+        lot, and review treats it that way. There are two fixes, and you
+        use them together: request the narrowest permissions your product
+        needs, and explain the remainder in the review notes <em>and</em>{' '}
+        in the user-facing UI. &ldquo;This extension needs access to
+        shopping sites to find coupons at checkout&rdquo; passes;
+        unexplained all-sites access invites a rejection, or a request for
+        justification that stalls you a cycle.
       </p>
 
       <h2>Privacy labels that don&rsquo;t match the binary</h2>
       <p>
-        Your App Store privacy questionnaire is checked against what the
-        app and extension do. The classic failure: an analytics
-        SDK someone added two years ago collects identifiers your label
-        says you don&rsquo;t collect. Audit what leaves the
-        extension, network request by network request, before filling in
-        the labels.
+        Your App Store privacy questionnaire gets checked against what the
+        app and extension do. The classic failure is an analytics SDK
+        someone added two years ago that collects identifiers your label
+        says you don&rsquo;t collect. Audit what leaves the extension,
+        network request by network request, before you fill in the labels.
       </p>
 
       <h2>Metadata problems</h2>
@@ -82,7 +81,7 @@ export default function AppStoreRejectionPage() {
 
       <h2>Review notes are a product surface</h2>
       <p>
-        Review notes are the highest-leverage hour in the whole
+        Review notes are the best hour you&rsquo;ll spend in the whole
         submission. Include what the extension does in one paragraph, a
         demo path with any test credentials, an explanation of each
         permission, and a preemptive answer to whatever looks unusual about
@@ -95,9 +94,9 @@ export default function AppStoreRejectionPage() {
       <h2>If you&rsquo;re already in the loop</h2>
       <ol>
         <li>
-          Read the citation, then diagnose the <em>reviewer&rsquo;s</em>{' '}
+          Read the citation, then work out the <em>reviewer&rsquo;s</em>{' '}
           concern behind it. The guideline number is often the nearest
-          label rather than the actual issue.
+          label rather than the real issue.
         </li>
         <li>
           Respond in Resolution Center with specifics before resubmitting

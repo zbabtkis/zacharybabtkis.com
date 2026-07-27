@@ -29,12 +29,12 @@ export default function StatefulMcpServersPage() {
         {
           question: 'How do I scale an MCP server horizontally?',
           answer:
-            'Three options, in increasing order of effort: sticky sessions at the load balancer, which works at small replica counts but ties each session to one process; externalized session state in a shared store like Redis, which lets any replica serve any request; or restructuring long-running tools as jobs that return an ID the client polls, so no request holds a stream at all. Start with sticky sessions and move up when deploys or scale-in events start dropping too many sessions.',
+            'You’ve got three options, in increasing order of effort: sticky sessions at the load balancer, which works at small replica counts but ties each session to one process; externalized session state in a shared store like Redis, which lets any replica serve any request; or restructuring long-running tools as jobs that return an ID the client polls, so no request holds a stream at all. Start with sticky sessions and move up when deploys or scale-in events start dropping too many sessions.',
         },
         {
           question: 'Should I use stdio or HTTP transport in production?',
           answer:
-            'stdio is for local, single-user setups. The client launches your server as a child process, and state lives for exactly as long as the process does, so none of these problems exist. The moment your server runs remotely and serves multiple clients, you are on HTTP transport, and everything in this article applies. Do not benchmark your production architecture against how the server behaved under stdio on your laptop.',
+            'stdio is for local, single-user setups. The client launches your server as a child process, and state lives for exactly as long as the process does, so none of these problems exist. The moment your server runs remotely and serves multiple clients, you are on HTTP transport, and everything in this article applies. Don’t benchmark your production architecture against how the server behaved under stdio on your laptop.',
         },
       ]}
       ctaTitle="Running an MCP server that has to survive production?"
@@ -49,14 +49,14 @@ export default function StatefulMcpServersPage() {
         requests that reference a session the server claims doesn&rsquo;t
         exist, streams that die mid-response with a 502. Nothing in your
         code changed. What changed is that your infrastructure assumes a
-        stateless service, and an MCP server over streamable HTTP is not
-        one.
+        stateless service, and an MCP server over streamable HTTP
+        isn&rsquo;t one.
       </p>
       <p>
-        A version note before the details, as of July 2026. The MCP
+        Quick version note before the details, as of July 2026. The MCP
         2026-07-28 spec removes protocol-level sessions and the{' '}
         <code>Mcp-Session-Id</code> header entirely, so that any request
-        can land on any replica. That is the protocol adopting the
+        can land on any replica. That&rsquo;s the protocol adopting the
         conclusion this article argues for. Everything below applies to
         the 2025 spec versions that every deployed SDK and client speaks
         today, and to any server that keeps its own state in memory
@@ -66,34 +66,36 @@ export default function StatefulMcpServersPage() {
 
       <h2>A session is an open stream in one process&rsquo;s memory</h2>
       <p>
-        Streamable HTTP looks like ordinary request/response from the
-        outside. It isn&rsquo;t. When a client initializes a session, the
-        server typically opens a server-sent-events stream back to it and
-        keeps a transport object for that session in memory, commonly a
-        map from session ID to transport. Every subsequent request in
-        that session assumes the process that receives it holds that
-        entry. The stream is how the server pushes notifications,
-        progress, and elicitation requests to the client; the map entry is
-        how a follow-up POST finds its way back to the right stream.
+        From the outside, streamable HTTP looks like ordinary
+        request/response. It isn&rsquo;t. When a client initializes a
+        session, the server typically opens a server-sent-events stream
+        back to it and keeps a transport object for that session in
+        memory, commonly a map from session ID to transport. Every
+        subsequent request in that session assumes the process that
+        receives it holds that entry. The stream is how the server pushes
+        notifications, progress, and elicitation requests to the client;
+        the map entry is how a follow-up POST finds its way back to the
+        right stream.
       </p>
       <p>
-        That is server-side state, pinned to one process. Your load
-        balancer doesn&rsquo;t know it exists.
+        That&rsquo;s server-side state, pinned to one process, and your
+        load balancer has no idea it exists.
       </p>
 
       <h2>The second replica breaks it</h2>
       <p>
         With one replica, every request lands on the process holding the
-        session. With two, a round-robin load balancer sends roughly half
-        of your follow-up requests to a replica that has never heard of
-        the session. The request fails. The client retries, maybe
-        initializes a new session, and your logs fill with session-not-found
-        errors that correlate with nothing.
+        session, so everything&rsquo;s good. With two, a round-robin load
+        balancer sends roughly half of your follow-up requests to a
+        replica that has never heard of the session. The request fails,
+        the client retries, maybe initializes a new session, and your
+        logs fill with session-not-found errors that correlate with
+        nothing.
       </p>
       <p>
         The sharpest version of this involves elicitation, the MCP
         mechanism where the server pauses a tool call to ask the human a
-        question. I hit this on an MCP server I built at ZeroClick that
+        question. I hit it on an MCP server I built at ZeroClick that
         provisioned third-party services inside agent sessions:
         provisioning would pause on a question, the user would answer, and
         the answer POST had to reach the exact instance holding the open
@@ -102,14 +104,14 @@ export default function StatefulMcpServersPage() {
         affinity at the load balancer: the balancer sets a cookie on the
         first response and routes every request carrying it to the same
         backend. Set the cookie&rsquo;s TTL to match your session
-        lifetime; an affinity cookie that outlives the session pins
+        lifetime. An affinity cookie that outlives the session pins
         clients to a backend for no reason, and one that expires early
         recreates the original bug.
       </p>
       <p>
         The alternative to affinity is externalizing the transport state
-        so any replica can serve any session. That is more work and
-        covered in the decision guide below. But do one or the other
+        so any replica can serve any session. That&rsquo;s more work, and
+        I cover it in the decision guide below. But do one or the other
         before adding the second replica.
       </p>
 
@@ -119,7 +121,7 @@ export default function StatefulMcpServersPage() {
         minutes. Managed load balancers ship with backend idle timeouts
         tuned for request/response traffic. On the setup I ran, the
         default was 30 seconds. When the stream stays quiet past that,
-        the balancer cuts it and the client sees a 502 on a connection
+        the balancer cuts it, and the client sees a 502 on a connection
         that was working correctly. The fix is configuration rather
         than code: I raised the
         backend timeout to 300 seconds, sized to the longest quiet period
@@ -127,8 +129,8 @@ export default function StatefulMcpServersPage() {
       </p>
       <p>
         While you&rsquo;re in that layer, check two related things.
-        Disable response buffering anywhere in front of the stream. A
-        buffering proxy holds SSE events until its buffer fills, which
+        Disable response buffering anywhere in front of the stream, since
+        a buffering proxy holds SSE events until its buffer fills, which
         defeats the point of streaming. And confirm your framework
         runs the route on a long-lived server runtime. Static
         optimization and edge runtimes are built for short requests;
@@ -138,17 +140,17 @@ export default function StatefulMcpServersPage() {
       <h2>Your in-memory session map is a leak</h2>
       <p>
         Clients disconnect without saying goodbye. An agent gets killed,
-        a laptop lid closes, or a network path dies, and the clean-shutdown
-        handler you wrote never fires. Each of those leaves an entry in
-        the session map and a transport object nobody will ever use
-        again. Under real traffic the map only grows.
+        a laptop lid closes, or a network path dies, and the
+        clean-shutdown handler you wrote never fires. Each of those
+        leaves an entry in the session map and a transport object nobody
+        will ever use again. Under real traffic the map only grows.
       </p>
       <p>
         The fix I shipped was to sweep the map on a TTL (30 minutes in
         my case) and track last-activity time on each session, updating
-        it on every request the session receives. Expire sessions whose last
-        activity is older than the TTL. Last-activity matters more than
-        creation time here: a session created two hours ago that handled
+        it on every request the session receives. Expire sessions whose
+        last activity is older than the TTL. Why last activity rather
+        than creation time? A session created two hours ago that handled
         a request forty seconds ago is alive, and expiring it would cut
         off a working client mid-conversation. A session created ten
         minutes ago that has been silent ever since is probably a
@@ -158,7 +160,7 @@ export default function StatefulMcpServersPage() {
       <h2>Health checks and draining</h2>
       <p>
         A process holding fifty open streams can pass a naive health
-        check while being unable to do useful work, and can fail one
+        check while being unable to do useful work, and it can fail one
         while doing its job perfectly. Define healthy as &ldquo;can
         accept and serve a new session.&rdquo; Use a lightweight endpoint
         that exercises nothing long-lived, and keep the health check off
@@ -171,20 +173,21 @@ export default function StatefulMcpServersPage() {
         the work in flight dies with the stream. Configure your platform
         to drain on deploy: stop routing new sessions to the old replica,
         give existing streams a window to finish or expire, then
-        terminate. The right drain window is related to your session TTL;
-        an abrupt kill turns every deploy into a small outage for
+        terminate. The right drain window is related to your session TTL.
+        An abrupt kill turns every deploy into a small outage for
         whoever was mid-session.
       </p>
 
       <h2>A small polling detail worth stealing</h2>
       <p>
-        Somewhere in a stateful MCP system you will write a status-polling
-        loop, a client waiting for a long-running operation to finish.
-        Put the sleep at the end of the loop body rather than the
-        beginning, so the first status check happens immediately. Operations that
-        complete quickly get their result on the first check instead of
-        eating a full polling interval for nothing. It is a one-line
-        difference and it shaves the common case for every caller.
+        Somewhere in a stateful MCP system you&rsquo;ll write a
+        status-polling loop, a client waiting for a long-running
+        operation to finish. Put the sleep at the end of the loop body
+        rather than the beginning, so the first status check happens
+        immediately. Operations that complete quickly get their result on
+        the first check instead of eating a full polling interval for
+        nothing. It&rsquo;s a one-line difference and it shaves the
+        common case for every caller.
       </p>
 
       <h2>Decision guide</h2>
@@ -192,9 +195,9 @@ export default function StatefulMcpServersPage() {
         <li>
           <strong>Accept sticky sessions</strong> when you run a small,
           stable replica count and can tolerate losing in-flight sessions
-          on deploys and scale-in. It is a load-balancer setting plus a
-          TTL sweep. It is the cheapest correct answer and where
-          I&rsquo;d start.
+          on deploys and scale-in. It&rsquo;s a load-balancer setting
+          plus a TTL sweep. It&rsquo;s the cheapest correct answer and
+          where I&rsquo;d start.
         </li>
         <li>
           <strong>Externalize session state</strong> when deploys are

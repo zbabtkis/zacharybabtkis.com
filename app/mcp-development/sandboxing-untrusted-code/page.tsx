@@ -30,12 +30,12 @@ export default function SandboxingUntrustedCodePage() {
           question:
             'How do I stop sandboxed code from calling my internal services?',
           answer:
-            'Never hand the sandbox your platform’s own fetch. Wrap it: resolve DNS yourself, validate the resolved IP address before connecting, and reject private ranges, link-local ranges, and cloud metadata hostnames. Validating the hostname alone is not enough, because DNS rebinding lets a hostname resolve to a public address when you check it and a private one when you connect. Enforce HTTPS as well.',
+            'Never hand the sandbox your platform’s own fetch. Wrap it: resolve DNS yourself, validate the resolved IP address before connecting, and reject private ranges, link-local ranges, and cloud metadata hostnames. Validating the hostname alone isn’t enough, because DNS rebinding lets a hostname resolve to a public address when you check it and a private one when you connect. Enforce HTTPS as well.',
         },
         {
           question: 'How do I let partners test their code safely?',
           answer:
-            'Give them the exact sandbox that runs in production, pointed at test credentials. Keep developer conveniences (console output, verbose errors) enabled in the development environment only, and strip them in production. If the test environment behaves differently from production in its injected API surface, partners will ship code that breaks, and you will be tempted to loosen production to match.',
+            'Give them the exact sandbox that runs in production, pointed at test credentials. Keep developer conveniences (console output, verbose errors) enabled in the development environment only, and strip them in production. If the test environment behaves differently from production in its injected API surface, partners will ship code that breaks, and you’ll be tempted to loosen production to match.',
         },
       ]}
       ctaTitle="Exposing an execution layer to partners or agents?"
@@ -45,41 +45,43 @@ export default function SandboxingUntrustedCodePage() {
     >
       <p>
         Sooner or later a platform ends up executing code it didn&rsquo;t
-        write. A partner ships an integration. A user saves an automation.
-        A model generates a script. The code has to run somewhere, and the
-        practical answer is usually your own servers. At ZeroClick I led a
-        system where partner-authored integration code ran on our
-        infrastructure in a Node <code>vm</code> sandbox. This article is
-        the list of things that went wrong, what fixed them, and the
-        checklist I now apply to any execution layer before it faces
-        partners or agents.
+        write. A partner ships an integration, a user saves an
+        automation, or a model generates a script. The code has to run
+        somewhere, and the practical answer is usually your own servers.
+        At ZeroClick I led a system where partner-authored integration
+        code ran on our infrastructure in a Node <code>vm</code> sandbox.
+        This article is the list of things that went wrong, what fixed
+        them, and the checklist I now apply to any execution layer before
+        it faces partners or agents.
       </p>
 
       <h2>A VM context isolates scope, not capability</h2>
       <p>
         Node&rsquo;s <code>vm</code> module gives the code a fresh global
-        namespace. That is the entire guarantee. It restricts which names
-        the code can see, not what the code can do. Whatever you place on
-        the sandbox global is the attack surface, and everything else the
-        process can reach is reachable through those objects. Our sandbox
-        injected four globals: an access token, a context object,
-        provisioned credentials, and a prompt function for asking a human
-        a question mid-run. That short list sounds contained. The problem
-        was the fifth thing we handed over.
+        namespace, and that&rsquo;s the entire guarantee. It restricts
+        which names the code can see. It says nothing about what the code
+        can do. Whatever you place on the sandbox global is the attack
+        surface, and everything else the process can reach is reachable
+        through those objects. Our sandbox injected four globals: an
+        access token, a context object, provisioned credentials, and a
+        prompt function for asking a human a question mid-run. That short
+        list sounds contained. The problem was the fifth thing we handed
+        over.
       </p>
 
       <h2>The network is the biggest capability you hand over</h2>
       <p>
-        Integration code needs to make HTTP calls. That is the point of
-        an integration. Our first version gave the sandbox the platform&rsquo;s own{' '}
-        <code>fetch</code>. That meant sandboxed code could reach anything
-        the host could reach: internal services, and the cloud metadata
-        endpoint. On a host with workload identity enabled, the metadata
-        endpoint hands over service-account credentials to anyone who asks
-        from inside. A sandboxed script three lines long could have walked
-        out with a token for our own cloud project. We found this in our
-        own review and replaced raw <code>fetch</code> with a wrapper that
-        does three things:
+        Integration code needs to make HTTP calls. That&rsquo;s the whole
+        point of an integration. Our first version gave the sandbox the
+        platform&rsquo;s own <code>fetch</code>, which meant sandboxed
+        code could reach anything the host could reach: internal
+        services, and the cloud metadata endpoint. On a host with
+        workload identity enabled, the metadata endpoint hands over
+        service-account credentials to anyone who asks from inside. A
+        sandboxed script three lines long could have walked out with a
+        token for our own cloud project. We found this in our own review
+        and replaced raw <code>fetch</code> with a wrapper that does
+        three things:
       </p>
       <ul>
         <li>
@@ -103,42 +105,43 @@ export default function SandboxingUntrustedCodePage() {
       <h2>Logs are an exfiltration channel</h2>
       <p>
         We piped the sandbox&rsquo;s console output into our platform
-        logger so partners could debug. Console output carries whatever
-        the sandboxed code chooses to print, including credentials it
-        legitimately holds during a run. Those lines flow into log
-        aggregation, dashboards, and whoever has read access to any of it.
-        Our first fix was a redaction pass over known-sensitive values. We
-        replaced it one day later by disabling the sandbox console in
-        production entirely and keeping it only in development. The lesson
-        generalizes: you cannot enumerate what an adversary will print, so
-        control the channel rather than the content.
+        logger so partners could debug. Sounds helpful, right? Console
+        output carries whatever the sandboxed code chooses to print,
+        including credentials it legitimately holds during a run, and
+        those lines flow into log aggregation, dashboards, and whoever
+        has read access to any of it. Our first fix was a redaction pass
+        over known-sensitive values. We replaced it one day later by
+        disabling the sandbox console in production entirely and keeping
+        it only in development. The lesson generalizes: you can&rsquo;t
+        enumerate what an adversary will print, so control the channel
+        rather than the content.
       </p>
       <p>
         Error reporting leaks the same way. When a layer that handles
         credentials reports a failure, log the names of the variables
         involved, never their values. &ldquo;Token exchange failed for
         field <code>refreshToken</code>&rdquo; debugs just as well as the
-        token itself, and survives a log breach.
+        token itself, and it survives a log breach.
       </p>
 
       <h2>Time and resources</h2>
       <p>
         Every run gets a wall-clock timeout. Ours was five minutes. The
         subtle part is deciding what resets it. Our sandboxes could
-        suspend mid-run to ask a human a question, and answering re-armed
-        the timeout. A sandbox waiting on a person is not a runaway loop,
-        and killing it for human thinking time punishes the exact flows
-        you built the system for. Only genuine execution should burn the
-        clock.
+        suspend mid-run to ask a human a question, and answering
+        re-armed the timeout. A sandbox waiting on a person is not a
+        runaway loop, and killing it for human thinking time punishes
+        the exact flows you built the system for. Only real execution
+        should burn the clock.
       </p>
       <p>
-        What a same-process VM cannot give you is a memory or CPU
+        What a same-process VM can&rsquo;t give you is a memory or CPU
         ceiling. A tight loop or a large allocation takes down the whole
-        process, timeout or not. That is the line where you move to a
-        worker thread, a separate process you can kill, or a microVM. We
-        stayed same-process because our code came from contracted
-        partners rather than anonymous users. That is a threat-model
-        call, and one you should make explicitly rather than by default.
+        process, timeout or not. That&rsquo;s the line where you move to
+        a worker thread, a separate process you can kill, or a microVM.
+        We stayed same-process because our code came from contracted
+        partners rather than anonymous users. That&rsquo;s a threat-model
+        call, and you should make it explicitly rather than by default.
       </p>
 
       <h2>The execution contract</h2>
@@ -150,9 +153,8 @@ export default function SandboxingUntrustedCodePage() {
         Nothing ambient was exposed: no <code>require</code>, no{' '}
         <code>process</code>, no filesystem. The discipline that pays
         off is to enumerate exactly what you inject and treat that list
-        as the security review. If
-        the list fits on one screen, a reviewer can reason about it. If it
-        doesn&rsquo;t, nobody can.
+        as the security review. If the list fits on one screen, a
+        reviewer can reason about it. If it doesn&rsquo;t, nobody can.
       </p>
 
       <h2>Secrets</h2>
@@ -176,11 +178,11 @@ export default function SandboxingUntrustedCodePage() {
         with a guessable identifier could fetch another tenant&rsquo;s
         secrets. The fix had two parts: the status path never returns
         secrets, and results are fetched separately with a one-time,
-        caller-bound token that is consumed atomically on use. Our first
-        attempt at &ldquo;one-time&rdquo; minted a fresh token on every
-        poll, which meant an unbounded supply of valid tokens and
-        defeated the point. One-time means one token that is used once
-        and then invalid.
+        caller-bound token that&rsquo;s consumed atomically on use. Our
+        first attempt at &ldquo;one-time&rdquo; minted a fresh token on
+        every poll, which meant an unbounded supply of valid tokens and
+        defeated the point. One-time means one token that&rsquo;s used
+        once and then invalid.
       </p>
 
       <h2>The checklist</h2>
@@ -230,8 +232,8 @@ export default function SandboxingUntrustedCodePage() {
         isolation and wrong at the boundary: hand over fetch, pipe the
         console, open the status endpoint. We caught them in-house
         before anyone else did. The way to get that outcome is to review
-        the boundary as its own artifact, before the first line of partner
-        code arrives.
+        the boundary as its own artifact, before the first line of
+        partner code arrives.
       </p>
     </ArticleLayout>
   );

@@ -21,10 +21,11 @@ export default function WebRequestAlternativePage() {
     >
       <p>
         You ran the converter, your extension loads in Safari, and your
-        request blocking silently does nothing. No errors. The listeners
-        never fire with the power you expected. This is not a bug in
-        your port. It is Safari&rsquo;s design, and pretending
-        otherwise wastes weeks.
+        request blocking silently does nothing. No errors show up, and the
+        listeners never fire with the power you expected. You may be
+        wondering at this point what you broke in the port. You
+        didn&rsquo;t break anything. This is Safari&rsquo;s design, and
+        pretending otherwise wastes weeks.
       </p>
 
       <h2>The model change</h2>
@@ -32,7 +33,7 @@ export default function WebRequestAlternativePage() {
         In Chrome (historically) your JavaScript could sit in the request
         path: see each request, decide, block or rewrite it. Safari never
         allowed that. Extension code doesn&rsquo;t get to watch the
-        network. Instead, Safari implements{' '}
+        network at all. So how do you block anything? Safari implements{' '}
         <code>declarativeNetRequest</code> (DNR): you register rules ahead
         of time, built from match patterns, resource types, and actions
         like block, redirect, or header modification, and the browser
@@ -69,9 +70,9 @@ export default function WebRequestAlternativePage() {
           <strong>Logic that inspects request or response content.</strong>{' '}
           DNR matches on URL, resource type, and headers-level patterns.
           It will never show your code the payload. Whatever decision you
-          were making from content has to move elsewhere: into a content
-          script, into heuristics expressible as rules, or out of the
-          product.
+          were making from content has to move somewhere else: into a
+          content script, into heuristics you can express as rules, or out
+          of the product.
         </li>
         <li>
           <strong>Rules computed per-request at runtime.</strong> You can
@@ -83,8 +84,8 @@ export default function WebRequestAlternativePage() {
           <strong>Counting and telemetry from the request path.</strong>{' '}
           If your UI shows &ldquo;blocked 47 ads on this page,&rdquo; you
           lose the direct count. At Pie we rebuilt counters from what the
-          browser exposes plus DOM-level signals. It is solvable, but it
-          is a design task.
+          browser exposes plus DOM-level signals. It&rsquo;s solvable, but
+          it&rsquo;s a design task.
         </li>
         <li>
           <strong>Massive filter lists.</strong> Safari enforces rule
@@ -102,9 +103,9 @@ export default function WebRequestAlternativePage() {
           does it.
         </li>
         <li>
-          Sort into: expressible as static rules · expressible as dynamic
-          rules · needs redesign · not portable. Be ruthless about the last
-          bucket early.
+          Sort each listener into one of four buckets: expressible as
+          static rules, expressible as dynamic rules, needs redesign, or
+          not portable. Be ruthless about the last bucket early.
         </li>
         <li>
           Build the rule compiler: the code that turns your source of
@@ -118,10 +119,10 @@ export default function WebRequestAlternativePage() {
         <li>Test per Safari version. Behavior varies.</li>
       </ol>
       <p>
-        DNR is less powerful and more predictable. For
-        most extensions the user-facing feature set survives; the
-        engineering underneath is different enough that this is the part of
-        a Safari port that deserves a specialist.
+        In short, DNR is less powerful and more predictable. For most
+        extensions the user-facing feature set survives; the engineering
+        underneath is different enough that this is the part of a Safari
+        port that deserves a specialist.
       </p>
     </ArticleLayout>
   );

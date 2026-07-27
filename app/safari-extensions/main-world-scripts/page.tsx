@@ -31,7 +31,7 @@ export default function MainWorldScriptsPage() {
         {
           question: 'Why did my MAIN-world script run too late to wrap fetch?',
           answer:
-            'Wrapping only works if your wrapper is installed before the page makes the call, which means registering at document_start. If you register the script programmatically after a page has already loaded, the page needs a reload. You cannot intercept a response that already came back.',
+            'Wrapping only works if your wrapper is installed before the page makes the call, which means registering at document_start. If you register the script programmatically after a page has already loaded, the page needs a reload. You can’t intercept a response that already came back.',
         },
         {
           question: 'Does Safari support MAIN-world content scripts?',
@@ -64,7 +64,8 @@ export default function MainWorldScriptsPage() {
         have to talk through a channel both can reach. I built and maintained
         this arrangement in Pie Adblock, ZeroClick&rsquo;s Safari and
         Chrome ad blocker with over two million users, where I owned the
-        iOS and Safari extension domain. The patterns below are what survived production.
+        iOS and Safari extension domain. The patterns below are the ones that
+        survived production.
       </p>
 
       <h2>What each world can see</h2>
@@ -79,7 +80,7 @@ export default function MainWorldScriptsPage() {
         The MAIN world is the page&rsquo;s own context. Your script sees
         everything the page defines and can wrap anything the page calls. In
         exchange it loses the extension APIs entirely. No messaging to your
-        background worker, no extension storage. It is a guest in someone
+        background worker, no extension storage. It&rsquo;s a guest in someone
         else&rsquo;s runtime, with only the tools the page itself has.
       </p>
 
@@ -87,11 +88,11 @@ export default function MainWorldScriptsPage() {
       <p>Three jobs require it:</p>
       <ul>
         <li>
-          <strong>Observing or wrapping page-level APIs.</strong> If you need
-          to inspect a response the app requested rather than one you made,
-          you wrap the page&rsquo;s <code>fetch</code>. The isolated
-          world&rsquo;s <code>fetch</code> is a different binding; the
-          app&rsquo;s calls never pass through it.
+          <strong>Observing or wrapping page-level APIs.</strong> Say you
+          need to inspect a response the app requested rather than one you
+          made. You wrap the page&rsquo;s <code>fetch</code>, because the
+          isolated world&rsquo;s <code>fetch</code> is a different binding
+          and the app&rsquo;s calls never pass through it.
         </li>
         <li>
           <strong>Reading in-page state.</strong> Data the app exposes only as
@@ -121,7 +122,7 @@ export default function MainWorldScriptsPage() {
         that read metadata out of a response payload and a blocking script
         that deleted parts of that same payload. The measurement script had to
         be registered first. Register it second and it reports nothing. You
-        cannot observe a payload you already deleted.
+        can&rsquo;t observe a payload you already deleted.
       </p>
       <p>
         This gets awkward the moment scripts toggle independently. If the
@@ -129,18 +130,18 @@ export default function MainWorldScriptsPage() {
         re-registration can land it ahead of the observer. The fix is an
         unregister-and-re-register dance: tear down the affected scripts and
         rebuild the registrations in the order you need, every time the set
-        changes. It feels heavy. It is also the only way to make the ordering
-        a guarantee instead of an accident of startup sequence.
+        changes. It feels heavy. It&rsquo;s also the only way to make the
+        ordering a guarantee instead of an accident of startup sequence.
       </p>
 
       <h2>Coordinating across the boundary</h2>
       <p>
-        The channel between worlds has to be something both sides can reach: a
-        page-scoped storage entry, a DOM attribute, or custom events relayed
-        by an isolated-world script.
+        So how do the two halves talk? Through something both sides can
+        reach: a page-scoped storage entry, a DOM attribute, or custom
+        events relayed by an isolated-world script.
       </p>
       <p>
-        Here is a shape that shipped. The background worker decided, from
+        Here&rsquo;s a shape that shipped. The background worker decided, from
         state only it had, that the MAIN-world script should skip its normal
         behavior on one specific page. It executed a tiny function in the tab
         that wrote a session-scoped flag: a page-scoped sessionStorage entry
@@ -149,13 +150,13 @@ export default function MainWorldScriptsPage() {
         write, one read, no messaging required.
       </p>
       <p>
-        The URL in the key is load-bearing. sessionStorage survives soft
-        navigations in a single-page app, so a bare flag set on one page would
-        still be there on the next one, and the exemption would silently
-        follow the user around. Keying the flag to the exact URL scopes it to
-        one page view. When the app navigates internally, the new URL
-        doesn&rsquo;t match, and the script resumes normal behavior without
-        anyone cleaning up.
+        Notice the URL in the key. It&rsquo;s load-bearing. sessionStorage
+        survives soft navigations in a single-page app, so a bare flag set on
+        one page would still be there on the next one, and the exemption
+        would silently follow the user around. Keying the flag to the exact
+        URL scopes it to one page view. When the app navigates internally,
+        the new URL doesn&rsquo;t match, and the script resumes normal
+        behavior without anyone cleaning up.
       </p>
 
       <h2>You are a guest in a hostile context</h2>
@@ -206,7 +207,7 @@ export default function MainWorldScriptsPage() {
         The registration APIs are broadly shared across Chromium and Safari,
         but the supporting pieces are not. In the codebase I maintained, a
         localStorage caching layer used on Chrome was disabled on Safari
-        because storage-quota behavior differs there. That is the general
+        because storage-quota behavior differs there. That&rsquo;s the general
         rule: the MAIN-world mechanism itself ports, but every storage,
         caching, and lifecycle assumption around it needs verification per
         platform. Test on the Safari versions you support rather
