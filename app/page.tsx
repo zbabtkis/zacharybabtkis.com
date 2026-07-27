@@ -86,7 +86,7 @@ export default function HomePage() {
         ]}
       />
 
-      <Chapter n="01" label="Who you're hiring" title="Zack Babtkis">
+      <Chapter label="Who you're hiring" title="Zack Babtkis">
         <div className="bio-grid">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -116,7 +116,7 @@ export default function HomePage() {
         </div>
       </Chapter>
 
-      <Chapter n="02" label="Services" title="What I'm hired for">
+      <Chapter title="Services">
         <div className="door">
           <h3 className="door-label">Agentic AI</h3>
           <div className="service-cards">
@@ -237,7 +237,7 @@ export default function HomePage() {
 
       <Wave />
 
-      <Chapter n="03" label="Track record" title="Where I've shipped">
+      <Chapter title="Where I've shipped">
         <WorkWall bare />
       </Chapter>
 

@@ -84,7 +84,7 @@ export default function SafariExtensionsPage() {
         ]}
       />
 
-      <Chapter n="01" label="Why me" title="The converter leaves a gap. I've spent years in it." id="proof">
+      <Chapter label="Why me" title="The converter leaves a gap. I've spent years in it." id="proof">
         <div className="prose">
           <p>
             At Honey I built the company&rsquo;s first iOS browser extension
@@ -106,7 +106,6 @@ export default function SafariExtensionsPage() {
       </Chapter>
 
       <OfferBand
-        n="02"
         label="Start here"
         title="Know what a port will take."
         name="Safari Port Assessment"
@@ -124,7 +123,7 @@ export default function SafariExtensionsPage() {
         id="offer"
       />
 
-      <Chapter n="03" label="Rates" title="What ports cost" id="rates">
+      <Chapter title="What ports cost" id="rates">
         <RatesTable
           intro="The assessment produces a fixed bid, so you know the number before committing. These are the ranges most projects land in."
           rates={[
@@ -153,7 +152,7 @@ export default function SafariExtensionsPage() {
         />
       </Chapter>
 
-      <Chapter n="04" label="Process" title="How working with me goes" id="process">
+      <Chapter title="How working with me goes" id="process">
         <Timeline
           steps={[
             {
@@ -175,7 +174,7 @@ export default function SafariExtensionsPage() {
         />
       </Chapter>
 
-      <Chapter n="05" label="Guides" title="Read before you hire anyone" id="guides">
+      <Chapter label="Guides" title="Read before you hire anyone" id="guides">
         <p className="section-intro">
           Written from shipping this work, not from the docs. If a guide
           solves your problem outright, you don&rsquo;t need me.

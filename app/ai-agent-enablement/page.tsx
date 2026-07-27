@@ -99,7 +99,7 @@ export default function AiAgentEnablementPage() {
         ]}
       />
 
-      <Chapter n="01" label="Proof" title="Case study: pie.yt" id="proof">
+      <Chapter label="Proof" title="Case study: pie.yt" id="proof">
         <div className="story">
           <p>
             In 2025 I built <a href={RECEIPTS.pieYt}>pie.yt</a>, an ad-free
@@ -125,7 +125,7 @@ export default function AiAgentEnablementPage() {
         </p>
       </Chapter>
 
-      <Chapter n="02" label="What changes" title="What agent-ready looks like" id="changes">
+      <Chapter title="What agent-ready looks like" id="changes">
         <p className="section-intro">
           Agents usually fail because the codebase and workflow give them
           nothing to hold onto, not because the models are weak.
@@ -156,7 +156,7 @@ export default function AiAgentEnablementPage() {
         </div>
       </Chapter>
 
-      <Chapter n="03" label="Deliverables" title="What your team gets" id="deliverables">
+      <Chapter title="What your team gets" id="deliverables">
         <p className="section-intro">
           Every item below gets committed to your repos and documented.
         </p>
@@ -196,7 +196,6 @@ export default function AiAgentEnablementPage() {
       </Chapter>
 
       <OfferBand
-        n="04"
         label="Start here"
         title="Find out what's in the way."
         name="Agent-Readiness Audit"
@@ -214,7 +213,7 @@ export default function AiAgentEnablementPage() {
         id="offer"
       />
 
-      <Chapter n="05" label="Rates" title="Engagements, priced per engagement" id="rates">
+      <Chapter title="What engagements cost" id="rates">
         <RatesTable
           intro="Never hourly. The audit produces a fixed quote for everything that follows."
           rates={[
@@ -243,7 +242,7 @@ export default function AiAgentEnablementPage() {
         />
       </Chapter>
 
-      <Chapter n="06" label="Fit" title="When this won't work" id="fit">
+      <Chapter title="When this won't work" id="fit">
         <div className="prose">
           <p>
             I will tell you in the scoping call, and again in the audit,
@@ -278,7 +277,7 @@ export default function AiAgentEnablementPage() {
         </ul>
       </Chapter>
 
-      <Chapter n="07" label="Guides" title="Read before you hire anyone" id="guides">
+      <Chapter label="Guides" title="Read before you hire anyone" id="guides">
         <p className="section-intro">
           Written from building agent infrastructure that ran in
           production. If a guide solves your problem outright, you

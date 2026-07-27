@@ -3,13 +3,13 @@ import { SITE, mailto, calLink } from '@/lib/site';
 /* Editorial-dossier primitives: type and rules instead of boxes. */
 
 export function Chapter({
-  n,
   label,
   title,
   children,
   id,
 }: {
-  n?: string;
+  // Kicker above the title. Use it only when it adds information the
+  // title doesn't carry; never restate the title.
   label?: string;
   title: string;
   children: React.ReactNode;
@@ -18,11 +18,7 @@ export function Chapter({
   return (
     <section className="chapter" id={id}>
       <div className="wrap">
-        {n ? (
-          <p className="chapter-no">
-            {n} — {label}
-          </p>
-        ) : null}
+        {label ? <p className="chapter-no">{label}</p> : null}
         <h2 className="chapter-title">{title}</h2>
         {children}
       </div>
@@ -104,7 +100,6 @@ export function Timeline({
 }
 
 export function OfferBand({
-  n,
   label,
   title,
   name,
@@ -115,7 +110,6 @@ export function OfferBand({
   source,
   id,
 }: {
-  n: string;
   label: string;
   title: string;
   name: string;
@@ -131,9 +125,7 @@ export function OfferBand({
   return (
     <section className="offer-band" id={id}>
       <div className="wrap">
-        <p className="chapter-no">
-          {n} — {label}
-        </p>
+        <p className="chapter-no">{label}</p>
         <div className="offer-band-grid">
           <div className="offer-band-copy">
             <h2 className="chapter-title">{title}</h2>

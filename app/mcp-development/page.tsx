@@ -73,7 +73,7 @@ export default function McpDevelopmentPage() {
         ]}
       />
 
-      <Chapter n="01" label="Why me" title="I built the side of the stack agents talk to." id="proof">
+      <Chapter label="Why me" title="I built the side of the stack agents talk to." id="proof">
         <div className="prose">
           <p>
             I spent two years at <a href={RECEIPTS.zeroclick}>ZeroClick</a>,
@@ -91,7 +91,6 @@ export default function McpDevelopmentPage() {
       </Chapter>
 
       <OfferBand
-        n="02"
         label="Start here"
         title="Know what agents need from you."
         name="MCP Readiness Audit"
@@ -109,7 +108,7 @@ export default function McpDevelopmentPage() {
         id="offer"
       />
 
-      <Chapter n="03" label="Rates" title="What builds cost" id="rates">
+      <Chapter title="What builds cost" id="rates">
         <RatesTable
           intro="The audit produces a fixed bid. For reference, agencies quote $25k–$50k for SMB implementations and $60k–$120k for production builds. I typically come in under both because you hire one engineer."
           rates={[
@@ -138,7 +137,7 @@ export default function McpDevelopmentPage() {
         />
       </Chapter>
 
-      <Chapter n="04" label="Process" title="How working with me goes" id="process">
+      <Chapter title="How working with me goes" id="process">
         <Timeline
           steps={[
             {
@@ -160,7 +159,7 @@ export default function McpDevelopmentPage() {
         />
       </Chapter>
 
-      <Chapter n="05" label="Guides" title="Read before you hire anyone" id="guides">
+      <Chapter label="Guides" title="Read before you hire anyone" id="guides">
         <p className="section-intro">
           Written from running MCP servers in production, not from the
           spec. If a guide solves your problem outright, you don&rsquo;t

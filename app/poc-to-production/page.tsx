@@ -95,7 +95,7 @@ export default function PocToProductionPage() {
         ]}
       />
 
-      <Chapter n="01" label="Why me" title="I build with agents, and I know where they cut corners." id="proof">
+      <Chapter label="Why me" title="I build with agents, and I know where they cut corners." id="proof">
         <div className="prose">
           <p>
             Most senior engineers will tell you to throw the prototype away
@@ -113,7 +113,6 @@ export default function PocToProductionPage() {
       </Chapter>
 
       <OfferBand
-        n="02"
         label="Start here"
         title="Find out what you actually have."
         name="Production Readiness Audit"
@@ -131,7 +130,7 @@ export default function PocToProductionPage() {
         id="offer"
       />
 
-      <Chapter n="03" label="Rates" title="What the finish line costs" id="rates">
+      <Chapter title="What the finish line costs" id="rates">
         <RatesTable
           intro="The audit produces a fixed bid. These are typical ranges, and the audit tells you where yours lands."
           rates={[
@@ -160,7 +159,7 @@ export default function PocToProductionPage() {
         />
       </Chapter>
 
-      <Chapter n="04" label="Process" title="How working with me goes" id="process">
+      <Chapter title="How working with me goes" id="process">
         <Timeline
           steps={[
             {
