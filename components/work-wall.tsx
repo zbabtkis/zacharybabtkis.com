@@ -8,11 +8,30 @@ type WorkItem = {
   image?: { src: string; alt: string };
 };
 
-const WORK: WorkItem[] = [
+const INDEPENDENT: WorkItem[] = [
+  {
+    name: 'TrueRate',
+    role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz, with a scraping API and an iOS app behind it',
+    scale: 'Chrome + iOS + API · 2019–2020',
+    image: { src: '/truerate.png', alt: 'TrueRate showing hidden fees on a hotel listing' },
+  },
+  {
+    name: 'Unhabit',
+    role: 'iOS Safari extension that blocks distracting sites with cooldowns and scheduling, all on-device',
+    scale: 'iOS App Store · 2023',
+    href: 'https://www.tapsmart.com/features/content-blockers-guide/',
+    image: {
+      src: '/work-unhabit.jpg',
+      alt: 'Unhabit blocking a distracting site on iPhone',
+    },
+  },
+];
+
+const COMPANY: WorkItem[] = [
   {
     name: 'PayPal Honey',
-    role: 'Senior Staff engineer · designed and built its first iOS browser extension · $4B exit to PayPal',
-    scale: '20M+ users',
+    role: 'Designed and built its first iOS browser extension · $4B exit to PayPal',
+    scale: 'Senior Staff · 2019–2024',
     href: RECEIPTS.paypalHoney,
     image: {
       src: '/work-honey.jpg',
@@ -21,8 +40,8 @@ const WORK: WorkItem[] = [
   },
   {
     name: 'Pie Adblock',
-    role: 'Founding engineer · owned the Safari and iOS extensions, led the Creator Network',
-    scale: '2M+ users · 4.9★',
+    role: 'Owned the Safari and iOS extensions, led the Creator Network',
+    scale: 'Founding engineer · 2024–2026',
     href: RECEIPTS.pieStore,
     image: {
       src: '/work-pie.jpg',
@@ -31,7 +50,7 @@ const WORK: WorkItem[] = [
   },
   {
     name: 'pie.yt',
-    role: 'Built and shipped it solo. AI agents I directed wrote the entire codebase.',
+    role: 'Built and shipped end to end. AI agents I directed wrote the entire codebase.',
     scale: 'Live · try it',
     href: RECEIPTS.pieYt,
     image: {
@@ -41,7 +60,7 @@ const WORK: WorkItem[] = [
   },
   {
     name: 'ZeroClick',
-    role: 'Founding engineer. Built the agent-facing APIs and MCP servers for its agent-commerce infrastructure.',
+    role: 'Built the agent-facing APIs and MCP servers for its agent-commerce infrastructure',
     scale: '2024–2026',
     href: RECEIPTS.zeroclick,
     image: {
@@ -69,58 +88,55 @@ const WORK: WorkItem[] = [
       alt: 'ProducePay marketplace marketing banner',
     },
   },
-  {
-    name: 'TrueRate',
-    role: 'Chrome extension that revealed hidden hotel fees (resort, wifi, parking) on Expedia, Hotels.com, Travelocity, and Orbitz, with a scraping API and an iOS app behind it',
-    scale: 'Built solo · 2019–2020',
-    image: { src: '/truerate.png', alt: 'TrueRate showing hidden fees on a hotel listing' },
-  },
-  {
-    name: 'Unhabit',
-    role: 'iOS Safari extension that blocks distracting sites with cooldowns and scheduling, all on-device',
-    scale: 'iOS App Store · 2023',
-    href: 'https://www.tapsmart.com/features/content-blockers-guide/',
-    image: {
-      src: '/work-unhabit.jpg',
-      alt: 'Unhabit blocking a distracting site on iPhone',
-    },
-  },
 ];
+
+function Tiles({ items }: { items: WorkItem[] }) {
+  return (
+    <div className="work-wall">
+      {items.map((item) => {
+        const body = (
+          <>
+            {item.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className="work-shot"
+                src={item.image.src}
+                alt={item.image.alt}
+                width={1100}
+                height={539}
+                loading="lazy"
+              />
+            ) : null}
+            <h3>{item.name}</h3>
+            <span className="work-role">{item.role}</span>
+            <span className="work-scale">{item.scale}</span>
+          </>
+        );
+
+        return item.href ? (
+          <a className="work-tile" key={item.name} href={item.href}>
+            {body}
+          </a>
+        ) : (
+          <div className="work-tile" key={item.name}>
+            {body}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export function WorkWall({ bare = false }: { bare?: boolean }) {
   const inner = (
     <>
-      <div className="work-wall">
-        {WORK.map((item) => {
-          const body = (
-            <>
-              {item.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  className="work-shot"
-                  src={item.image.src}
-                  alt={item.image.alt}
-                  width={1100}
-                  height={539}
-                  loading="lazy"
-                />
-              ) : null}
-              <h3>{item.name}</h3>
-              <span className="work-role">{item.role}</span>
-              <span className="work-scale">{item.scale}</span>
-            </>
-          );
-
-          return item.href ? (
-            <a className="work-tile" key={item.name} href={item.href}>
-              {body}
-            </a>
-          ) : (
-            <div className="work-tile" key={item.name}>
-              {body}
-            </div>
-          );
-        })}
+      <div className="door">
+        <h3 className="door-label">Independent work</h3>
+        <Tiles items={INDEPENDENT} />
+      </div>
+      <div className="door">
+        <h3 className="door-label">At companies</h3>
+        <Tiles items={COMPANY} />
       </div>
       <p className="work-wall-minor">
         Earlier: the NEES@UCSB real-time seismic data portal at{' '}
