@@ -89,24 +89,6 @@ export default function HomePage() {
 
       <LogoBanner />
 
-      <section className="section">
-        <div className="wrap">
-          <div className="story tool-band">
-            <p className="story-kicker">Free tool</p>
-            <p>
-              Wondering whether your Chrome extension can run on Safari
-              and iPhone? Paste your manifest.json into the{' '}
-              <strong>Safari WebExtension Manifest Checker</strong> and
-              get the compatibility report in five seconds. It runs in
-              your browser and uploads nothing.
-            </p>
-            <a className="button" href="/tools/safari-manifest-checker/">
-              Check your manifest
-            </a>
-          </div>
-        </div>
-      </section>
-
       <Chapter label="Who you're hiring" title="Zack Babtkis">
         <div className="bio-grid">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -255,6 +237,27 @@ export default function HomePage() {
           </div>
         </div>
       </Chapter>
+
+      <section className="section">
+        <div className="wrap">
+          <div className="story tool-band">
+            <p className="story-kicker">Free tool</p>
+            <h3>Safari WebExtension Manifest Checker</h3>
+            <p>
+              Before you scope a Safari or iOS port, find out what will
+              break. Paste your extension&rsquo;s manifest.json and get a
+              report on which manifest keys, permissions, background
+              scripts, and APIs Safari supports on macOS and iPhone, which
+              it ignores, and which block conversion. It runs entirely in
+              your browser and uploads nothing. If the report raises
+              questions, the port assessment answers them.
+            </p>
+            <a className="button" href="/tools/safari-manifest-checker/">
+              Check your manifest
+            </a>
+          </div>
+        </div>
+      </section>
 
       <Wave />
 

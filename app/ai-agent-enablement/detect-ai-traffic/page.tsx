@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
   title: 'How to Detect AI Crawlers and LLM Referral Traffic',
@@ -13,6 +14,7 @@ export default function DetectAiTrafficPage() {
       title="How to tell humans, AI crawlers, and AI agents apart in your traffic"
       description="This guide covers where AI traffic is observable, which signals to trust in what order, and the instrumentation rules that make the measurements usable."
       datePublished="2026-07-25"
+      dateModified="2026-07-28"
       slug="/ai-agent-enablement/detect-ai-traffic/"
       byline="I led agent-provisioning and AI-traffic engineering at ZeroClick"
       faq={[
@@ -43,14 +45,21 @@ export default function DetectAiTrafficPage() {
       ctaSource="ai-traffic-article"
     >
       <p>
-        AI systems touch your site in two ways, and standard analytics
-        misses most of both. I built a detection SDK at ZeroClick that
-        classified this traffic at the edge and fed an analytics pipeline,
-        and several of the sharpest lessons came from things that broke
-        and got fixed. This article is the version I wish I&rsquo;d had on
-        day one: where the traffic is observable, which signals to trust
-        in what order, and the instrumentation rules that are cheap to
-        follow up front and expensive to retrofit.
+        Your analytics say AI traffic barely exists. Meanwhile GPTBot and
+        ClaudeBot fetch your content every day, and a growing share of
+        your visitors arrive from answers those fetches fed. Both
+        readings come from the same site. The gap is instrumentation: AI
+        systems touch your site in two ways, and standard analytics
+        misses most of both.
+      </p>
+      <p>
+        I built a detection SDK at ZeroClick that classified this
+        traffic at the edge and fed an analytics pipeline, and several
+        of the sharpest lessons came from things that broke. This
+        article is the version I wish I&rsquo;d had on day one: where
+        the traffic is observable, which signals to trust in what order,
+        and the instrumentation rules that are cheap up front and
+        expensive to retrofit.
       </p>
 
       <h2>Crawls and referrals are opposite events</h2>
@@ -58,47 +67,57 @@ export default function DetectAiTrafficPage() {
         Two categories get lumped together as &ldquo;AI traffic,&rdquo;
         and they mean opposite things. In the first, a machine fetches
         your page to train on it, to index it, or to answer a question
-        someone just asked. In the second, a human clicks a citation link
-        inside an AI product and lands on your site. The URL is the same.
-        A crawl means your content is being consumed without a visit. A
-        referral means an AI product is sending you people. Everything
-        downstream depends on keeping the two apart: content strategy,
-        access policy, whether you should celebrate or worry.
+        someone just asked. In the second, a human clicks a citation
+        link inside an AI product and lands on your site.{' '}
+        <strong>
+          A crawl means your content is being consumed without a visit,
+          and a referral means an AI product is sending you people.
+        </strong>{' '}
+        Everything downstream depends on keeping the two apart: content
+        strategy, access policy, whether to celebrate or worry.
       </p>
       <p>
-        A third category is growing fast enough to need its own bucket:
-        agentic browsers. ChatGPT&rsquo;s agent mode, Perplexity&rsquo;s
-        Comet, and Claude in Chrome drive a real browser on a
-        user&rsquo;s behalf. They execute JavaScript and fire analytics
-        tags, so they look like visitors, while a machine does the
-        clicking. Neither the crawl assumptions nor the referral
-        assumptions hold for them, so detect them separately, by user
-        agent where the product declares one and by behavior where it
-        doesn&rsquo;t.
+        A third category is growing fast enough to need its own bucket.
+        Agentic browsers such as ChatGPT&rsquo;s agent mode,
+        Perplexity&rsquo;s Comet, and Claude in Chrome drive a real
+        browser on a user&rsquo;s behalf. They execute JavaScript and
+        fire analytics tags, so they look like visitors while a machine
+        does the clicking. Detect them separately: by user agent where
+        the product declares one, by behavior where it doesn&rsquo;t.
       </p>
       <p>
         Quick aside on naming: my SDK first labeled the machine case{' '}
         <code>origin</code>, and that was a mistake. In a library that
-        lives at the edge and reads headers, &ldquo;origin&rdquo; collides
-        with the HTTP Origin header and with CDN-origin terminology, and
-        the ambiguity caused enough confusion that I renamed it to{' '}
-        <code>crawl</code>. Pick unambiguous names for your taxonomy
-        before it reaches a dashboard.
+        lives at the edge and reads headers, the word collides with the
+        HTTP Origin header and with CDN-origin terminology. I renamed it
+        to <code>crawl</code> the same day, before the first release.
+        Pick unambiguous names before your taxonomy reaches a dashboard.
       </p>
 
       <h2>Where you can observe it</h2>
       <p>
-        This is the part most teams get wrong. Client-side analytics tags
-        require JavaScript execution, and HTTP fetchers like GPTBot and
-        ClaudeBot don&rsquo;t run your JavaScript, so a JS tag sees
-        referrals and agentic browsers while missing fetchers entirely.
-        At the other end, CDN caching means a crawler&rsquo;s fetch may be
-        served from cache and never reach your origin server, so origin
-        request logs miss traffic too. So where can you watch from? The
-        one reliable spot is the layer every request passes through: edge
-        middleware or the CDN itself. My SDK started with a client-side
-        script-tag install path. We abandoned it once the numbers made
-        the blind spot obvious.
+        Sites instrumented with only a JavaScript analytics tag report
+        near-zero AI crawl traffic while their content is being fetched
+        constantly. The tag requires JavaScript execution, and HTTP
+        fetchers like GPTBot and ClaudeBot never run your JavaScript. A
+        client-side tag sees referrals and agentic browsers and misses
+        fetchers entirely.
+      </p>
+      <p>
+        Origin logs have their own blind spot. CDN caching means a
+        crawler&rsquo;s fetch may be served from cache and never reach
+        your origin server at all. So where can you watch from?{' '}
+        <strong>
+          The one reliable observation point is the layer every request
+          passes through: edge middleware or the CDN itself.
+        </strong>
+      </p>
+      <p>
+        The product my SDK fed briefly offered a script-tag install
+        path during onboarding. The SDK itself was edge-side from its
+        first spec, because a script tag can&rsquo;t see fetchers. If
+        your instrumentation runs in the page, the machine half of your
+        AI traffic doesn&rsquo;t exist in your data.
       </p>
       <p>
         Running at the edge imposes constraints worth knowing before you
@@ -108,135 +127,270 @@ export default function DetectAiTrafficPage() {
       </p>
 
       <h2>The signals, in precedence order</h2>
+      <p>
+        On day one, my SDK classified referrals by campaign parameters
+        alone, and referral counts from every AI product except ChatGPT
+        read as zero. The other products appended no{' '}
+        <code>utm_source</code> to their links. Referer support went in
+        the next day. The ordering below is what that taught me.
+      </p>
       <ol>
         <li>
-          <strong>Campaign parameters on citation links.</strong> Some
+          Campaign parameters on citation links come first. Some
           providers append a source parameter to the links they cite.
-          Match these exactly, never by substring, so a hostile value
-          like a lookalike domain can&rsquo;t pass.
+          Match these by exact equality, never by substring, so a
+          lookalike value can&rsquo;t pass.
         </li>
         <li>
-          <strong>The Referer header.</strong> It shows up when a human
+          The Referer header comes second. It shows up when a human
           clicks through from an AI product&rsquo;s web interface.
-          Substring matching on the header is spoofable, and{' '}
-          <code>chatgpt.com</code> as a substring also matches a hostile
-          domain that merely contains it, so parse the URL and compare
-          the host.
+          Parse it as a URL and compare the host, because a substring
+          check accepts any hostile domain that merely contains the
+          string.
         </li>
         <li>
-          <strong>User-agent patterns.</strong> This is the only signal
-          crawls give you. It&rsquo;s self-declared and copyable, but
+          User-agent patterns come last. They are the only signal crawls
+          give you. The string is self-declared and copyable, but
           it&rsquo;s the baseline every provider supports.
         </li>
       </ol>
       <p>
-        I learned this ordering the fast way. The first version of my SDK
-        relied on campaign parameters alone, and it needed Referer
-        support within a day. Both signals are ultimately
-        provider-controlled: a provider can drop its campaign parameters
-        unilaterally, and one Referrer-Policy header on its domain
-        silences the Referer for every click. They fail independently,
-        though, and in-app browsers and referrer policies strip one
-        while leaving the other. Use both, in that order, and record
-        which one fired.
+        <strong>
+          Classify with campaign parameters first, then Referer, then
+          user-agent, and record which signal fired.
+        </strong>{' '}
+        Both referral signals are provider-controlled. A provider can
+        drop its campaign parameters unilaterally, and one
+        Referrer-Policy header on its domain silences the Referer for
+        every click. They fail independently, though, so use both.
       </p>
+      <p>
+        The Referer rule is one my own code broke. My SDK
+        substring-matched the raw header against values like{' '}
+        <code>chatgpt.com</code>, so a referer of{' '}
+        <code>https://chatgpt.com.evil.example/</code> would pass the
+        check and get classified as an OpenAI referral. The exact-match
+        discipline held for campaign parameters and never made it to the
+        Referer path. Here&rsquo;s the shape both checks should take:
+      </p>
+      <Code lang="ts">{`type ReferralMatch = { provider: string; signal: 'utm' | 'referer' };
+
+function classifyReferral(
+  url: URL,
+  referer: string | null,
+): ReferralMatch | null {
+  // Campaign parameters: exact equality only. A substring
+  // check lets a lookalike value pass.
+  const utmSource = url.searchParams.get('utm_source')?.toLowerCase();
+  if (utmSource === 'chatgpt.com') {
+    return { provider: 'openai', signal: 'utm' };
+  }
+
+  // Referer: parse and compare the host. Substring matching
+  // accepts https://chatgpt.com.evil.example/ as OpenAI.
+  if (referer) {
+    let host: string;
+    try {
+      host = new URL(referer).hostname;
+    } catch {
+      return null;
+    }
+    if (host === 'chatgpt.com' || host.endsWith('.chatgpt.com')) {
+      return { provider: 'openai', signal: 'referer' };
+    }
+  }
+
+  return null;
+}`}</Code>
 
       <h2>Rebuild the URL before you read it</h2>
       <p>
-        At the edge you usually sit behind a proxy, and everything&rsquo;s
-        fine until you notice the request URL your code sees carries the
-        proxy&rsquo;s host and protocol rather than the real ones.
-        Rebuild the URL from the forwarded host and protocol headers, and
-        handle comma-separated values, because chained proxies append and
-        the header may read <code>https,http</code>. This matters more
-        than it looks. The query string carries your campaign parameters,
-        and if URL reconstruction is wrong, referral attribution
-        doesn&rsquo;t error. It silently reads as zero.
+        At the edge you usually sit behind a proxy, and the request URL
+        your code sees carries the proxy&rsquo;s internal host and
+        protocol rather than the real ones. Mine broke behind a Shopify
+        storefront&rsquo;s proxy. The query string carries your campaign
+        parameters, so a misread URL means the source parameter never
+        matches.{' '}
+        <strong>
+          Wrong URL reconstruction doesn&rsquo;t produce an error, only
+          a referral count that reads as zero.
+        </strong>
       </p>
+      <p>
+        Rebuild the URL from the forwarded host and protocol headers,
+        and handle comma-separated values, because chained proxies
+        append and the header can read <code>https,http</code>. My own
+        SDK handled the comma case in only one of its two runtime paths.
+        That&rsquo;s the kind of gap an audit finds and error logs never
+        will.
+      </p>
+      <Code lang="ts">{`// req.url behind a proxy carries the proxy's internal host and
+// protocol. Rebuild from the forwarded headers before reading
+// campaign parameters off the query string.
+function requestUrl(req: Request): URL {
+  const url = new URL(req.url);
+  const host = req.headers.get('x-forwarded-host');
+  if (!host) return url;
+
+  // Chained proxies append, so the header can read "https,http".
+  const proto =
+    req.headers.get('x-forwarded-proto')?.split(',')[0].trim() || 'https';
+
+  return new URL(url.pathname + url.search, \`\${proto}://\${host}\`);
+}`}</Code>
 
       <h2>Signature lists decay</h2>
       <p>
+        Google AI crawl counts can read as zero while Google&rsquo;s
+        fetches hit your site all day. My SDK shipped this bug. Its
+        signature list matched Google-Extended as a user agent, and
+        Google-Extended is a robots.txt control token with no user
+        agent of its own. That signature could never match a real
+        request.
+      </p>
+      <p>
         Whatever user-agent list you start from is a snapshot. Provider
-        agent names change, new agents appear, and some published tokens
-        are robots.txt controls rather than user agents at all. Match
-        those as user-agents and you&rsquo;ll classify nothing. Two
-        design consequences follow. First, keep the pattern list
-        updatable separately from the code; my SDK compiled the
-        signatures into the library, which turned every pattern update
-        into a release and a customer upgrade. Second, verify current
-        agent names against each provider&rsquo;s own documentation
-        rather than trusting a blog snapshot, including this one. What
-        stays stable is the category structure: training crawlers, search
-        indexers, and user-triggered fetches that retrieve a page because
-        a person asked about it. Classify into those buckets and let the
-        token list churn underneath.
+        agent names change, new agents appear, and published token
+        lists mix real user-agent strings with robots.txt-only
+        controls. Two design consequences follow.
+      </p>
+      <ul>
+        <li>
+          Keep the pattern list updatable separately from the code. My
+          SDK compiled the signatures into the library, which turned
+          every pattern update into a release and a customer upgrade.
+        </li>
+        <li>
+          Verify current agent names against each provider&rsquo;s own
+          documentation rather than a blog snapshot, including this
+          one.
+        </li>
+      </ul>
+      <p>
+        <strong>
+          What stays stable is the category structure: training
+          crawlers, search indexers, and user-triggered fetches.
+        </strong>{' '}
+        The last kind retrieves a page because a person just asked
+        about it. Classify into those buckets and let the token list
+        churn underneath.
       </p>
 
       <h2>Two rules that are cheap now and expensive later</h2>
+      <p>
+        <strong>
+          Emit an event for non-AI traffic too, and store the raw
+          user-agent with every verdict.
+        </strong>{' '}
+        Both rules cost a few lines on day one. Skipping either costs
+        you the dataset later.
+      </p>
       <ul>
         <li>
-          <strong>Emit an event for non-AI traffic too.</strong> A
-          detection library&rsquo;s instinct is to report positives. Mine
-          did, until someone asked what percentage of our traffic was AI
-          and I had no denominator to answer with. Send an explicit null
-          classification for ordinary pageviews from day one.
+          Send an explicit null classification for ordinary pageviews.
+          My SDK left the verdict field off non-AI events, and the gap
+          surfaced when someone asked what percentage of our traffic
+          was AI. Absolute counts have no denominator.
         </li>
         <li>
-          <strong>Store the raw user-agent alongside your verdict.</strong>{' '}
-          Your patterns will improve, and the raw string is the only
-          thing that lets you re-classify history instead of starting
-          your dataset over.
+          Store the raw user-agent alongside your verdict. Your
+          patterns will improve, and the raw string is the only thing
+          that lets you re-classify history instead of starting the
+          dataset over.
         </li>
       </ul>
+      <Code lang="ts">{`const detection = detectAi(request); // null when nothing matched
+
+track({
+  url: url.href,
+  // "Not AI" is a verdict. An absent field is not.
+  ai_detection: detection ?? { type: null, provider: null },
+  // The raw string lets you re-classify history later.
+  user_agent: request.headers.get('user-agent'),
+});`}</Code>
 
       <h2>Most of the work is filtering</h2>
       <p>
-        One measurement from my SDK makes the point: the filtering
-        module grew to roughly six times the size of the detection
-        module. Every page a human loads triggers a swarm of requests
-        that aren&rsquo;t pageviews: static assets, hashed bundle files,
-        framework prefetches, API calls. Left unfiltered, they drown the
-        signal. This is the part that bites. One human landing can
-        produce many prefetch requests that each look like a separate
-        referral, inflating your counts by the prefetch factor. You need
-        layered filters for asset extensions, bundler hash patterns,
-        framework internals, API paths, and prefetch headers, plus
-        deduplication for the prefetch case.
+        One human landing from ChatGPT can register as several
+        referrals, because framework prefetches carry the same URL and
+        referer. Every page a human loads triggers a swarm of requests
+        that aren&rsquo;t pageviews: static assets, hashed bundle
+        files, framework internals, API calls. Left unfiltered, they
+        drown the signal.
       </p>
       <p>
-        Two cautions apply. Don&rsquo;t let filtering run ahead of
+        <strong>
+          In my SDK, the filtering module grew to roughly six times the
+          size of the detection module.
+        </strong>{' '}
+        Detecting AI traffic was the small problem. Deciding which
+        requests count as page visits was the big one. The filters
+        ended up layered.
+      </p>
+      <ul>
+        <li>Extension lists catch static assets.</li>
+        <li>
+          A hash pattern catches bundler output like{' '}
+          <code>/app.3f2a9c1b.js</code>.
+        </li>
+        <li>Path lists catch framework internals and API routes.</li>
+        <li>
+          Prefetch headers from Next.js, Remix, and the other
+          frameworks mark speculative navigations, which get suppressed
+          rather than counted.
+        </li>
+      </ul>
+      <p>
+        The first caution: don&rsquo;t let filtering run ahead of
         detection in a way that collapses &ldquo;not worth
-        recording&rdquo; into &ldquo;not AI&rdquo;. Those are different
+        recording&rdquo; into &ldquo;not AI.&rdquo; Those are different
         verdicts, and you&rsquo;ll want to tell them apart when the
-        numbers look wrong. And don&rsquo;t blanket-filter non-HTML
-        paths, because that discards the exact files agents ask for:{' '}
-        <code>llms.txt</code>, <code>robots.txt</code>, sitemaps, and
-        markdown docs are AI traffic rather than noise.
+        numbers look wrong.
+      </p>
+      <p>
+        The second caution is a mistake my own filter makes. Its
+        asset-extension list includes txt, xml, md, and json, so{' '}
+        <code>robots.txt</code>, <code>llms.txt</code>, sitemaps, and
+        markdown docs get dropped unless the consumer opts them back
+        in. Those are the files agents ask for. They&rsquo;re AI
+        traffic rather than noise.
       </p>
 
       <h2>Verification, and what pattern matching can&rsquo;t do</h2>
       <p>
-        Everything above is deterministic string matching, and a
-        determined spoofer can defeat it. So what do you do about
+        A spoofer sending ChatGPT-User in its user-agent is
+        indistinguishable from OpenAI at the string-matching tier.
+        Everything above is deterministic. So what do you do about
         spoofing? The next tier is verification: several providers
         publish the IP ranges their crawlers use, and some support
-        reverse-DNS confirmation. That work belongs on the server rather
-        than in a client-side library. Checking an IP against published
-        ranges, holding reputation across requests, and scoring
-        confidence all need state and context a stateless edge function
-        doesn&rsquo;t have. My SDK stayed deterministic by design and
-        left scoring to the pipeline behind it. One more boundary is
-        worth knowing: instrumentation that only watches GET requests
-        misses agents that POST to your endpoints, which matters more
-        each year as agents act rather than read.
+        reverse-DNS confirmation.
+      </p>
+      <p>
+        <strong>
+          Verification belongs on the server, behind the deterministic
+          edge layer.
+        </strong>{' '}
+        Checking an IP against published ranges, holding reputation
+        across requests, and scoring confidence all need state a
+        stateless edge function doesn&rsquo;t have. My SDK stayed
+        deterministic by design and left scoring to the pipeline behind
+        it.
+      </p>
+      <p>
+        One more boundary is worth knowing, because it&rsquo;s a limit
+        of my own code too. My SDK only tracked GET requests, so an
+        agent that POSTs to your endpoints was invisible to it. That
+        blind spot matters more each year as agents act rather than
+        read.
       </p>
       <p>
         If I could send a note back to myself on day one, it would say
         this. Observe at the edge. Classify crawl versus referral with
         signals in precedence order. Keep the denominator and the raw
-        evidence. Spend real design effort on filtering, and treat every
-        signature list, including this article&rsquo;s, as something to
-        verify against provider documentation before you rely on it.
+        evidence. Spend real design effort on filtering. And treat
+        every signature list, including this article&rsquo;s, as
+        something to verify against provider documentation, because
+        mine still carries a signature that can never match.
       </p>
     </ArticleLayout>
   );

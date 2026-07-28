@@ -5,12 +5,12 @@
  * seamless loop; the copy is aria-hidden.
  */
 const LOGOS: { src: string; alt: string; height: number }[] = [
-  { src: '/logos/ucsb.svg', alt: 'UC Santa Barbara', height: 30 },
-  { src: '/logos/infillion.png', alt: 'Infillion', height: 22 },
-  { src: '/logos/producepay.svg', alt: 'ProducePay', height: 24 },
-  { src: '/logos/honey.svg', alt: 'Honey', height: 26 },
-  { src: '/logos/pie.svg', alt: 'Pie', height: 30 },
-  { src: '/logos/zeroclick.svg', alt: 'ZeroClick', height: 22 },
+  { src: '/logos/ucsb.svg', alt: 'UC Santa Barbara', height: 40 },
+  { src: '/logos/infillion.png', alt: 'Infillion', height: 29 },
+  { src: '/logos/producepay.svg', alt: 'ProducePay', height: 32 },
+  { src: '/logos/honey.svg', alt: 'Honey', height: 34 },
+  { src: '/logos/pie.svg', alt: 'Pie', height: 40 },
+  { src: '/logos/zeroclick.svg', alt: 'ZeroClick', height: 29 },
 ];
 
 function Row({ hidden = false }: { hidden?: boolean }) {
@@ -33,9 +33,11 @@ function Row({ hidden = false }: { hidden?: boolean }) {
 export function LogoBanner() {
   return (
     <div className="logo-banner" role="img" aria-label="Companies I've worked with: UC Santa Barbara, Infillion, ProducePay, Honey, Pie, and ZeroClick">
-      <div className="logo-track">
-        <Row />
-        <Row hidden />
+      <div className="logo-viewport">
+        <div className="logo-track">
+          <Row />
+          <Row hidden />
+        </div>
       </div>
     </div>
   );

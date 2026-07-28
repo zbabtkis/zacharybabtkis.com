@@ -388,22 +388,39 @@ h3 {
 /* ---------- Logo banner ---------- */
 
 .logo-banner {
-  overflow: hidden;
   padding: var(--space-md) 0;
   border-bottom: 1px solid var(--rule);
+}
+
+.logo-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
 }
 
 .logo-track {
   display: flex;
   width: max-content;
-  animation: logo-scroll 40s linear infinite;
+  animation: logo-scroll 48s linear infinite;
 }
 
 .logo-row {
   display: flex;
   align-items: center;
-  gap: 4.5rem;
-  padding-right: 4.5rem;
+  gap: 7rem;
+  padding-right: 7rem;
 }
 
 .logo-row img {
@@ -2235,6 +2252,11 @@ button.ext-badge {
 
 .story.tool-band > p:not(.story-kicker) {
   flex: 1 1 24rem;
+}
+
+.story.tool-band h3 {
+  flex-basis: 100%;
+  margin: 0;
 }
 
 .story.tool-band .story-kicker {
