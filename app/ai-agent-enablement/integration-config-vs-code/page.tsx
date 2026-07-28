@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { ConfigVsCodeDiagram } from '@/components/diagrams/config-vs-code';
 
 export const metadata: Metadata = {
   title: 'Config, DSL, or Code: Structuring Dozens of Third-Party Integrations',
@@ -208,6 +209,7 @@ async function provision({ request, context }) {
         setup dance is not standardized. Every provider&rsquo;s is
         different, and the differences are structural.
       </p>
+      <ConfigVsCodeDiagram />
       <p>
         So the integration definition split in two.{' '}
         <strong>

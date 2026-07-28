@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { CrawlVsReferralDiagram } from '@/components/diagrams/crawl-vs-referral';
 
 export const metadata: Metadata = {
   title: 'How to Detect AI Crawlers and LLM Referral Traffic',
@@ -76,6 +77,7 @@ export default function DetectAiTrafficPage() {
         Everything downstream depends on keeping the two apart: content
         strategy, access policy, whether to celebrate or worry.
       </p>
+      <CrawlVsReferralDiagram />
       <p>
         A third category is growing fast enough to need its own bucket.
         Agentic browsers such as ChatGPT&rsquo;s agent mode,

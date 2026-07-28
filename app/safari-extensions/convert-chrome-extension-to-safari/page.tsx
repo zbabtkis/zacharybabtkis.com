@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { PortCoverageDiagram } from '@/components/diagrams/port-coverage';
 
 export const metadata: Metadata = {
   title: 'Converting a Chrome Extension to Safari and iOS: The Complete Guide',
@@ -137,6 +138,7 @@ export default function ConvertGuidePage() {
         consults your return value, so ads load while your listener code
         appears to run.
       </p>
+      <PortCoverageDiagram />
       <p>
         <strong>
           Blocking <code>webRequest</code> does not exist in Safari.

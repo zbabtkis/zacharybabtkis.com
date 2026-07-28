@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { IdentitySourcesDiagram } from '@/components/diagrams/identity-sources';
 
 export const metadata: Metadata = {
   title: 'Knowing Which Page You’re On Inside a Single-Page App',
@@ -153,6 +154,7 @@ function getChannelIdentity() {
         The lookup returns false and the feature quietly declines to
         run.
       </p>
+      <IdentitySourcesDiagram />
       <p>
         The cause is that the two sources emit different string forms
         of the same identity. On YouTube the meta tag carries the

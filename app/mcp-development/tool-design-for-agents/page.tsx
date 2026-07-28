@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { ToolSurfaceDiagram } from '@/components/diagrams/tool-surface';
 
 export const metadata: Metadata = {
   title: 'Designing MCP Tools That Models Call Correctly',
@@ -97,6 +98,7 @@ Call sequence:
         validation you can do server-side before returning results is
         validation the model never gets a chance to fail.
       </p>
+      <ToolSurfaceDiagram />
 
       <h2>Two tools, one hidden protocol</h2>
       <p>

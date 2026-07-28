@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { ElicitationSuspendDiagram } from '@/components/diagrams/elicitation-suspend';
 
 export const metadata: Metadata = {
   title: 'MCP Elicitation: Pausing a Tool Call to Ask the User a Question',
@@ -94,6 +95,7 @@ export default function McpElicitationPage() {
         something like <code>await prompt(message, schema)</code> and
         stops. Here&rsquo;s the gist of what happens underneath:
       </p>
+      <ElicitationSuspendDiagram />
       <ol>
         <li>
           The pending question is written to a shared store (Redis, a

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { InjectionSurfaceDiagram } from '@/components/diagrams/injection-surface';
 
 export const metadata: Metadata = {
   title: 'Running Untrusted JavaScript on Your Own Infrastructure',
@@ -103,6 +104,7 @@ export default function SandboxingUntrustedCodePage() {
           everything reachable through those objects comes with it.
         </strong>
       </p>
+      <InjectionSurfaceDiagram />
       <p>
         It is tempting to count only the API you meant to expose. Our
         sandbox handed the code four things by design: a scoped access

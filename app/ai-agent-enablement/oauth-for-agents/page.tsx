@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { DeferredOwnershipDiagram } from '@/components/diagrams/deferred-ownership';
 
 export const metadata: Metadata = {
   title: 'OAuth Assumes Your User Already Has an Account',
@@ -116,6 +117,7 @@ export default function OauthForAgentsPage() {
         ownership when they decide to keep it. Two design points made
         ours work.
       </p>
+      <DeferredOwnershipDiagram />
       <p>
         First, the link you send the user is a stable URL you control,
         with an identifier for the provisioned resource. Never send the

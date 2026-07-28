@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { ReviewCycleDiagram } from '@/components/diagrams/review-cycle';
 
 export const metadata: Metadata = {
   title: 'Safari Extension Rejected by App Review? The Usual Reasons, and the Fixes',
@@ -251,6 +252,7 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
           against that cycle.
         </strong>
       </p>
+      <ReviewCycleDiagram />
       <p>
         Reviewers are fast and pattern-driven; your notes are the
         pattern you hand them. Good notes cover four things:

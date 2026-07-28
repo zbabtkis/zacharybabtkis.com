@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { ConverterTimelineDiagram } from '@/components/diagrams/converter-timeline';
 
 export const metadata: Metadata = {
   title: 'safari-web-extension-converter Ran Fine. So Why Is the Extension Broken?',
@@ -84,6 +85,7 @@ export default function ConverterNotWorkingPage() {
         fix we shipped for each.
       </p>
 
+      <ConverterTimelineDiagram />
       <h2>1. Feature detection passes and nothing happens</h2>
       <p>
         Here&rsquo;s the version of this that bit me. A user logs in on

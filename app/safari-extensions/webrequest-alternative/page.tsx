@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { RequestPathDiagram } from '@/components/diagrams/request-path';
 
 export const metadata: Metadata = {
   title: 'Safari Has No Blocking webRequest: What to Do Instead',
@@ -72,6 +73,7 @@ export default function WebRequestAlternativePage() {
         in Safari. The request completes no matter what your listener
         returns.
       </p>
+      <RequestPathDiagram />
       <p>
         In Chrome, historically, your JavaScript could sit in the
         request path: see each request, decide, then block or rewrite

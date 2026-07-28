@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { StatelessMigrationDiagram } from '@/components/diagrams/stateless-migration';
 
 export const metadata: Metadata = {
   title: 'MCP Went Stateless: Migrating a Session-Era Server to the 2026-07-28 Spec',
@@ -158,6 +159,7 @@ export default function McpStatelessMigrationPage() {
         If your server has a block like this, it exists so a follow-up
         request can find the process that created its session:
       </p>
+      <StatelessMigrationDiagram />
       <Code lang="ts">{`// The bookkeeping the stateless model deletes outright.
 const sessions = new Map<
   string, // the Mcp-Session-Id header value
