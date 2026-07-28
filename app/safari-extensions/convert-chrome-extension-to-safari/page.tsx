@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ConvertGuidePage() {
   return (
     <ArticleLayout
-      title="Converting a Chrome extension to Safari and iOS: the complete guide"
+      title="Getting your Chrome extension onto Safari and iPhone: the complete guide"
       description="What the converter does, which APIs break, the DeclarativeNetRequest migration, Xcode signing, and App Store review."
       datePublished="2026-07-24"
       slug="/safari-extensions/convert-chrome-extension-to-safari/"

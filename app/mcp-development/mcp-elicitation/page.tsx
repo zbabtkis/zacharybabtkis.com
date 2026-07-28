@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function McpElicitationPage() {
   return (
     <ArticleLayout
-      title="Pausing a tool call to ask the user a question"
+      title="How to pause an MCP tool call, ask the user, and resume"
       description="MCP elicitation in practice: suspending tool execution on human input, resuming cleanly, and the races and timeouts you have to design for."
       datePublished="2026-07-25"
       slug="/mcp-development/mcp-elicitation/"

@@ -9,7 +9,7 @@ export const GUIDES: Guide[] = [
   {
     slug: '/safari-extensions/convert-chrome-extension-to-safari/',
     title:
-      'Converting a Chrome extension to Safari and iOS: the complete guide',
+      'Getting your Chrome extension onto Safari and iPhone: the complete guide',
     blurb:
       'What the converter does, what breaks, DNR, signing, and App Review.',
     topic: 'safari-extensions',
@@ -38,14 +38,14 @@ export const GUIDES: Guide[] = [
   {
     slug: '/safari-extensions/dynamic-dnr-rules/',
     title:
-      'Dynamic declarativeNetRequest rules: scoping, budgeting, and safely undoing them',
+      'When your dynamic rules stop installing, collide, or change meaning in Safari',
     blurb:
       'The shared rule budget, encoding provenance in rule IDs, and teardown that does not break other features.',
     topic: 'safari-extensions',
   },
   {
     slug: '/safari-extensions/spa-page-identity/',
-    title: "Knowing which page you're on inside a single-page app",
+    title: "The site never reloads, and your extension can't tell where it is",
     blurb:
       'Why server-rendered metadata goes stale after client navigation, and how to keep a content script current.',
     topic: 'safari-extensions',
@@ -53,7 +53,7 @@ export const GUIDES: Guide[] = [
   {
     slug: '/safari-extensions/main-world-scripts/',
     title:
-      "Running extension code in the page's world, and coordinating across the boundary",
+      "When your content script can't see the page's JavaScript",
     blurb:
       'MAIN vs isolated world, registration order, and passing state between halves that cannot message each other.',
     topic: 'safari-extensions',
@@ -74,28 +74,28 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: '/mcp-development/mcp-elicitation/',
-    title: 'Pausing a tool call to ask the user a question',
+    title: 'How to pause an MCP tool call, ask the user, and resume',
     blurb:
       'MCP elicitation end to end: suspend and resume, timeouts that ignore human thinking time, and the race everyone hits.',
     topic: 'mcp-development',
   },
   {
     slug: '/mcp-development/tool-design-for-agents/',
-    title: 'Designing MCP tools that models call correctly',
+    title: 'Why models ignore your MCP tools, and the design that fixes it',
     blurb:
       'Server instructions, filtering server-side, error results over exceptions, and tool output as prompt surface.',
     topic: 'mcp-development',
   },
   {
     slug: '/mcp-development/sandboxing-untrusted-code/',
-    title: 'Running untrusted JavaScript on your own infrastructure',
+    title: "You have to run untrusted JavaScript. A VM sandbox isn't enough.",
     blurb:
       'A VM context isolates scope, not capability: SSRF and rebinding defenses, log exfiltration, and the execution contract.',
     topic: 'mcp-development',
   },
   {
     slug: '/ai-agent-enablement/detect-ai-traffic/',
-    title: 'How to detect AI crawlers and LLM referral traffic',
+    title: 'How to tell humans, AI crawlers, and AI agents apart in your traffic',
     blurb:
       'Why analytics tags and origin logs both miss it, which signals to trust, and the two rules that make the numbers usable.',
     topic: 'ai-agent-enablement',
@@ -110,7 +110,7 @@ export const GUIDES: Guide[] = [
   {
     slug: '/ai-agent-enablement/integration-config-vs-code/',
     title:
-      'Config, DSL, or code: structuring dozens of third-party integrations',
+      'Fifty integrations are coming. Config, DSL, or code?',
     blurb:
       'Three architectures I tried and abandoned, and the split between declarative auth and executable setup that held up.',
     topic: 'ai-agent-enablement',

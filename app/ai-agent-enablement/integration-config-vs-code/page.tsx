@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function IntegrationConfigVsCodePage() {
   return (
     <ArticleLayout
-      title="Config, DSL, or code: structuring dozens of third-party integrations"
+      title="Fifty integrations are coming. Config, DSL, or code?"
       description="Four ways to represent third-party integrations an agent executes. Two failed on a real system. The fourth, a split of config and sandboxed code, held up."
       datePublished="2026-07-25"
       slug="/ai-agent-enablement/integration-config-vs-code/"

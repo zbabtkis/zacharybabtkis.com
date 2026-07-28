@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function DynamicDnrRulesPage() {
   return (
     <ArticleLayout
-      title="Dynamic declarativeNetRequest rules: limits, rule ownership, and Safari differences"
+      title="When your dynamic rules stop installing, collide, or change meaning in Safari"
       description="Why dynamic rules stop installing, how to tell which feature owns which rule, and why Safari runs the same rules differently. Budgets, rule-ID provenance, selective teardown."
       datePublished="2026-07-25"
       slug="/safari-extensions/dynamic-dnr-rules/"

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function MainWorldScriptsPage() {
   return (
     <ArticleLayout
-      title="Running extension code in the page's world, and coordinating across the boundary"
+      title="When your content script can't see the page's JavaScript"
       description="When an extension needs MAIN-world content scripts, and the patterns that make the two worlds cooperate."
       datePublished="2026-07-25"
       slug="/safari-extensions/main-world-scripts/"

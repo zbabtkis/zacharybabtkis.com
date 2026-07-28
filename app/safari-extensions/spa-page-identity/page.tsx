@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function SpaPageIdentityPage() {
   return (
     <ArticleLayout
-      title="Knowing which page you're on inside a single-page app"
+      title="The site never reloads, and your extension can't tell where it is"
       description="How a content script extracts a page identity and keeps it current across client-side navigation."
       datePublished="2026-07-25"
       slug="/safari-extensions/spa-page-identity/"

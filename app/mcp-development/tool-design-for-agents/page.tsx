@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ToolDesignForAgentsPage() {
   return (
     <ArticleLayout
-      title="Designing MCP tools that models call correctly"
+      title="Why models ignore your MCP tools, and the design that fixes it"
       description="Server instructions, server-side filtering, two-tool surfaces, and results written as prompts: the design decisions that determine whether a model uses your MCP server."
       datePublished="2026-07-25"
       slug="/mcp-development/tool-design-for-agents/"

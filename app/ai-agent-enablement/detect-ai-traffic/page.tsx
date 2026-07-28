@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function DetectAiTrafficPage() {
   return (
     <ArticleLayout
-      title="How to detect AI crawlers and LLM referral traffic"
+      title="How to tell humans, AI crawlers, and AI agents apart in your traffic"
       description="This guide covers where AI traffic is observable, which signals to trust in what order, and the instrumentation rules that make the measurements usable."
       datePublished="2026-07-25"
       slug="/ai-agent-enablement/detect-ai-traffic/"

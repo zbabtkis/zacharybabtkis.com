@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function SandboxingUntrustedCodePage() {
   return (
     <ArticleLayout
-      title="Running untrusted JavaScript on your own infrastructure"
+      title="You have to run untrusted JavaScript. A VM sandbox isn't enough."
       description="What it takes to execute partner, user, or model-generated code server-side without handing over your network, your logs, or your credentials."
       datePublished="2026-07-25"
       slug="/mcp-development/sandboxing-untrusted-code/"
