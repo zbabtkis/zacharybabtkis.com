@@ -87,10 +87,10 @@ export default function StatefulMcpServersPage() {
         With one replica, every request lands on the process holding the
         session, so everything&rsquo;s good. With two, a round-robin load
         balancer sends roughly half of your follow-up requests to a
-        replica that has never heard of the session. The request fails,
-        the client retries, maybe initializes a new session, and your
-        logs fill with session-not-found errors that correlate with
-        nothing.
+        replica that has never heard of the session. The request fails
+        with a 404 &ldquo;session not found&rdquo; error, the client
+        retries, maybe initializes a new session, and your logs fill
+        with session-not-found errors that correlate with nothing.
       </p>
       <p>
         The sharpest version of this involves elicitation, the MCP

@@ -29,7 +29,9 @@ export default function AppStoreRejectionPage() {
 
       <h2>&ldquo;Your app provides minimal functionality&rdquo;</h2>
       <p>
-        You may be wondering why Apple cares about an app whose whole job
+        This one arrives citing Guideline 4.2 (Design: Minimum
+        Functionality), sometimes 4.2.2. You may be wondering why Apple
+        cares about an app whose whole job
         is carrying an extension. It cares. The containing app can&rsquo;t
         be an empty shell. It doesn&rsquo;t need features, just a purpose:
         explain what the extension does, show whether it&rsquo;s enabled,

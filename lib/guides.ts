@@ -62,7 +62,14 @@ export const GUIDES: Guide[] = [
     slug: '/mcp-development/stateful-mcp-servers/',
     title: "Your MCP server is stateful. Your load balancer doesn't know that.",
     blurb:
-      'Sticky sessions, SSE timeouts, and the in-memory session map that leaks in production.',
+      'Sessions, sticky routing, proxy timeouts, and what breaks at two replicas.',
+    topic: 'mcp-development',
+  },
+  {
+    slug: '/mcp-development/mcp-stateless-migration/',
+    title: "MCP went stateless. Here's how to migrate a session-era server.",
+    blurb:
+      'The 2026-07-28 spec removes sessions. The handle pattern, elicitation changes, and the order to migrate in.',
     topic: 'mcp-development',
   },
   {

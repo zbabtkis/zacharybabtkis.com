@@ -4,7 +4,7 @@ import { ArticleLayout } from '@/components/article';
 export const metadata: Metadata = {
   title: 'safari-web-extension-converter Ran Fine. So Why Is the Extension Broken?',
   description:
-    'The Safari extension converter produces projects that compile but don’t work. The six most common causes: silently missing APIs, background lifecycle, manifest keys Safari ignores, storage differences, signing, and iOS quirks.',
+    'safari-web-extension-converter ran but the converted extension is not working? The six most common causes: silently missing APIs, background lifecycle, manifest keys Safari ignores, storage differences, signing, and iOS quirks.',
 };
 
 export default function ConverterNotWorkingPage() {
@@ -13,7 +13,28 @@ export default function ConverterNotWorkingPage() {
       title="The converter ran fine. So why is your Safari extension broken?"
       description="Six reasons a converted Chrome extension compiles but doesn't work in Safari, and how to diagnose each."
       datePublished="2026-07-24"
+      dateModified="2026-07-28"
       slug="/safari-extensions/converter-not-working/"
+      faq={[
+        {
+          question:
+            'Why does my converted Safari extension not work when the converter ran fine?',
+          answer:
+            'Because safari-web-extension-converter copies your files without checking whether the APIs you call exist in Safari. The usual causes, in the order I find them: an API that silently doesn’t exist in Safari, background lifecycle differences, manifest keys Safari ignores, storage behavior differences, signing problems, and iOS-specific quirks. The project compiling tells you nothing about whether the extension works.',
+        },
+        {
+          question:
+            'How do I debug a converted Safari extension that isn’t working?',
+          answer:
+            'Turn on Safari’s Develop menu, allow unsigned extensions if you built without signing, and use Web Inspector to open the background context and popup consoles directly. Those consoles are hidden until the Develop menu is on, which is why converted extensions feel undebuggable. One useful trick: if behavior improves while the inspector is open, you’ve found a background-lifecycle bug, because the inspector keeps the script alive.',
+        },
+        {
+          question:
+            'Why does my extension work in Chrome but not in Safari?',
+          answer:
+            'Some Chrome APIs don’t exist in Safari, and calling them fails silently rather than throwing. Blocking webRequest, several permission surfaces, and page overrides are the common ones. Check every chrome.* call your extension makes against Safari’s support before assuming the port is broken. Half of my port assessments come down to a list of exactly these calls.',
+        },
+      ]}
       ctaTitle="Stuck on a converted extension that won't behave?"
       ctaBody="Send me your extension's store link or repo. The port assessment catalogs what's broken and what it'll take to fix. It takes one week at a fixed price, and the fee credits toward the port."
       ctaEmailSubject="Safari Port Assessment: converter issues"
