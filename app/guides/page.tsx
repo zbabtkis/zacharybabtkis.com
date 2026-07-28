@@ -30,12 +30,22 @@ export default function GuidesPage() {
         <section className="section" key={topic}>
           <div className="wrap">
             <h2>{TOPIC_LABELS[topic]}</h2>
-            <ul className="guide-list">
+            <ul className="guide-cards">
               {GUIDES.filter((guide: Guide) => guide.topic === topic).map(
                 (guide) => (
                   <li key={guide.slug}>
                     <a href={guide.slug}>
-                      {guide.title}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/guide-thumbs/${guide.slug
+                          .replace(/^\/|\/$/g, '')
+                          .replace(/\//g, '--')}.png`}
+                        alt=""
+                        width={600}
+                        height={240}
+                        loading="lazy"
+                      />
+                      <strong>{guide.title}</strong>
                       <span>{guide.blurb}</span>
                     </a>
                   </li>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { SessionRoutingDiagram } from '@/components/diagrams/session-routing';
 
 export const metadata: Metadata = {
   title: 'Your MCP Server Is Stateful. Your Load Balancer Doesn’t Know That.',
@@ -92,6 +93,7 @@ export default function StatefulMcpServersPage() {
         retries, maybe initializes a new session, and your logs fill
         with session-not-found errors that correlate with nothing.
       </p>
+      <SessionRoutingDiagram />
       <p>
         The sharpest version of this involves elicitation, the MCP
         mechanism where the server pauses a tool call to ask the human a
