@@ -385,6 +385,60 @@ h3 {
   }
 }
 
+/* ---------- Logo banner ---------- */
+
+.logo-banner {
+  overflow: hidden;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: logo-scroll 40s linear infinite;
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 4.5rem;
+  padding-right: 4.5rem;
+}
+
+.logo-row img {
+  width: auto;
+  filter: brightness(0);
+  opacity: 0.3;
+}
+
+@keyframes logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .logo-track .logo-row[aria-hidden] {
+    display: none;
+  }
+
+  .logo-row {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--space-sm);
+  }
+}
+
 /* ---------- Inline diagrams ---------- */
 
 .diagram {

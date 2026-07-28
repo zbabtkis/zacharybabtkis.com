@@ -3,6 +3,7 @@ import { CtaBand } from '@/components/sections';
 import { Chapter, StatBand } from '@/components/dossier';
 import { Wave } from '@/components/artifacts';
 import { HeroPlug } from '@/components/hero-plug';
+import { LogoBanner } from '@/components/logo-banner';
 import { ServiceIcon } from '@/components/service-icons';
 import { WorkWall } from '@/components/work-wall';
 import { SITE, RECEIPTS, calLink } from '@/lib/site';
@@ -75,16 +76,18 @@ export default function HomePage() {
         stats={[
           {
             value: '20M+',
-            label: 'combined users of Honey and Pie',
+            label: 'people use extensions I helped build',
             href: RECEIPTS.paypalHoney,
           },
           {
-            value: '$4B',
-            label: 'Honey’s sale to PayPal',
+            value: '10k+',
+            label: 'installs of my independent products',
           },
           { value: '14 yrs', label: 'of production engineering, 2012 to today' },
         ]}
       />
+
+      <LogoBanner />
 
       <section className="section">
         <div className="wrap">

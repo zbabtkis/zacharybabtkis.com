@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 import { SessionRoutingDiagram } from '@/components/diagrams/session-routing';
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function StatefulMcpServersPage() {
       title="Your MCP server is stateful. Your load balancer doesn’t know that."
       description="Why MCP over streamable HTTP breaks behind multiple replicas, and what session affinity, proxy timeouts, and TTL sweeps have to do with it."
       datePublished="2026-07-25"
+      dateModified="2026-07-28"
       slug="/mcp-development/stateful-mcp-servers/"
       byline="I built and shipped MCP servers and agent tooling at ZeroClick"
       faq={[
@@ -47,11 +49,17 @@ export default function StatefulMcpServersPage() {
         Your MCP server works on localhost. It works on a single cloud
         instance. Then you put it behind a load balancer, scale to two
         replicas, and sessions start failing in ways that look random:
-        requests that reference a session the server claims doesn&rsquo;t
+        requests that reference a session the server insists doesn&rsquo;t
         exist, streams that die mid-response with a 502. Nothing in your
-        code changed. What changed is that your infrastructure assumes a
-        stateless service, and an MCP server over streamable HTTP
-        isn&rsquo;t one.
+        code changed.
+      </p>
+      <p>
+        What changed is the assumption underneath you. Your infrastructure
+        treats every service as stateless, and an MCP server over
+        streamable HTTP, the transport where the server can hold a
+        long-lived stream open back to the client, isn&rsquo;t one. I ran
+        into every failure below on an MCP server I built at ZeroClick,
+        and each section ends with the fix that shipped.
       </p>
       <p>
         Quick version note before the details, as of July 2026. The MCP
@@ -70,126 +78,223 @@ export default function StatefulMcpServersPage() {
         From the outside, streamable HTTP looks like ordinary
         request/response. It isn&rsquo;t. When a client initializes a
         session, the server typically opens a server-sent-events stream
-        back to it and keeps a transport object for that session in
-        memory, commonly a map from session ID to transport. Every
-        subsequent request in that session assumes the process that
-        receives it holds that entry. The stream is how the server pushes
-        notifications, progress, and elicitation requests to the client;
-        the map entry is how a follow-up POST finds its way back to the
-        right stream.
+        back to it, a long-lived HTTP response the server keeps writing
+        messages into. It also keeps a transport object for that session
+        in memory, commonly a map from session ID to transport.
       </p>
       <p>
-        That&rsquo;s server-side state, pinned to one process, and your
-        load balancer has no idea it exists.
+        The stream is how the server pushes notifications, progress
+        updates, and questions back to the client. The map entry is how a
+        follow-up POST finds its way to the right stream. Every request
+        in the session assumes the process receiving it holds that entry.
+      </p>
+      <p>
+        <strong>
+          That&rsquo;s server-side state, pinned to one process, and your
+          load balancer has no idea it exists.
+        </strong>
       </p>
 
       <h2>The second replica breaks it</h2>
       <p>
         With one replica, every request lands on the process holding the
-        session, so everything&rsquo;s good. With two, a round-robin load
+        session, so nothing looks wrong. With two, a round-robin load
         balancer sends roughly half of your follow-up requests to a
-        replica that has never heard of the session. The request fails
+        replica that has never heard of the session. Those requests fail
         with a 404 &ldquo;session not found&rdquo; error, the client
-        retries, maybe initializes a new session, and your logs fill
-        with session-not-found errors that correlate with nothing.
+        retries or starts a new session, and your logs fill with errors
+        that correlate with nothing.
       </p>
       <SessionRoutingDiagram />
       <p>
         The sharpest version of this involves elicitation, the MCP
         mechanism where the server pauses a tool call to ask the human a
         question. I hit it on an MCP server I built at ZeroClick that
-        provisioned third-party services inside agent sessions:
-        provisioning would pause on a question, the user would answer, and
-        the answer POST had to reach the exact instance holding the open
-        SSE stream for that session. Behind a multi-replica load balancer
-        it often didn&rsquo;t. The fix was generated-cookie session
-        affinity at the load balancer: the balancer sets a cookie on the
-        first response and routes every request carrying it to the same
-        backend. Set the cookie&rsquo;s TTL to match your session
-        lifetime. An affinity cookie that outlives the session pins
-        clients to a backend for no reason, and one that expires early
-        recreates the original bug.
+        provisioned third-party services inside agent sessions.
+        Provisioning would pause on a question, and the moment the user
+        answered, the call either died with a session error or hung until
+        it timed out.
+      </p>
+      <p>
+        Why? The question travels to the client over the session&rsquo;s
+        open SSE stream. The answer comes back as a separate HTTP POST,
+        and only the instance holding that stream can match the answer to
+        the tool call waiting on it. Behind a multi-replica load
+        balancer, the answer often landed somewhere else.
+      </p>
+      <p>
+        <strong>
+          The fix was generated-cookie session affinity at the load
+          balancer: the balancer sets a cookie on the first response and
+          routes every request carrying it to the same backend.
+        </strong>{' '}
+        Set the cookie&rsquo;s TTL to match your session lifetime. A
+        cookie that outlives the session pins clients to a backend for no
+        reason, and one that expires early recreates the original bug.
+      </p>
+      <Code lang="yaml">{`# GCP BackendConfig. Three settings from this article in one
+# object: affinity here, the timeout and health check below.
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: mcp-backend
+spec:
+  sessionAffinity:
+    affinityType: GENERATED_COOKIE
+    affinityCookieTtlSec: 1800  # 30 min, matched to the session TTL
+  timeoutSec: 300               # next section
+  healthCheck:
+    requestPath: /health/ready  # off the streaming path, see below
+    timeoutSec: 2`}</Code>
+      <p>
+        One caveat worth knowing before you rely on this. Cookie affinity
+        only works when the MCP client stores and returns cookies. The
+        client I served did, through a fetch wrapper that persisted them.
+        A client that ignores cookies silently falls back to round-robin
+        routing, and you&rsquo;re back where you started.
       </p>
       <p>
         The alternative to affinity is externalizing the transport state
         so any replica can serve any session. That&rsquo;s more work, and
-        I cover it in the decision guide below. But do one or the other
+        I cover it in the decision guide below. Do one or the other
         before adding the second replica.
       </p>
 
       <h2>Proxies kill healthy streams</h2>
       <p>
-        An SSE stream that carries a slow tool call can sit quiet for
-        minutes. Managed load balancers ship with backend idle timeouts
-        tuned for request/response traffic. On the setup I ran, the
-        default was 30 seconds. When the stream stays quiet past that,
-        the balancer cuts it, and the client sees a 502 on a connection
-        that was working correctly. The fix is configuration rather
-        than code: I raised the
-        backend timeout to 300 seconds, sized to the longest quiet period
-        a tool call could plausibly produce.
+        Here&rsquo;s a failure that shows up even with one replica. Long
+        tool calls die with a 502 roughly thirty seconds into a quiet
+        stream. Short calls work fine, the server logs show nothing, and
+        the connection was healthy when it dropped.
+      </p>
+      <p>
+        An SSE stream carrying a slow tool call can sit quiet for
+        minutes, and managed load balancers ship with backend idle
+        timeouts tuned for request/response traffic. On the setup I ran,
+        the default was 30 seconds. Anything quiet past that got cut at
+        the balancer.{' '}
+        <strong>
+          I raised the backend timeout to 300 seconds, sized to the
+          longest quiet period a tool call could plausibly produce, and
+          the 502s stopped.
+        </strong>{' '}
+        That&rsquo;s the <code>timeoutSec</code> line in the config
+        above.
       </p>
       <p>
         While you&rsquo;re in that layer, check two related things.
         Disable response buffering anywhere in front of the stream, since
         a buffering proxy holds SSE events until its buffer fills, which
-        defeats the point of streaming. And confirm your framework
-        runs the route on a long-lived server runtime. Static
-        optimization and edge runtimes are built for short requests;
-        a route that holds a stream open needs a process that stays up.
+        defeats the point of streaming. And confirm the route runs on a
+        long-lived server runtime. In my case that meant pinning the
+        Next.js route to the Node runtime and forcing it dynamic, because
+        static optimization and edge runtimes are built for short
+        requests.
       </p>
 
       <h2>Your in-memory session map is a leak</h2>
       <p>
-        Clients disconnect without saying goodbye. An agent gets killed,
-        a laptop lid closes, or a network path dies, and the
-        clean-shutdown handler you wrote never fires. Each of those
-        leaves an entry in the session map and a transport object nobody
-        will ever use again. Under real traffic the map only grows.
+        Under real traffic, your server&rsquo;s memory grows and keeps
+        growing. Take a heap dump and you&rsquo;ll find the session map,
+        full of transport objects for clients that will never return.
+        Clients disconnect without saying goodbye: an agent gets killed,
+        a laptop lid closes, a network path dies, and the clean-shutdown
+        handler you wrote never fires.
       </p>
       <p>
-        The fix I shipped was to sweep the map on a TTL (30 minutes in
-        my case) and track last-activity time on each session, updating
-        it on every request the session receives. Expire sessions whose
-        last activity is older than the TTL. Why last activity rather
-        than creation time? A session created two hours ago that handled
-        a request forty seconds ago is alive, and expiring it would cut
-        off a working client mid-conversation. A session created ten
-        minutes ago that has been silent ever since is probably a
-        disconnected client you&rsquo;ll never hear from again.
+        <strong>
+          The fix I shipped was a periodic sweep over the map with a
+          30-minute TTL keyed on last-activity time, updated on every
+          request the session receives.
+        </strong>{' '}
+        Expire sessions whose last activity is older than the TTL, and
+        close their transports when you do.
+      </p>
+      <Code lang="ts">{`const SESSION_TTL_MS = 30 * 60 * 1000;
+const sessions = new Map<
+  string,
+  { transport: Transport; lastActiveAt: number }
+>();
+
+// On every request that carries a session ID:
+sessions.get(sessionId).lastActiveAt = Date.now();
+
+// Sweep once a minute. Close what you expire, or the
+// transport and its stream outlive the map entry.
+setInterval(() => {
+  const now = Date.now();
+  for (const [id, entry] of sessions) {
+    if (now - entry.lastActiveAt > SESSION_TTL_MS) {
+      entry.transport.close();
+      sessions.delete(id);
+    }
+  }
+}, 60 * 1000);`}</Code>
+      <p>
+        Why last activity rather than creation time? A session created
+        two hours ago that handled a request forty seconds ago is alive,
+        and expiring it would cut off a working client mid-conversation.
+        A session created ten minutes ago that has been silent ever since
+        is probably a disconnected client you&rsquo;ll never hear from
+        again.
       </p>
 
       <h2>Health checks and draining</h2>
       <p>
         A process holding fifty open streams can pass a naive health
         check while being unable to do useful work, and it can fail one
-        while doing its job perfectly. Define healthy as &ldquo;can
-        accept and serve a new session.&rdquo; Use a lightweight endpoint
-        that exercises nothing long-lived, and keep the health check off
-        the streaming path entirely.
+        while doing its job perfectly.{' '}
+        <strong>
+          Define healthy as &ldquo;can accept and serve a new
+          session.&rdquo;
+        </strong>{' '}
+        Use a lightweight endpoint that exercises nothing long-lived, and
+        keep the check off the streaming path entirely. Mine was a
+        dedicated readiness route with a two-second check timeout,
+        separate from the MCP route.
       </p>
       <p>
         Deploys are where session affinity collects its price. Every
         session is pinned to a process, so replacing that process severs
-        its sessions. If a tool call is paused waiting on a human,
-        the work in flight dies with the stream. Configure your platform
-        to drain on deploy: stop routing new sessions to the old replica,
-        give existing streams a window to finish or expire, then
-        terminate. The right drain window is related to your session TTL.
-        An abrupt kill turns every deploy into a small outage for
-        whoever was mid-session.
+        its sessions. If a tool call is paused waiting on a human, the
+        work in flight dies with the stream.
+      </p>
+      <p>
+        Configure your platform to drain on deploy: stop routing new
+        sessions to the old replica, give existing streams a window to
+        finish or expire, then terminate. The right drain window is
+        related to your session TTL. An abrupt kill turns every deploy
+        into a small outage for whoever was mid-session.
       </p>
 
       <h2>A small polling detail worth stealing</h2>
       <p>
         Somewhere in a stateful MCP system you&rsquo;ll write a
         status-polling loop, a client waiting for a long-running
-        operation to finish. Put the sleep at the end of the loop body
-        rather than the beginning, so the first status check happens
-        immediately. Operations that complete quickly get their result on
-        the first check instead of eating a full polling interval for
-        nothing. It&rsquo;s a one-line difference and it shaves the
-        common case for every caller.
+        operation to finish.{' '}
+        <strong>
+          Put the sleep at the end of the loop body rather than the
+          beginning, so the first status check happens immediately.
+        </strong>{' '}
+        Operations that complete quickly return on the first check
+        instead of eating a full polling interval for nothing.
+      </p>
+      <Code lang="ts">{`const deadline = Date.now() + TIMEOUT_MS;
+
+while (Date.now() < deadline) {
+  const status = await getJobStatus(jobId);
+  if (status.state !== 'pending') return status;
+
+  // Sleep last. A job that's already done returns on the
+  // first check instead of paying a full interval for it.
+  await sleep(POLL_INTERVAL_MS);
+}
+throw new Error('timed out waiting for job');`}</Code>
+      <p>
+        This one was caught in code review on my provisioning server.
+        Every call, even the instant ones, took at least two seconds to
+        return, because the loop slept before its first check. Moving one
+        line removed a flat latency floor from the happy path.
       </p>
 
       <h2>Decision guide</h2>
@@ -216,8 +321,11 @@ export default function StatefulMcpServersPage() {
           the tool call return a job ID immediately and let the client
           poll a status endpoint, or take a callback. No request holds a
           stream, every request becomes stateless, and the load balancer
-          needs no special configuration. If your tools don&rsquo;t need
-          mid-call elicitation, this is often the strongest option.
+          needs no special configuration. The provisioning system in this
+          article ran a plain REST surface alongside MCP built exactly
+          this way: an initiate call, then status polls until done. If
+          your tools don&rsquo;t need mid-call elicitation, this is often
+          the strongest option.
         </li>
       </ul>
       <p>
