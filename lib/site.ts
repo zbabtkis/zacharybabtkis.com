@@ -4,7 +4,7 @@ export const SITE = {
   title: 'Zack Babtkis: Engineering for Browser Extensions and Agentic AI',
   description:
     'Independent engineer, formerly PayPal Senior Staff (Honey) and founding engineer at ZeroClick. Websites, apps, browser extensions, and infrastructure and integrations for agentic AI.',
-  email: 'zackbabtkis@gmail.com',
+  email: 'zack@zacharybabtkis.com',
   linkedin: 'https://www.linkedin.com/in/zacharybabtkis',
   github: 'https://github.com/zbabtkis',
   bookingNote: 'I personally reply within one business day.',
