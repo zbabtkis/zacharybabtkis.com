@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
   title: 'Knowing Which Page You’re On Inside a Single-Page App',
@@ -13,6 +14,7 @@ export default function SpaPageIdentityPage() {
       title="The site never reloads, and your extension can't tell where it is"
       description="How a content script extracts a page identity and keeps it current across client-side navigation."
       datePublished="2026-07-25"
+      dateModified="2026-07-28"
       slug="/safari-extensions/spa-page-identity/"
       byline="I shipped Safari and iOS extensions at Honey and Pie"
       faq={[
@@ -20,23 +22,23 @@ export default function SpaPageIdentityPage() {
           question:
             'How do I reliably detect SPA navigation from a content script?',
           answer:
-            'Prefer the app’s own navigation events when it emits them. YouTube fires yt-page-data-updated after each in-app navigation. When the app emits nothing usable, run a throttled MutationObserver on the document, re-extract your identity key on each batch of mutations, and act only when the key changes. Watching the URL alone tells you a navigation started, not that the new page’s DOM is ready to read.',
+            'Prefer the app’s own navigation events when it emits them. YouTube fires yt-page-data-updated after each in-app navigation. When the app emits nothing usable, run a throttled MutationObserver on the document body, re-extract your identity key on each batch of mutations, and act only when the key changes. Watching the URL alone tells you a navigation started. It says nothing about whether the new page’s DOM is ready to read.',
         },
         {
           question: 'Why not poll every second?',
           answer:
-            'Polling forces a trade between latency and waste, and it still needs the same extraction and diffing logic an observer needs, so you save nothing by polling. The real trap is what you compare rather than how often. Diff a stable identity key such as a URL handle, never visible display text, which changes for reasons that have nothing to do with navigation.',
+            'Polling forces a trade between latency and waste, and it still needs the same extraction and diffing logic an observer needs. You save nothing by polling. The real trap is what you compare rather than how often. Diff a stable identity key such as a URL handle, never visible display text, which changes for reasons that have nothing to do with navigation.',
         },
         {
           question:
             'What do I do when the host site changes its DOM and my selectors break?',
           answer:
-            'Ship selectors as remote configuration with a per-platform kill switch instead of hardcoding them. At Pie the DOM selectors lived in a remotely deployed config file because YouTube ships DOM changes weekly and an extension store review cycle to push a fix is a multi-day outage. Also monitor extraction: when your selector starts returning nothing, you want to know before your users tell you.',
+            'Ship selectors as remote configuration with a per-platform kill switch instead of hardcoding them. On Pie Adblock the DOM selectors lived in a remotely deployed config file, because host sites change their markup on their own schedule and an extension store review cycle to push a fix is a multi-day outage. Our Twitch selectors broke more than once, and each fix shipped as a config change rather than a release. Also monitor extraction: when a selector starts returning nothing, you want to know before your users tell you.',
         },
         {
           question: 'How do I test SPA navigation flows?',
           answer:
-            'Test each entry path as its own case: direct load of the target page, in-app navigation to it, and in-app navigation away and back. The two paths hand you identity from different sources: server-rendered metadata on direct load, scraped DOM after navigation. A lookup keyed under only one form will pass the first case and fail the second. Bugs concentrate at the transitions, so test the transitions.',
+            'Test each entry path as its own case: direct load of the target page, in-app navigation to it, and in-app navigation away and back. The paths hand you identity from different sources, server-rendered metadata on direct load and scraped DOM after navigation, and those sources can return different string forms of the same identity. Ours did. Our lookup was keyed by the handle the DOM path produced, so in-app navigation matched and direct loads missed. Normalize every path to one form, then test the transitions, because that is where the bugs concentrate.',
         },
       ]}
       ctaTitle="Porting an extension that has to track SPA state?"
@@ -45,144 +47,312 @@ export default function SpaPageIdentityPage() {
       ctaSource="spa-identity-article"
     >
       <p>
-        A content script runs once. It reads the page, works out what
-        it&rsquo;s looking at, and acts. Then the user clicks a link, the
-        single-page app swaps the view without a full page load, and every
-        fact your script gathered is stale. The URL changed. The content
-        changed. Your code never ran again.
+        A content script, the code an extension injects into the page,
+        runs once. It reads the page, works out what it&rsquo;s looking
+        at, and acts. Then the user clicks a link, the single-page app
+        swaps the view without a full page load, and every fact your
+        script gathered is stale. The URL changed. The content changed.
+        Your code never ran again.
       </p>
       <p>
-        I dealt with this on Pie Adblock, ZeroClick&rsquo;s ad blocker
-        with over two million users, where I led a feature that had to behave differently
-        depending on whose video was playing on YouTube or Twitch.
-        Extracting the identity was the easy part. Keeping it correct
-        across client-side navigation was most of the work, and the
-        failure modes below all shipped to production at some point
-        before we understood them.
+        I dealt with this on Pie Adblock, ZeroClick&rsquo;s 2M+ user ad
+        blocker, where I led a feature that let users allow ads on
+        specific creators&rsquo; channels on YouTube and Twitch.
+        Extracting the channel identity was the easy part. Keeping it
+        correct across client-side navigation was most of the work, and
+        every failure mode below shipped to production before we
+        understood it.
       </p>
 
-      <h2>Server-rendered metadata is only true once</h2>
+      <h2>Detection works on the first page, then never updates</h2>
       <p>
-        The obvious place to read page identity is server-rendered
-        metadata: meta tags, embedded JSON, structured data. It&rsquo;s
-        clean, stable, and authoritative for exactly one URL: the one the
-        user landed on. Single-page
-        apps render that metadata on the server and then never touch it
-        again. Navigate in-app and the tags keep describing the first
-        page.
+        Here&rsquo;s how the failure presents: identity detection works
+        on the first video, then the user clicks to another one and
+        your extension keeps reporting the previous channel. No error
+        anywhere. The cause on YouTube is server-rendered metadata. The
+        page-author meta tag describes the URL the user landed on, and
+        the SPA router swaps content without ever touching it.
       </p>
       <p>
-        On YouTube, the page-author meta tag never updates on in-app
-        navigation. Our rule was explicit: trust the meta tag only while
-        the current URL still equals the URL the page originally loaded
-        with. The moment those diverge, the tag is a fossil, and the
-        identity has to come from the live DOM. In our case that meant the
-        channel link in the video&rsquo;s owner row. That gives two
-        sources, ordered by a staleness condition you can check.
+        Server-rendered metadata, whether meta tags, embedded JSON, or
+        structured data, is clean and authoritative for exactly one
+        URL.{' '}
+        <strong>
+          Our rule on Pie Adblock was explicit: trust the meta tag only
+          while the current URL still equals the URL the page
+          originally loaded with.
+        </strong>{' '}
+        The moment those diverge, the tag is a fossil, and the identity
+        has to come from the live DOM. For us that meant the channel
+        link in the video&rsquo;s owner row.
+      </p>
+      <Code lang="js">{`// These belong in remote config, not code. More on that below.
+const AUTHOR_META_SELECTOR = '[itemprop=author] [itemprop=name]';
+const OWNER_LINK_SELECTOR = '#owner a';
+
+// The meta tag is rendered on the server for the URL the user landed
+// on, and the SPA never rewrites it. So it is only trustworthy while
+// the URL still matches the original load.
+const initialUrl = window.location.href;
+
+function getChannelIdentity() {
+  if (window.location.href === initialUrl) {
+    const meta = document.querySelector(AUTHOR_META_SELECTOR);
+    if (meta) return meta.getAttribute('content');
+  }
+
+  // After any in-app navigation, read the live owner row instead.
+  // Note this branch returns a URL handle while the meta branch
+  // returns a display name. That mismatch is the next section.
+  const ownerLink = document.querySelector(OWNER_LINK_SELECTOR);
+  if (ownerLink) return new URL(ownerLink.href).pathname.replace('/@', '');
+
+  // The owner row may not have rendered yet. Null means "not knowable
+  // yet", and callers have to treat it that way.
+  return null;
+}`}</Code>
+      <p>
+        Two sources, ordered by a staleness condition you can check.
+        That structure held up. The comment in the middle marks the
+        part that didn&rsquo;t, and we found out about it in
+        production.
       </p>
 
-      <h2>Two sources give you two different keys</h2>
+      <h2>The same page matches on one entry path and misses on the other</h2>
       <p>
-        Switching sources introduces a second problem. The meta tag gave
-        us a human display name. The DOM anchor gave us the URL handle.
-        Those are different strings for the same channel, and neither is
-        derivable from the other. Any lookup table (an allowlist, a
-        partner list, a settings map) has to be keyed under both forms.
-        We learned this from a real bug: matching succeeded when the user
-        landed directly on a page and failed after in-app navigation to
-        the same page, because each path surfaced a different form of the
-        same identity.
+        This bug presents as per-user flakiness: the feature works for
+        people who navigate to a page inside the app and fails for
+        people who land on it directly, or the reverse. Nothing throws.
+        The lookup returns false and the feature quietly declines to
+        run.
       </p>
       <p>
-        The general rule: when identity can arrive from multiple
-        surfaces, enumerate every form each surface produces and key your
-        data under all of them. Deduplicate at write time, not at match
-        time.
+        The cause is that the two sources emit different string forms
+        of the same identity. On YouTube the meta tag carries the
+        channel&rsquo;s display name while the owner-row link carries
+        the URL handle, and neither is derivable from the other. Our
+        lookup table was keyed by handle, the form the post-navigation
+        DOM path produced. So matching succeeded after in-app
+        navigation and failed on direct load, where the meta path
+        handed us a display name.
+      </p>
+      <p>
+        <strong>
+          The fix that shipped normalized both extraction paths to one
+          canonical form before any lookup ran.
+        </strong>{' '}
+        We added the display name to the data our backend returned,
+        re-keyed the lookup by it, and re-pointed the DOM fallback at
+        an attribute that carries the display name too. After that,
+        every path produced the same key.
+      </p>
+      <Code lang="js">{`// Every extraction path must produce the SAME string form before
+// any lookup runs. We converged on the display name, because both
+// of our sources could be made to produce it.
+const supportedChannels = new Set(channels.map((c) => c.channelName));
+
+function isSupportedChannel() {
+  const name = getChannelName(); // every path returns a display name
+  return name !== null && supportedChannels.has(name);
+}`}</Code>
+      <p>
+        Pick the canonical form deliberately. A stable machine
+        identifier beats display text when every path can produce one.
+        When it can&rsquo;t, converge on whatever form all paths can
+        produce, and do the conversion at extraction time so the rest
+        of the pipeline only ever sees one shape.
       </p>
 
-      <h2>Detecting that navigation happened</h2>
+      <h2>Navigation happens and your script never hears about it</h2>
+      <p>
+        On Twitch this failure is stark. The script&rsquo;s initial run
+        at page load is the only run it ever gets, so the user browses
+        from one channel to another, the check never re-fires, and your
+        state stays frozen on whichever channel loaded first. There is
+        nothing in the console to point at.
+      </p>
       <p>
         So how do you find out the user went somewhere? Some apps tell
         you. YouTube dispatches its own{' '}
         <code>yt-page-data-updated</code> event after each in-app
-        navigation, and listening for it is the cheapest correct answer.
-        Twitch emits no equivalent, so there we fell back to a throttled{' '}
-        <code>MutationObserver</code> on the document body: on each batch
-        of mutations, re-extract the channel handle and compare it to the
-        last known value. Only a change in the extracted identity counts
-        as a navigation.
+        navigation, and listening for it is the cheapest correct
+        answer. Twitch emits nothing usable, so there we fell back to a
+        throttled <code>MutationObserver</code>, the browser API that
+        calls you back when the DOM changes, watching the document
+        body.
       </p>
       <p>
-        The diff target matters. An earlier version of that observer
-        watched visible text and had to be replaced. Display text mutates
-        constantly: counters tick, labels localize, overlays come and go.
-        None of it means the user went anywhere. Visible text is
-        not an identity key. Extract the stable key, diff the key, ignore
-        everything else.
+        <strong>
+          Only a change in the extracted identity counts as a
+          navigation.
+        </strong>{' '}
+        An earlier version of that observer diffed the visible
+        channel-name text, and it had to be replaced two days after it
+        shipped. Display text mutates on re-renders, reads back empty
+        while an element is briefly absent, and changes for cosmetic
+        reasons. None of that means the user went anywhere.
+      </p>
+      <Code lang="js">{`// YouTube announces its own navigations. Listen and re-check.
+window.addEventListener('yt-page-data-updated', maybeChannelChanged);
+
+// Twitch announces nothing, so watch the body and treat a change in
+// the extracted identity, and only that, as a navigation.
+let lastHandle = null;
+
+const observer = new MutationObserver(
+  // throttle() caps the callback at one run per 500ms, because a
+  // busy page produces mutation batches constantly.
+  throttle(() => {
+    const handle = getChannelIdentity();
+    if (handle && handle !== lastHandle) {
+      lastHandle = handle;
+      maybeChannelChanged();
+    }
+  }, 500),
+);
+
+observer.observe(document.body, { childList: true, subtree: true });`}</Code>
+      <p>
+        The throttle costs you up to half a second of latency, and
+        extraction returns null until the app renders the container it
+        reads from. Both prices were acceptable. Spurious triggers were
+        the expensive failure, and diffing the identity instead of the
+        text eliminated them.
       </p>
 
-      <h2>The timing squeeze</h2>
+      <h2>The decision is due before the identity is knowable</h2>
       <p>
-        Two clocks run against you. The element you need may not exist
-        yet when your script runs at <code>document_start</code>. And the
-        decision you need to make may be required before the page
-        finishes loading. In our case, ad-handling behavior had to be
-        set before any page script ran, but the identity that determined
-        the behavior was only knowable after the page rendered. The
-        information arrives after the deadline.
+        The user opts in to seeing ads on a creator&rsquo;s channel,
+        loads a video, and no ad plays. Nothing looks broken in the
+        settings. The pre-roll was stripped at{' '}
+        <code>document_start</code>, the earliest moment an extension
+        can inject code, before your script could possibly know whose
+        channel this was. Toggling the blocker mid-page does nothing.
       </p>
       <p>
-        There are two ways out. Act coarsely early and refine:
-        apply a safe default at load, then correct course once the
-        identity resolves. Or force a reload once you know: accept one
-        wasted load, record the decision, and make it correctly from the
-        top on the second load. We shipped the reload path, which adds
-        its own constraint: the reload destroys your content script, so
-        the decision has to survive in the background script or extension
-        storage rather than in the page.
+        Two clocks run against you. Blocking is enforced by rules and
+        injected scripts that must be in place before the page&rsquo;s
+        own scripts execute, and the identity that decides the behavior
+        is only extractable from the rendered DOM. The input arrives
+        after the enforcement deadline. There are two ways out.
+      </p>
+      <ul>
+        <li>
+          Act coarsely early, then refine: apply a safe default at
+          load and correct course once the identity resolves.
+        </li>
+        <li>
+          Force a reload once you know: accept one wasted page load,
+          record the decision somewhere durable, and make it correctly
+          from the top of the second load.
+        </li>
+      </ul>
+      <p>
+        <strong>
+          We shipped the reload path, and it works because the decision
+          outlives the page: the reload destroys the content script, so
+          the decision has to survive in the background script or
+          extension storage.
+        </strong>{' '}
+        Our background script recorded which tab was in which mode,
+        tore down the blocking for that site, and reloaded the tab. On
+        the second load the content script asked the background what
+        had been decided instead of deciding again.
       </p>
 
-      <h2>Selectors are configuration, not code</h2>
+      <h2>A selector breaks overnight and the fix waits in store review</h2>
       <p>
-        Every selector you write against someone else&rsquo;s app is a
-        liability with someone else&rsquo;s release schedule. YouTube
-        ships DOM changes weekly. An extension store review cycle to fix
-        a broken selector is days long, and for those days your feature
-        is down. We shipped our DOM selectors as remote configuration
-        with a per-platform kill switch: when a selector broke, we pushed
-        a config update in minutes, and when a platform&rsquo;s
-        extraction went bad in a way config couldn&rsquo;t fix, we turned
-        that platform off rather than let the feature misbehave.
+        The host site ships a markup change, your{' '}
+        <code>querySelector</code> starts returning null, and identity
+        detection dies silently for the entire user base. The corrected
+        build then waits days in extension-store review. Every selector
+        you write against someone else&rsquo;s app is a liability on
+        someone else&rsquo;s release schedule.
+      </p>
+      <p>
+        <strong>
+          Ship your DOM selectors as remote configuration with a
+          per-platform kill switch.
+        </strong>{' '}
+        On Pie Adblock the selectors lived in a remotely deployed
+        config file, so a broken selector was a config push rather than
+        a release. Our Twitch selectors broke more than once, and each
+        fix shipped as a config change the same day it was written.
+      </p>
+      <p>
+        The kill switch earns its place the day extraction goes bad in
+        a way config can&rsquo;t repair. Every unblock decision we made
+        checked a per-platform disabled flag first, so we could turn
+        one platform off remotely rather than let the feature misbehave
+        while we worked on a real fix.
       </p>
 
-      <h2>Observer lifecycle</h2>
+      <h2>Your observer goes quiet after the first navigation</h2>
       <p>
-        A tempting structure is one <code>MutationObserver</code> per
-        selector you care about, each scoped to its own subtree. It reads
-        well and fails in practice. Per-selector observers have to be
-        torn down and reconnected on every navigation, because the
-        subtrees they watched were replaced. Miss a disconnect and you
-        leak observers that fire against detached nodes. Miss a reconnect
-        and you silently drop events until the next full load. One shared
-        observer on the document, multiplexing all the checks and
-        throttled to a sane cadence, survives navigation without any
-        per-navigation ceremony, because the document node is the one
-        thing the SPA never replaces.
+        A scoped <code>MutationObserver</code> that works at page load
+        and never fires again after an in-app navigation has usually
+        been orphaned. The SPA replaced the subtree it was watching, so
+        the observer is attached to a detached node, watching a tree
+        nobody renders. The UI keeps showing the previous page&rsquo;s
+        state until a full reload, and the console shows nothing.
+      </p>
+      <p>
+        <strong>
+          Attach navigation detection to <code>document.body</code>,
+          because the body is the one node the SPA never replaces.
+        </strong>{' '}
+        That&rsquo;s the observer from the Twitch section. It ran one
+        identity diff, and it survived every navigation with no
+        reconnection ceremony, because its target was never swapped out
+        from under it.
+      </p>
+      <p>
+        Scoped observers are workable only when something owns their
+        lifecycle. We ran both patterns in the same codebase: the
+        navigation detector was the single body-level observer, and the
+        channel UI observed a smaller container safely because a React
+        hook created that observer on mount and disconnected it on
+        unmount. A scoped observer with no lifecycle owner is the
+        version that goes quiet.
       </p>
 
       <h2>The shape of the solution</h2>
       <p>
-        Treat page identity as a computed value with an explicit source
-        order and an explicit invalidation rule. Server metadata is valid
-        while the URL still matches the original load; after that, the
-        DOM is the source. Key lookups under every form the identity can
-        take. Detect navigation from the app&rsquo;s own events where
-        they exist, from an identity-diffing observer where they
-        don&rsquo;t. Decide up front whether early decisions get refined
-        or the page gets reloaded, and keep the state somewhere that
-        survives either answer. And ship the selectors as data you can
-        update without a store release, because the host app will keep
-        changing.
+        <strong>
+          Treat page identity as a computed value with an explicit
+          source order, an explicit invalidation rule, and one
+          canonical form.
+        </strong>{' '}
+        Everything above reduces to a short list of commitments.
+      </p>
+      <ul>
+        <li>
+          Server metadata is valid while the URL still matches the
+          original load; after that, the live DOM is the source.
+        </li>
+        <li>
+          Normalize every extraction path to one canonical key before
+          anything does a lookup.
+        </li>
+        <li>
+          Detect navigation from the app&rsquo;s own events where they
+          exist, and from an identity-diffing observer on the body
+          where they don&rsquo;t.
+        </li>
+        <li>
+          Decide up front whether early decisions get refined or the
+          page gets reloaded, and keep the decision where it survives
+          the reload.
+        </li>
+        <li>
+          Ship the selectors as remote data with a kill switch, because
+          the host app will keep changing.
+        </li>
+      </ul>
+      <p>
+        Extracting the identity is one selector call. The rest of this
+        article is what it takes for that call to keep telling the
+        truth.
       </p>
     </ArticleLayout>
   );

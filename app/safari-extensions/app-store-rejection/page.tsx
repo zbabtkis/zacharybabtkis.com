@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
   title: 'Safari Extension Rejected by App Review? The Usual Reasons, and the Fixes',
@@ -13,6 +14,7 @@ export default function AppStoreRejectionPage() {
       title="Safari extension rejected? The usual reasons, and the fixes."
       description="The common App Review rejections for Safari extensions and how to resolve each one."
       datePublished="2026-07-24"
+      dateModified="2026-07-28"
       slug="/safari-extensions/app-store-rejection/"
       ctaTitle="In a rejection loop right now?"
       ctaBody="I've shipped extensions through App Review at Honey and Pie, including the rejections. Send me the rejection notice. I'll tell you within a day whether it's a quick fix or a structural problem."
@@ -20,97 +22,250 @@ export default function AppStoreRejectionPage() {
       ctaSource="rejection-article"
     >
       <p>
-        Safari extensions ship inside apps, so they live and die by App
-        Review. And App Review rejections cite guidelines, then leave you
-        to work out the fix on your own. Here&rsquo;s the translation
-        table I&rsquo;ve built shipping extensions through review at Honey
-        and Pie, roughly in order of how often each one bites.
+        A one-line JavaScript fix to your extension cannot ship until a
+        full app binary passes App Review, Apple&rsquo;s approval process
+        for everything on the App Store. Safari extensions ship inside
+        apps, so they live and die by that process. A rejection of the
+        containing app blocks the extension entirely.
+      </p>
+      <p>
+        On macOS you have an escape hatch: a notarized app, one signed
+        and malware-checked by Apple but distributed yourself, can skip
+        the store. On iOS there is no way around review. And rejections
+        cite guideline numbers, then leave you to work out the fix.
+        Here&rsquo;s the translation table I&rsquo;ve built shipping
+        extensions through review at Honey and Pie, roughly in order of
+        how often each one bites.
       </p>
 
       <h2>&ldquo;Your app provides minimal functionality&rdquo;</h2>
       <p>
-        This one arrives citing Guideline 4.2 (Design: Minimum
-        Functionality), sometimes 4.2.2. You may be wondering why Apple
-        cares about an app whose whole job
-        is carrying an extension. It cares. The containing app can&rsquo;t
-        be an empty shell. It doesn&rsquo;t need features, just a purpose:
-        explain what the extension does, show whether it&rsquo;s enabled,
-        and walk the user through turning it on in Safari settings. A
-        well-designed onboarding screen with live extension state
-        satisfies this. A blank window with your logo doesn&rsquo;t.
+        You submit a thin wrapper app around your extension, and the
+        rejection comes back citing Guideline 4.2 (Design: Minimum
+        Functionality), sometimes 4.2.2, saying the app provides a
+        limited feature set. You may be wondering why Apple cares about
+        an app whose whole job is carrying an extension. It cares. The
+        container app, the app the extension ships inside, cannot be an
+        empty shell.
+      </p>
+      <p>
+        It doesn&rsquo;t need features, just a purpose: explain what the
+        extension does, show whether it&rsquo;s enabled, and walk the
+        user through turning it on in Safari settings. A blank window
+        with your logo doesn&rsquo;t pass. An onboarding flow that
+        reflects live extension state does.
+      </p>
+      <p>
+        Then you hit the second problem.{' '}
+        <strong>
+          iOS gives your app no API to ask whether its Safari extension
+          is enabled, so live extension state is something you build
+          yourself.
+        </strong>{' '}
+        macOS has an API for this; iOS does not. Your status screen
+        shows &ldquo;not enabled&rdquo; even after the user enabled the
+        extension, because the app has no way to check.
+      </p>
+      <p>
+        The bridge that works: have the extension record that it ran, in
+        an app group, a storage sandbox shared between an app and its
+        extensions. The extension&rsquo;s native handler only executes
+        when the extension is enabled, so execution itself is the
+        signal. Here&rsquo;s the extension side:
+      </p>
+      <Code lang="swift">{`// Safari only runs this handler if the user has enabled the
+// extension. So the fact that we're executing at all is the
+// signal. Record it where the container app can read it.
+class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
+  let shared = UserDefaults(suiteName: "group.com.example.shared")
+
+  func beginRequest(with context: NSExtensionContext) {
+    shared?.set(true, forKey: "extensionDidRun")
+    // ...handle the actual message...
+  }
+}`}</Code>
+      <p>
+        The app side re-reads that flag every time it returns to the
+        foreground, which is exactly when the user comes back from
+        flipping the toggle in Safari settings:
+      </p>
+      <Code lang="swift">{`// Re-check on every return to foreground. The user just came
+// back from Settings, and this is the moment to advance the
+// onboarding step from "enable" to "done".
+.onReceive(NotificationCenter.default.publisher(
+  for: UIScene.willEnterForegroundNotification)) { _ in
+    let shared = UserDefaults(suiteName: "group.com.example.shared")
+    isEnabled = shared?.bool(forKey: "extensionDidRun") ?? false
+}`}</Code>
+      <p>
+        One limitation to know about: this infers state from the
+        extension having run and written the flag. It is not a query of
+        the OS. If the user enables and later disables the extension,
+        the flag stays stale until you add your own freshness logic.
+        For satisfying 4.2, inference is enough.
       </p>
 
       <h2>Broad permissions without justification</h2>
       <p>
-        An extension that requests access to all websites is asking for a
-        lot, and review treats it that way. There are two fixes, and you
-        use them together: request the narrowest permissions your product
-        needs, and explain the remainder in the review notes <em>and</em>{' '}
-        in the user-facing UI. &ldquo;This extension needs access to
-        shopping sites to find coupons at checkout&rdquo; passes;
-        unexplained all-sites access invites a rejection, or a request for
-        justification that stalls you a cycle.
+        The symptom has two halves. Users install the extension and it
+        silently does nothing, because Safari&rsquo;s host permissions,
+        the right to read and alter pages on a site, are off by default
+        until the user taps through the &ldquo;Allow on All
+        Websites&rdquo; prompts. And review bounces the build asking why
+        all-sites access is needed, which costs you a full cycle.
+      </p>
+      <p>
+        The first fix is requesting the narrowest permissions your
+        product needs. But some categories cannot narrow. An ad blocker
+        or a coupon tool needs every site by nature.{' '}
+        <strong>
+          When your product cannot narrow its permissions, the fix is
+          justification, in the review notes and in the UI the user
+          sees.
+        </strong>
+      </p>
+      <p>
+        In practice that means a dedicated permissions step in
+        onboarding: tell the user what to grant and why, with
+        instructions matched to their iOS version, since the Settings
+        path moves between releases. Then track the grant the same way
+        as enablement, with a flag the extension writes once permissions
+        let it run on a page. &ldquo;This extension needs access to
+        shopping sites to find coupons at checkout&rdquo; passes.
+        Unexplained all-sites access invites a rejection.
       </p>
 
       <h2>Privacy labels that don&rsquo;t match the binary</h2>
       <p>
-        Your App Store privacy questionnaire gets checked against what the
-        app and extension do. The classic failure is an analytics SDK
-        someone added two years ago that collects identifiers your label
-        says you don&rsquo;t collect. Audit what leaves the extension,
-        network request by network request, before you fill in the labels.
+        The rejection, or an App Store Connect compliance notice, says
+        your app collects data types not declared in its privacy label,
+        the data-collection disclosure on your store listing. You grep
+        your own code and find nothing. The culprit is almost always a
+        bundled SDK: an analytics or attribution library someone added
+        two years ago, sending device identifiers your label says you
+        don&rsquo;t collect.
+      </p>
+      <p>
+        Labels are self-declared, but reviewers compare them against
+        what the binary observably does, and third-party SDKs collect
+        identifiers whether or not your first-party code does.{' '}
+        <strong>
+          Audit what leaves the app and the extension, network request
+          by network request, before you fill in the labels.
+        </strong>{' '}
+        Repeat the audit when an SDK updates, because that&rsquo;s when
+        the label drifts.
       </p>
 
-      <h2>Metadata problems</h2>
+      <h2>Rejected on metadata alone</h2>
       <p>
-        Store listings that lean on other brands (&ldquo;works like the
-        Chrome version!&rdquo;), screenshots showing other browsers, or
-        names that collide with trademarks all draw metadata rejections.
-        Keep the listing about what the Safari product does for the user.
+        The binary passes and the submission still comes back, with a
+        Guideline 2.3.x citation pointing at a screenshot or a
+        description line. Store listings that lean on other brands
+        (&ldquo;works like the Chrome version&rdquo;), screenshots
+        showing other browsers, and names that collide with trademarks
+        all draw this class of rejection. Chrome ports trip it
+        naturally, because their marketing was written against the
+        Chrome original.
+      </p>
+      <p>
+        <strong>
+          Keep the listing about what the Safari product does for the
+          user, and strip cross-browser references and other-browser
+          screenshots before you submit.
+        </strong>{' '}
+        The fix is listing-only, so at least the resubmission is cheap.
       </p>
 
       <h2>The iOS-specific tier</h2>
       <p>
-        iOS review is stricter than macOS. Expect extra attention on
-        anything that touches payments (guideline 3.1 territory), content
-        filtering, and background behavior claims. If your extension
-        interacts with purchases or money (coupons, cashback, price
-        tracking), write the review notes as if the reviewer knows nothing
-        about your category and needs to see, step by step, that
-        everything happens on the merchant&rsquo;s site rather than through
-        payment mechanisms Apple polices.
+        iOS review is stricter than macOS, and the sharpest scrutiny
+        lands on anything that touches money. If your extension deals in
+        coupons, cashback, or price tracking, expect the reviewer to ask
+        how the money works: how cashback is funded, whether purchases
+        route through the app, whether you&rsquo;re steering around
+        in-app purchase, Apple&rsquo;s own payment system. Each
+        unanswered question costs a review round.
+      </p>
+      <p>
+        Guideline 3.1 exists to protect Apple&rsquo;s payment rails.
+        Coupon and cashback extensions are compliant precisely because
+        the transaction happens on the merchant&rsquo;s website in
+        Safari, which is physical-goods commerce outside in-app purchase
+        scope. But a reviewer unfamiliar with the category cannot see
+        that without being walked through it.{' '}
+        <strong>
+          Write the review notes as if the reviewer knows nothing about
+          your category and needs to see, step by step, that everything
+          happens on the merchant&rsquo;s site.
+        </strong>{' '}
+        Honey and Pie were both money-touching extensions, and this is
+        the review regime they shipped through.
       </p>
 
       <h2>Review notes are a product surface</h2>
       <p>
-        Review notes are the best hour you&rsquo;ll spend in the whole
-        submission. Include what the extension does in one paragraph, a
-        demo path with any test credentials, an explanation of each
-        permission, and a preemptive answer to whatever looks unusual about
-        your product. Reviewers are fast and pattern-driven; your notes are
-        the pattern you hand them. At PayPal scale we treated review notes
-        like release engineering, because a rejection cycle costs a week
-        and notes cost an hour.
+        The expensive failure mode here is resubmitting blind. Apple&rsquo;s
+        published turnaround is 24 to 48 hours for most submissions, but
+        a rejection costs you the whole cycle: diagnose, fix, rebuild,
+        resubmit, wait for re-review, and often a Resolution Center
+        exchange on top. Count it end to end at a company with release
+        trains and a single rejection can eat a week.{' '}
+        <strong>
+          Review notes cost an hour and are the cheapest insurance
+          against that cycle.
+        </strong>
       </p>
+      <p>
+        Reviewers are fast and pattern-driven; your notes are the
+        pattern you hand them. Good notes cover four things:
+      </p>
+      <ul>
+        <li>
+          They describe what the extension does in one paragraph.
+        </li>
+        <li>
+          They give a demo path, with test credentials if the product
+          needs an account.
+        </li>
+        <li>
+          They explain each permission the extension requests and why.
+        </li>
+        <li>
+          They preemptively answer whatever looks unusual about your
+          product, before the reviewer has to ask.
+        </li>
+      </ul>
 
       <h2>If you&rsquo;re already in the loop</h2>
+      <p>
+        <strong>
+          Most rejections come down to what the reviewer understood, and
+          the guideline number cited is often the nearest label rather
+          than the real issue.
+        </strong>{' '}
+        That shapes the recovery sequence:
+      </p>
       <ol>
         <li>
-          Read the citation, then work out the <em>reviewer&rsquo;s</em>{' '}
-          concern behind it. The guideline number is often the nearest
-          label rather than the real issue.
+          Read the citation, then work out the{' '}
+          <em>reviewer&rsquo;s</em> concern behind it before you touch
+          any code.
         </li>
         <li>
-          Respond in Resolution Center with specifics before resubmitting
-          blind; sometimes the answer alone clears it.
+          Respond in Resolution Center, the message thread with the
+          review team inside App Store Connect, with specifics before
+          resubmitting blind. Reviewers can approve based on a
+          clarification alone, without a new binary.
         </li>
         <li>
-          Fix the whole class: if one permission drew fire,
-          audit all of them before the next round.
+          Fix the whole class: if one permission drew fire, audit all of
+          them before the next round.
         </li>
         <li>
-          If you believe review is wrong, appeal. Appeals work more
-          often than people think when the case is factual.
+          If review is factually wrong, appeal to the App Review Board.
+          The escalation path exists for exactly this, and a factual
+          case gives it something to work with.
         </li>
       </ol>
     </ArticleLayout>
