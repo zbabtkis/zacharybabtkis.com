@@ -246,12 +246,14 @@ async function cut(guide, rawPath) {
     .toBuffer();
 
   // hero banner
-  await sharp(composed).toFile(join(HERO_DIR, `${fileKey(guide.slug)}.png`));
+  await sharp(composed)
+    .png({ palette: true, colours: 64, effort: 10 })
+    .toFile(join(HERO_DIR, `${fileKey(guide.slug)}.png`));
 
   // index thumbnail, same art so the card and the article agree
   await sharp(composed)
     .resize(600, 240)
-    .png()
+    .png({ palette: true, colours: 64, effort: 10 })
     .toFile(join(THUMB_DIR, `${fileKey(guide.slug)}.png`));
 
   console.log(`  cut: ${guide.slug}`);

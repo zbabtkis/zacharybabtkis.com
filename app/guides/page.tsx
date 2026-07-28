@@ -26,13 +26,13 @@ export default function GuidesPage() {
         </div>
       </section>
 
-      {topics.map((topic) => (
+      {topics.map((topic, topicIndex) => (
         <section className="section" key={topic}>
           <div className="wrap">
             <h2>{TOPIC_LABELS[topic]}</h2>
             <ul className="guide-cards">
               {GUIDES.filter((guide: Guide) => guide.topic === topic).map(
-                (guide) => (
+                (guide, cardIndex) => (
                   <li key={guide.slug}>
                     <a href={guide.slug}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -43,7 +43,11 @@ export default function GuidesPage() {
                         alt=""
                         width={600}
                         height={240}
-                        loading="lazy"
+                        {...(topicIndex === 0 && cardIndex < 3
+                          ? // The first row sits at the fold. Lazy-loading it
+                            // paints three empty cards on arrival.
+                            { fetchPriority: 'high' as const }
+                          : { loading: 'lazy' as const })}
                       />
                       <strong>{guide.title}</strong>
                       <span>{guide.blurb}</span>
