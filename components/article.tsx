@@ -67,6 +67,16 @@ export function ArticleLayout({
 
       <section className="section">
         <div className="wrap">
+          {/* Decorative: the plate carries no information the prose doesn't,
+              so it stays out of the accessibility tree. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="article-plate"
+            src={`/guide-art/${slug.replace(/^\/|\/$/g, '').replace(/\//g, '--')}.png`}
+            alt=""
+            width={1200}
+            height={480}
+          />
           <div className="prose article-prose">{children}</div>
         </div>
       </section>

@@ -23,9 +23,23 @@ const RAW_DIR = join(SITE_DIR, 'scratchpad/guide-art-raw');
 const HERO_DIR = join(SITE_DIR, 'public/guide-art');
 const THUMB_DIR = join(SITE_DIR, 'public/guide-thumbs');
 
-const CAPABILITY = 'x402-gateway-production-up-railway-app-6c837dcc';
-const ENDPOINT = 'https://x402-gateway-production.up.railway.app/api/image/fast';
+const CAPABILITY = 'fal-ai-schnell-4412b32c';
+const ENDPOINT = 'https://fal.mpp.tempo.xyz/fal-ai/flux/schnell';
 const MAX_PAY = '0.02';
+
+// Generate tall, then keep the central band. FLUX writes plausible-looking
+// garbage lettering into the margins of anything drawn in a plate style, and
+// no amount of "no text" in the prompt stops it. Cropping the margins off is
+// what actually removes it, so the generation is deliberately taller than the
+// banner and loses its top and bottom.
+const GEN_WIDTH = 1216;
+const GEN_HEIGHT = 768;
+const KEEP_BAND = 0.72;
+// The finished plate is art plus a caption strip. The strip is added to the
+// canvas rather than painted over the art, so the caption can never cover the
+// subject and a subject-aware crop can never be pushed out of frame.
+const ART_H = 422;
+const BAND_H = 58;
 
 const PALETTE = {
   paper: '#faf9f6',
@@ -60,7 +74,8 @@ const TOPIC_META = {
 const STYLE =
   'antique 19th-century patent-drawing engraving, fine cross-hatched linework, ' +
   'copperplate scientific-plate style, plain white background, monochrome ink, ' +
-  'centred composition with generous margins, no text, no lettering, no numbers, ' +
+  'a single small subject centred in a large empty field, wide bare margins, ' +
+  'no text, no lettering, no numerals, no labels, ' +
   'no watermark, no signature, no border frame';
 
 const SUBJECTS = {
@@ -69,13 +84,13 @@ const SUBJECTS = {
   '/safari-extensions/webrequest-alternative/':
     'a river with an inspector standing mid-current beside a second river with a pre-built stone sluice gate doing the same work unattended',
   '/safari-extensions/converter-not-working/':
-    'a row of four inspection stamps all reading approved, and past them an unlit workshop full of stopped machinery',
+    'four intact wax seals on a closed door, and beyond the doorway an unlit workshop of stopped machinery',
   '/safari-extensions/app-store-rejection/':
     'a sealed gate with an official examining a document through a magnifying glass, a queue of crates waiting behind him',
   '/safari-extensions/dynamic-dnr-rules/':
-    'a brass ledger drawer of numbered slots, most slots filled with forgotten tags, a hand trying to fit one more',
+    'a brass apothecary cabinet of small drawers, nearly every drawer wedged open by old contents, a hand trying to close one more',
   '/safari-extensions/spa-page-identity/':
-    'two nameplates bearing different engravings for the same building, held side by side under a lens',
+    'two cast medallions of the same building struck from different dies, held side by side in a pair of calipers',
   '/safari-extensions/main-world-scripts/':
     'two sealed glass chambers sharing one floor, a specimen visible in both, no passage between the chambers',
   '/mcp-development/stateful-mcp-servers/':
@@ -83,7 +98,7 @@ const SUBJECTS = {
   '/mcp-development/mcp-stateless-migration/':
     'a mail sorting hall where every clerk can serve any letter, the old pigeonhole wall dismantled and stacked aside',
   '/mcp-development/mcp-elicitation/':
-    'an hourglass laid on its side beside a ledger, a bookmark holding a page while the hourglass waits',
+    'an hourglass laid on its side beside a stopped pendulum, a ribbon marking one position on a blank dial',
   '/mcp-development/tool-design-for-agents/':
     'a surgical instrument tray where a hand has removed the unusable instruments before presenting it',
   '/mcp-development/sandboxing-untrusted-code/':
@@ -91,7 +106,7 @@ const SUBJECTS = {
   '/ai-agent-enablement/detect-ai-traffic/':
     'an automaton reading in an empty library, and separately a person arriving at a door carrying a note',
   '/ai-agent-enablement/oauth-for-agents/':
-    'a numbered key drawn from a rack of identical keys, a claim ticket attached, an hourglass beside the rack',
+    'one key lifted from a rack of identical hanging keys, leaving a single empty hook, an hourglass standing beside the rack',
   '/ai-agent-enablement/integration-config-vs-code/':
     'a cabinet of standardised interchangeable parts beside a workbench holding three hand-filed one-off pieces',
 };
@@ -123,7 +138,12 @@ async function generateRaw(guide) {
   const subject = SUBJECTS[guide.slug];
   if (!subject) throw new Error(`no subject prompt for ${guide.slug}`);
 
-  const payload = JSON.stringify({ model: 'flux-schnell', prompt: `${subject}, ${STYLE}` });
+  const payload = JSON.stringify({
+    prompt: `${subject}, ${STYLE}`,
+    image_size: { width: GEN_WIDTH, height: GEN_HEIGHT },
+    num_images: 1,
+    num_inference_steps: 4,
+  });
   console.log(`  generating: ${guide.slug}`);
 
   const { stdout } = await execFileAsync(
@@ -134,7 +154,7 @@ async function generateRaw(guide) {
   );
 
   const env = JSON.parse(stdout);
-  if (!env.ok) throw new Error(`generation failed (${env.status}): ${env.bodyRaw?.slice(0, 300)}`);
+  if (!env.ok) throw new Error(`generation failed (${env.status}): ${String(env.bodyRaw).slice(0, 300)}`);
 
   // The capability returns an images array; entries are either a URL or
   // inline base64 depending on the model backend, so handle both.
@@ -158,7 +178,16 @@ async function generateRaw(guide) {
 // mask (dark linework -> opaque), navy is painted through that mask onto
 // cream, so no color the model chose can reach the page.
 async function duotone(rawPath, width, height) {
-  const mask = await sharp(rawPath)
+  // Drop the plate margins, where FLUX writes its garbage lettering, then let
+  // sharp pick the crop window so the subject survives whatever its position.
+  const meta = await sharp(rawPath).metadata();
+  const keep = Math.round(meta.height * KEEP_BAND);
+  const top = Math.round((meta.height - keep) / 2);
+  const cropped = await sharp(rawPath)
+    .extract({ left: 0, top, width: meta.width, height: keep })
+    .toBuffer();
+
+  const mask = await sharp(cropped)
     .resize(width, height, { fit: 'cover', position: 'attention' })
     .greyscale()
     .normalise()
@@ -186,7 +215,7 @@ function sealSvg(topic, width, height) {
   const glyph = meta.glyph.replaceAll('CURRENT', PALETTE.navy);
   const seal = 96;
   const cx = width - seal - 28;
-  const cy = height - seal - 28;
+  const cy = height - BAND_H - seal - 20;
   return Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect x="0" y="0" width="${width}" height="10" fill="${PALETTE.amber}"/>
   <g>
@@ -194,7 +223,8 @@ function sealSvg(topic, width, height) {
     <circle cx="${cx + seal / 2}" cy="${cy + seal / 2}" r="${seal / 2}" fill="none" stroke="${PALETTE.navy}" stroke-width="2"/>
     <g transform="translate(${cx + seal / 2 - 24}, ${cy + seal / 2 - 24}) scale(2)" fill="none" stroke="${PALETTE.navy}" stroke-width="1.4">${glyph}</g>
   </g>
-  <text x="28" y="${height - 30}" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5" fill="${PALETTE.amber}">${esc(meta.label)}</text>
+  <rect x="0" y="${height - BAND_H}" width="${width}" height="1.5" fill="${PALETTE.rule}"/>
+  <text x="28" y="${height - 22}" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5" fill="${PALETTE.amber}">${esc(meta.label)}</text>
 </svg>`);
 }
 
@@ -202,17 +232,24 @@ async function cut(guide, rawPath) {
   mkdirSync(HERO_DIR, { recursive: true });
   mkdirSync(THUMB_DIR, { recursive: true });
 
-  // hero banner
-  const heroBase = await duotone(rawPath, 1200, 480);
-  await sharp(heroBase)
+  // Compose once at full size. sharp resizes before it composites no matter
+  // what order the calls are written in, so the thumbnail has to be a second
+  // pass over the finished image rather than a resize chained onto the first.
+  const art = await duotone(rawPath, 1200, ART_H);
+  const base = await sharp(art)
+    .extend({ bottom: BAND_H, background: PALETTE.paper })
+    .png()
+    .toBuffer();
+  const composed = await sharp(base)
     .composite([{ input: sealSvg(guide.topic, 1200, 480), blend: 'over' }])
     .png()
-    .toFile(join(HERO_DIR, `${fileKey(guide.slug)}.png`));
+    .toBuffer();
+
+  // hero banner
+  await sharp(composed).toFile(join(HERO_DIR, `${fileKey(guide.slug)}.png`));
 
   // index thumbnail, same art so the card and the article agree
-  const thumbBase = await duotone(rawPath, 1200, 480);
-  await sharp(thumbBase)
-    .composite([{ input: sealSvg(guide.topic, 1200, 480), blend: 'over' }])
+  await sharp(composed)
     .resize(600, 240)
     .png()
     .toFile(join(THUMB_DIR, `${fileKey(guide.slug)}.png`));
@@ -237,7 +274,7 @@ for (const guide of guides()) {
   } else {
     const had = existsSync(rawPath);
     await generateRaw(guide);
-    if (!had) spent += 0.015;
+    if (!had) spent += 0.003;
   }
   await cut(guide, rawPath);
 }

@@ -725,6 +725,16 @@ h3 {
   max-width: var(--measure);
 }
 
+/* The engraving plate runs to the wider measure, above the narrower prose */
+.article-plate {
+  display: block;
+  width: 100%;
+  max-width: var(--measure);
+  height: auto;
+  margin: 0 0 var(--space-xl);
+  border: 1px solid var(--rule);
+}
+
 /* Articles read at a narrower measure (~68ch) than marketing pages */
 .article-prose {
   max-width: 37rem;
