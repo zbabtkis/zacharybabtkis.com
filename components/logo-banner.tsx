@@ -23,7 +23,6 @@ function Row({ hidden = false }: { hidden?: boolean }) {
           src={logo.src}
           alt={hidden ? '' : logo.alt}
           style={{ height: logo.height }}
-          loading="lazy"
         />
       ))}
     </div>

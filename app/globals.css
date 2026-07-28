@@ -392,22 +392,33 @@ h3 {
   border-bottom: 1px solid var(--rule);
 }
 
+/* Edge fades are painted overlays, not a mask: masking an ancestor of a
+   transform-animated track makes Chrome rasterize the whole moving layer
+   and it starts clipping logos on wide tracks. */
 .logo-viewport {
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 14%,
-    #000 86%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 14%,
-    #000 86%,
-    transparent
-  );
+  position: relative;
+}
+
+.logo-viewport::before,
+.logo-viewport::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.logo-viewport::before {
+  left: 0;
+  background: linear-gradient(to right, var(--paper), transparent);
+}
+
+.logo-viewport::after {
+  right: 0;
+  background: linear-gradient(to left, var(--paper), transparent);
 }
 
 .logo-track {
