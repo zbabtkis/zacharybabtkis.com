@@ -86,6 +86,24 @@ export default function HomePage() {
         ]}
       />
 
+      <section className="section">
+        <div className="wrap">
+          <div className="story tool-band">
+            <p className="story-kicker">Free tool</p>
+            <p>
+              Wondering whether your Chrome extension can run on Safari
+              and iPhone? Paste your manifest.json into the{' '}
+              <strong>Safari WebExtension Manifest Checker</strong> and
+              get the compatibility report in five seconds. It runs in
+              your browser and uploads nothing.
+            </p>
+            <a className="button" href="/tools/safari-manifest-checker/">
+              Check your manifest
+            </a>
+          </div>
+        </div>
+      </section>
+
       <Chapter label="Who you're hiring" title="Zack Babtkis">
         <div className="bio-grid">
           {/* eslint-disable-next-line @next/next/no-img-element */}

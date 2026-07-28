@@ -952,6 +952,14 @@ h3 {
   color: var(--ink-soft);
 }
 
+.founding-note {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
 /* ---------- Bio block (home) ---------- */
 
 .bio-grid {
@@ -2069,6 +2077,27 @@ button.ext-badge {
 
 .story p + p {
   margin-top: var(--space-md);
+}
+
+.story.tool-band {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  max-width: none;
+}
+
+.story.tool-band > p:not(.story-kicker) {
+  flex: 1 1 24rem;
+}
+
+.story.tool-band .story-kicker {
+  flex-basis: 100%;
+  margin-bottom: 0;
+}
+
+.story.tool-band .button {
+  flex: 0 0 auto;
 }
 
 .story .story-kicker {

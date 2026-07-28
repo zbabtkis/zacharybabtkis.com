@@ -8,7 +8,7 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/in/zacharybabtkis',
   github: 'https://github.com/zbabtkis',
   bookingNote: 'I personally reply within one business day.',
-  availability: 'Currently booking September 2026',
+  availability: 'Taking new projects now',
   // Cal.com username. Empty string = booking disabled, CTAs fall back to email.
   calUsername: 'zack-babtkis',
   calEvent: 'intro-call',

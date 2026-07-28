@@ -155,6 +155,11 @@ export function OfferBand({
                 Start with the {name.toLowerCase()}
               </a>
             )}
+            <span className="founding-note">
+              Founding-client terms: I discount the first two projects in
+              this service in exchange for a named case study and a
+              testimonial. Ask on the call.
+            </span>
           </div>
         </div>
       </div>
