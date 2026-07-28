@@ -260,7 +260,7 @@ async function pausedByUser(domain) {
         own prefix, so re-running the pass produced the same IDs every
         time.
       </p>
-      <p>A sketch of that pass, simplified but structurally honest:</p>
+      <p>A sketch of that pass, simplified but structurally accurate:</p>
       <Code lang="js">{`// Run on every rule set, right before install, Safari build only.
 function toSafariRules(rules) {
   return rules.flatMap((rule) => {

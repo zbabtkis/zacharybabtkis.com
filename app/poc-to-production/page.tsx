@@ -208,7 +208,7 @@ export default function PocToProductionPage() {
           {
             question: 'What does this cost?',
             answer:
-              'The audit is $2,500 and credited toward the project. Most finish-line engagements land between $20k and $50k fixed. If your budget is under about $10k total, the honest answer is the audit alone plus a prioritized plan you can execute incrementally, and I’ll tell you that upfront.',
+              'The audit is $2,500 and credited toward the project. Most finish-line engagements land between $20k and $50k fixed. If your budget is under about $10k total, the right scope is the audit alone plus a prioritized plan you can execute incrementally, and I’ll tell you that upfront.',
           },
         ]}
       />

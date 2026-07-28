@@ -105,7 +105,7 @@ export default function SandboxingUntrustedCodePage() {
       <h2>Logs are an exfiltration channel</h2>
       <p>
         We piped the sandbox&rsquo;s console output into our platform
-        logger so partners could debug. Sounds helpful, right? Console
+        logger so partners could debug. That decision created a leak. Console
         output carries whatever the sandboxed code chooses to print,
         including credentials it legitimately holds during a run, and
         those lines flow into log aggregation, dashboards, and whoever

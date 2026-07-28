@@ -34,7 +34,7 @@ export default function DetectAiTrafficPage() {
         {
           question: 'How accurate is user-agent detection for AI traffic?',
           answer:
-            'It’s honest self-identification rather than proof. The major providers do send stable user-agent tokens, but anyone can copy a string, and the token list changes as providers rename agents and launch new ones. Treat user-agent matching as the baseline tier, store the raw user-agent with every event so you can re-classify later, and add IP-range or reverse-DNS verification for the providers that publish them when spoofing matters to you.',
+            'It is self-declared identification rather than proof. The major providers do send stable user-agent tokens, but anyone can copy a string, and the token list changes as providers rename agents and launch new ones. Treat user-agent matching as the baseline tier, store the raw user-agent with every event so you can re-classify later, and add IP-range or reverse-DNS verification for the providers that publish them when spoofing matters to you.',
         },
       ]}
       ctaTitle="Do you know what AI systems are doing with your site?"
@@ -191,9 +191,9 @@ export default function DetectAiTrafficPage() {
 
       <h2>Most of the work is filtering</h2>
       <p>
-        Here&rsquo;s a number that surprised me: in my SDK, the filtering
+        One measurement from my SDK makes the point: the filtering
         module grew to roughly six times the size of the detection
-        module! Every page a human loads triggers a swarm of requests
+        module. Every page a human loads triggers a swarm of requests
         that aren&rsquo;t pageviews: static assets, hashed bundle files,
         framework prefetches, API calls. Left unfiltered, they drown the
         signal. This is the part that bites. One human landing can

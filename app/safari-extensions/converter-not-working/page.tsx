@@ -41,7 +41,7 @@ export default function ConverterNotWorkingPage() {
       ctaSource="converter-article"
     >
       <p>
-        <code>xcrun safari-web-extension-converter</code> is honest about
+        <code>xcrun safari-web-extension-converter</code> delivers
         exactly one thing: packaging. It wraps your extension in an Xcode
         project that builds. It makes no promise that the extension inside
         works, and its warnings cover only a fraction of what differs. So

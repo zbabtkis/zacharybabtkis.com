@@ -37,7 +37,7 @@ export default function McpStatelessMigrationPage() {
             'The server returns an input-required result instead of pushing a request down a stream. The client collects the answers and re-issues the original call with the answers and the echoed request state attached, so any replica can pick up the resume. If you built elicitation as suspend-over-a-store, your design just became the protocol’s design, and the migration is mostly renaming.',
         },
       ]}
-      ctaTitle="Running a session-era MCP server that needs to cross this bridge?"
+      ctaTitle="Running a session-era MCP server that has to migrate?"
       ctaBody="I audit MCP servers and plan migrations: what your sessions actually hold, which tools need handles, what your elicitation flows become, and what infrastructure you get to delete. Fixed price, $2,000, one week, credited toward any follow-on work."
       ctaEmailSubject="MCP server audit: stateless migration"
       ctaSource="mcp-migration-article"
@@ -51,8 +51,8 @@ export default function McpStatelessMigrationPage() {
         headers, <code>Mcp-Method</code> and <code>Mcp-Name</code>, let a
         load balancer route requests without reading bodies. Any request
         can land on any replica. If you have ever debugged
-        session-not-found errors behind a load balancer, you can guess how
-        I feel about this change.
+        session-not-found errors behind a load balancer, this is the
+        change that removes the cause.
       </p>
       <p>
         I ran session-era MCP servers in production at ZeroClick, and I
@@ -66,7 +66,7 @@ export default function McpStatelessMigrationPage() {
         server from here to there.
       </p>
 
-      <h2>First, nothing is on fire</h2>
+      <h2>First, nothing breaks today</h2>
       <p>
         Every client in the wild today speaks the 2025 spec versions, and
         the official SDKs are shipping support for both models. Your
@@ -99,7 +99,7 @@ export default function McpStatelessMigrationPage() {
         When your stateless path is carrying the traffic, you get to
         remove infrastructure, and your balancer goes back to plain
         round-robin. This is the rare migration where the after state has
-        fewer moving parts than the before state!
+        fewer moving parts than the before state.
       </p>
 
       <h2>Working state: move it into handles</h2>

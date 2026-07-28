@@ -153,7 +153,7 @@ Call sequence:
         context, and the model reads it like any other tool output. My
         server returned errors as results with a plain-language
         explanation of what went wrong, and models routinely corrected
-        the input and retried without any human in the loop! Write the
+        the input and retried without any human in the loop. Write the
         message for the model: state what was wrong and what a valid
         call looks like.
       </p>
