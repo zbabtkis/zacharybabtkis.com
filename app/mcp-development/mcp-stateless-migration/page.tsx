@@ -31,12 +31,12 @@ export default function McpStatelessMigrationPage() {
         {
           question: 'Does the 2026-07-28 spec fix the load-balancer problem?',
           answer:
-            'Yes. That problem existed because a follow-up request had to reach the exact replica holding the session. With no protocol session, any request can land on any replica, and the new Mcp-Method and Mcp-Name headers exist so a gateway can route on them without inspecting bodies. Sticky sessions, shared session stores, and affinity cookies stop being requirements and go back to being choices.',
+            'Yes. That problem existed because a follow-up request had to reach the exact replica holding the session. With no protocol session, any request can land on any replica, and the new Mcp-Method and Mcp-Name headers exist so a gateway can route on them without inspecting bodies. Sticky sessions, shared session stores, and affinity cookies, all machinery for pinning a client to one replica, stop being requirements and go back to being choices.',
         },
         {
           question: 'How does elicitation work without an open stream?',
           answer:
-            'The server returns an input-required result instead of pushing a request down a stream. The client collects the answers and re-issues the original call with the answers and the echoed request state attached, so any replica can pick up the resume. If you built elicitation as suspend-over-a-store, your design just became the protocol’s design, and the migration is mostly renaming.',
+            'An elicitation is a mid-call question a tool asks the user. The server now returns an input-required result instead of pushing that question down a stream. The client collects the answers and re-issues the original call with the answers and the echoed request state attached, so any replica can pick up the resume. If you built elicitation as suspend-over-a-store, your design just became the protocol’s design, and the migration is mostly renaming.',
         },
       ]}
       ctaTitle="Running a session-era MCP server that has to migrate?"
@@ -45,28 +45,64 @@ export default function McpStatelessMigrationPage() {
       ctaSource="mcp-migration-article"
     >
       <p>
-        If you have ever debugged a session-not-found error behind a
-        load balancer, the MCP spec dated 2026-07-28 removes the cause.
-        The protocol session, the server-side context a client
-        established once and every later request referred back to, is
-        gone. The <code>Mcp-Session-Id</code> header is gone, and so is
-        the <code>initialize</code> handshake.
+        At ZeroClick I ran the MCP server that exposed our tools to AI
+        agents, and I built it the way the session-era spec expected:
+        around a protocol session, the server-side context a client
+        sets up once and refers back to on every later request. That
+        context lived in one process&rsquo;s memory, and keeping
+        requests routed to that process became its own infrastructure
+        job.
       </p>
       <p>
-        Protocol metadata now rides in <code>_meta</code> on every
-        request. Two new headers, <code>Mcp-Method</code> and{' '}
-        <code>Mcp-Name</code>, let a load balancer route requests
-        without reading bodies. Any request can land on any replica.
+        The load balancer had to keep sending each client back to the
+        one process holding its session. When that pinning slipped,
+        clients saw session-not-found errors. When the balancer cut
+        our open streams at its default timeout, they saw 502s. None
+        of it had anything to do with what our tools did.
       </p>
       <p>
-        I ran session-era MCP servers in production at ZeroClick, and I
-        wrote about{' '}
+        If your server has a map keyed by the{' '}
+        <code>Mcp-Session-Id</code> header and load-balancer settings
+        you tuned to keep clients pinned, you are running the same
+        shape of system. The specifics differ, but the state sits in
+        one process&rsquo;s memory, and your infrastructure&rsquo;s
+        job is reuniting every request with that process.
+      </p>
+      <p>
+        This is a common wall in AI engineering right now. MCP servers
+        stopped being demos and became production infrastructure that
+        agents call at volume, running on the same horizontally scaled
+        web stacks as everything else. A protocol that ties a client
+        to one process pulls against that stack, and every team
+        scaling past a single replica feels the pull.
+      </p>
+      <p>
+        The MCP spec dated 2026-07-28 removes the cause. The protocol
+        session is gone. The <code>Mcp-Session-Id</code> header is
+        gone, and so is the <code>initialize</code> handshake, the
+        setup call that opened every session. Protocol metadata now
+        rides in <code>_meta</code> on every request. Two new headers,{' '}
+        <code>Mcp-Method</code> and <code>Mcp-Name</code>, let a load
+        balancer route requests without reading bodies. Any request
+        can land on any replica.
+      </p>
+      <p>
+        I wrote about{' '}
         <a href="/mcp-development/stateful-mcp-servers/">
           what sessions cost you in production
         </a>{' '}
-        before this spec landed. The protocol adopted the conclusion.
-        This article covers the part the release notes don&rsquo;t,
-        which is how you get a session-era server from here to there.
+        before this spec landed, and the protocol adopted the
+        conclusion. At ZeroClick I went at the problem from both ends.
+        I tuned the pinning by hand, and I also moved state out of the
+        process, into identifiers the client carried and a shared
+        store for questions waiting on answers.
+      </p>
+      <p>
+        The second approach is the one that survives this migration,
+        and it is the model the new spec assumes. The sections below
+        walk the move in an order that keeps your server deployable at
+        every step, and they cover where the pinned-process machinery
+        bites on the way out.
       </p>
 
       <h2>First, nothing breaks today</h2>
@@ -136,15 +172,17 @@ setInterval(() => {
 }, SWEEP_INTERVAL_MS);`}</Code>
       <p>
         The map is only half of it. Because the state lives in one
-        process&rsquo;s memory, the infrastructure has to keep pinning
-        the client to that process: sticky sessions at the load
-        balancer, an affinity cookie, a cookie TTL tuned to match the
-        session TTL.
+        process&rsquo;s memory, the infrastructure has to keep sending
+        every request from a client back to that same process. Load
+        balancers call this sticky sessions, and they enforce it with
+        an affinity cookie, a cookie whose only purpose is to mark
+        which backend process a client belongs to.
       </p>
       <p>
-        I tuned that stack by hand at ZeroClick. The affinity
-        cookie&rsquo;s TTL had to mirror the 30-minute session TTL, and
-        the pinning only worked because our client forwarded cookies. A
+        I tuned that stack by hand at ZeroClick. The cookie&rsquo;s
+        time-to-live had to mirror the 30-minute lifetime of the
+        session it pointed at, and the pinning only worked because our
+        client forwarded cookies. A
         cookie-less client would still have broken. The load-balancer
         bug I spent the most time on was the stream half: it severed
         our SSE streams, the server-sent-event connections the
@@ -242,14 +280,15 @@ if (!args.answers?.region) {
 // the request carries everything the resume needs.
 return deploy(args.answers.region, args.state.deploymentId);`}</Code>
       <p>
-        If you built elicitation as a coroutine suspended over an
+        Maybe you built elicitation as a coroutine suspended over an
         external store, the pattern I described in{' '}
         <a href="/mcp-development/mcp-elicitation/">
           the elicitation article
         </a>
-        , the protocol just standardized your architecture. Your
-        migration is mostly moving the store key from session ID to
-        request state.
+        : the tool saves its place in a database and picks back up
+        when the answer arrives. If so, the protocol just standardized
+        your architecture. Your migration is mostly moving the store
+        key from session ID to request state.
       </p>
       <p>
         <strong>
@@ -278,7 +317,8 @@ return deploy(args.answers.region, args.state.deploymentId);`}</Code>
         <li>Restructure elicitation to the return-and-reissue shape.</li>
         <li>
           Watch traffic until old-version clients are gone, then delete
-          the session map, the affinity config, and the TTL sweeps.
+          the session map, the affinity configuration, and the sweeps
+          that evict idle sessions.
         </li>
       </ol>
       <p>

@@ -42,24 +42,46 @@ export default function ConverterNotWorkingPage() {
       ctaSource="converter-article"
     >
       <p>
-        <code>xcrun safari-web-extension-converter</code> ran, printed a
-        warning or two, and handed you an Xcode project that builds. The
-        extension installs. Then you open Safari and the features that
-        matter do nothing, with an empty console.
+        When I ported Pie Adblock, our ad-blocking extension, from
+        Chrome to Safari and iOS, the work started with Apple&rsquo;s
+        converter. <code>xcrun safari-web-extension-converter</code>{' '}
+        ran, printed a warning or two, and handed me an Xcode project
+        that built. The extension installed. Then I opened Safari, and
+        the features that mattered did nothing, with an empty console.
       </p>
       <p>
-        That&rsquo;s because the converter delivers exactly one thing:
-        packaging. It copies your files into an Xcode wrapper and flags
-        only the manifest keys and APIs on its known-unsupported list.
-        Behavioral differences, APIs that exist but no-op, and
-        rule-matching quirks all pass through silently and fail at
-        runtime.
+        For an ad blocker, those features were the product. Users
+        logged in on our website and the extension kept showing them
+        logged out. Blocking rules Safari had stored without complaint
+        turned out to be silently broken, and in some cases they broke
+        sites. None of it produced an error.
       </p>
       <p>
-        When I ported Pie Adblock to Safari and iOS, conversion was step
-        zero. The real work was a layer of Safari-specific runtime code
-        the converter never hinted at. So where do converted extensions
-        break? Here are the six places, in the order I find them.
+        You may be in the same spot. The converter succeeded, Xcode
+        builds, the extension installs, and the features your users
+        depend on do nothing. Nothing in that chain checked whether
+        the APIs you call work in Safari, so the project compiling
+        tells you nothing about whether the extension works.
+      </p>
+      <p>
+        This stall is common in extension engineering right now.
+        Safari supports the WebExtension API, so a working Chrome
+        codebase looks portable, and Apple&rsquo;s converter makes the
+        port feel mechanical. But the converter delivers one thing:
+        packaging. It copies your files into an Xcode wrapper and
+        flags only the manifest keys and APIs on its known-unsupported
+        list. Everything off that list passes through silently and
+        fails at runtime.
+      </p>
+      <p>
+        On Pie&rsquo;s port, conversion was step zero. What failed was
+        everything I trusted by default: typeof feature checks,{' '}
+        <code>setInterval</code> timers, the rules Safari accepted
+        without complaint, and signing from a local machine. What
+        worked was a layer of Safari-specific runtime code and build
+        setup the converter never hinted at. The six places converted
+        extensions break are below, in the order I find them, with the
+        fix we shipped for each.
       </p>
 
       <h2>1. Feature detection passes and nothing happens</h2>

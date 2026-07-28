@@ -6,7 +6,6 @@ export function WorldBoundaryDiagram() {
   const ink = '#1c1e21';
   const navy = '#24418e';
   const amber = '#c8860a';
-  const rule = '#d8d4cb';
   const mono = "ui-monospace, 'SF Mono', Menlo, monospace";
 
   return (

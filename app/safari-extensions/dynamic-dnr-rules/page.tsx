@@ -15,6 +15,7 @@ export default function DynamicDnrRulesPage() {
       title="When your dynamic rules stop installing, collide, or change meaning in Safari"
       description="Why dynamic rules stop installing, how to tell which feature owns which rule, and why Safari runs the same rules differently. Budgets, rule-ID provenance, selective teardown."
       datePublished="2026-07-25"
+      dateModified="2026-07-28"
       slug="/safari-extensions/dynamic-dnr-rules/"
       byline="I shipped Safari and iOS extensions at Honey and Pie"
       faq={[
@@ -45,21 +46,59 @@ export default function DynamicDnrRulesPage() {
       ctaSource="dynamic-dnr-article"
     >
       <p>
-        Your extension needs to change what it blocks while it&rsquo;s
-        running. A user pauses blocking on one site. A feature
-        temporarily allows requests somewhere. Server config changes an
-        allowlist. Static <code>declarativeNetRequest</code> rulesets,
-        the filter lists you compile at build time and ship in the
-        package, cover none of that: the browser validates them before
-        your extension ever runs, and their content is fixed.
+        At ZeroClick I owned the Safari and iOS extensions for Pie
+        Adblock, our ad blocker with more than two million users.
+        The extension had to change what it blocked while it was
+        running. Users paused blocking on individual sites. A
+        partnership feature let ads through while a participating
+        creator&rsquo;s video played. A set of rules downloaded from
+        our server updated daily.
       </p>
       <p>
-        Runtime state means dynamic rules, the ones you add and remove
-        with <code>updateDynamicRules</code>, and that API gives you
-        almost no structure for managing what accumulates. Everything
-        below comes from running dynamic rules in production on Pie
-        Adblock, a 2M+ user ad blocker where I owned the Safari and iOS
-        extensions. These are the patterns that held up.
+        All of that ran on <code>declarativeNetRequest</code>, the
+        browser API that blocks requests by matching them against rules
+        you install, DNR from here on. Its static rulesets, the filter
+        lists you compile at build time and ship in the package, cover
+        none of this: the browser validates them before your extension
+        ever runs, and their content is fixed. Runtime state means
+        dynamic rules, the ones you add and remove with{' '}
+        <code>updateDynamicRules</code>, and every feature above spent
+        from the same shared pool of them.
+      </p>
+      <p>
+        That pool is where the trouble lived. Rules installed by old
+        releases sat in it with nothing reclaiming them. One
+        feature&rsquo;s cleanup deleted another feature&rsquo;s rules
+        and switched blocking back on after a user had turned it off.
+        The Safari build ran the same rule JSON with different meaning
+        and broke sites that Chrome handled fine.
+      </p>
+      <p>
+        You may be facing the same shape of problem if your extension
+        carries any blocking state it can&rsquo;t know at build time:
+        per-site pauses, user opt-ins, an allowlist your server
+        controls. The moment a second feature starts writing rules, you
+        inherit the accounting.
+      </p>
+      <p>
+        The problem sits at the base of modern extension engineering.
+        Browsers now handle blocking declaratively: you hand the engine
+        a rulebook ahead of time, it matches every request on its own,
+        and your code never hears about individual requests. Teams hit
+        the sharp edges when the rule set has to change at runtime, and
+        hardest of all when they port to Safari, where the same rules
+        can mean something else.
+      </p>
+      <p>
+        We tried the obvious approaches first. Cleanup that removed
+        rules by whatever domain they matched caused the collision
+        above. Trusting Chrome behavior on Safari broke real sites.
+        What held up was encoding each rule&rsquo;s owner and purpose
+        into the rule ID itself, recomputing the rule set from state
+        and installing only the difference, and converting every rule
+        set for Safari before install. The sections below take the
+        failures one at a time, symptom first, and show the pattern
+        that replaced each.
       </p>
 
       <h2>Why dynamic rules suddenly stop installing</h2>
@@ -228,7 +267,7 @@ async function pausedByUser(domain) {
         applies to one section of a site.&rdquo;
       </p>
       <p>
-        I hit the hardest version of this at Pie with a partnership
+        I hit the hardest version of this on Pie Adblock with a partnership
         feature I led that had to let ads through on specific
         creators&rsquo; channels on YouTube. YouTube gives a URL-based
         blocker nothing to grab. Ad media streams from the same

@@ -22,20 +22,52 @@ export default function AppStoreRejectionPage() {
       ctaSource="rejection-article"
     >
       <p>
-        A one-line JavaScript fix to your extension cannot ship until a
-        full app binary passes App Review, Apple&rsquo;s approval process
-        for everything on the App Store. Safari extensions ship inside
-        apps, so they live and die by that process. A rejection of the
-        containing app blocks the extension entirely.
+        At ZeroClick I built the iOS app that carried the Safari
+        extension for Pie Adblock, our ad blocker. The extension itself was JavaScript. But Safari
+        extensions ship inside a native container app, the app you
+        submit to the store, and every build of that app must
+        pass App Review, Apple&rsquo;s approval process for everything
+        on the App Store. A one-line JavaScript fix could not reach
+        users until a full app binary cleared review.
       </p>
       <p>
-        On macOS you have an escape hatch: a notarized app, one signed
-        and malware-checked by Apple but distributed yourself, can skip
-        the store. On iOS there is no way around review. And rejections
-        cite guideline numbers, then leave you to work out the fix.
+        Before Pie I shipped through the same process at Honey, coupon
+        automation across 30,000+ retailers that went through review
+        under PayPal. Both products touched money, the category
+        reviewers examine hardest. And a rejection of the containing app
+        blocks the extension entirely. Nothing ships until the reviewer
+        is satisfied.
+      </p>
+      <p>
+        You may be facing the same shape of problem if you&rsquo;re
+        porting a Chrome extension to Safari, wrapping an extension in a
+        thin app for the first time, or staring at a rejection notice
+        that cites a guideline number and nothing else. The rejection
+        reasons are more predictable than the notices make them look.
+      </p>
+      <p>
+        This is a structural fact of the platform, so it helps to know
+        where the escape hatches are. On macOS a notarized app, one
+        signed and malware-checked by Apple but distributed yourself,
+        can skip the store. On iOS there is no way around review. Teams
+        arriving from Chrome hit this hardest, because App Review judges
+        the container app and the store listing, surfaces a browser
+        extension team has never had to defend.
+      </p>
+      <p>
+        There are two ways to handle review. Resubmitting blind loses:
+        each unanswered reviewer question costs a full cycle. What
+        worked for us was answering the reviewer&rsquo;s concern before
+        it was asked, in the review notes, the free-text explanation you
+        attach to a submission, and then fixing the whole class of
+        problem instead of the cited instance.
+      </p>
+      <p>
         Here&rsquo;s the translation table I&rsquo;ve built shipping
         extensions through review at Honey and Pie, roughly in order of
-        how often each one bites.
+        how often each one bites. Each section covers the rejection, the
+        concern behind it, and the fix. The costs of guessing are
+        covered along the way.
       </p>
 
       <h2>&ldquo;Your app provides minimal functionality&rdquo;</h2>
@@ -45,8 +77,7 @@ export default function AppStoreRejectionPage() {
         Functionality), sometimes 4.2.2, saying the app provides a
         limited feature set. You may be wondering why Apple cares about
         an app whose whole job is carrying an extension. It cares. The
-        container app, the app the extension ships inside, cannot be an
-        empty shell.
+        container app cannot be an empty shell.
       </p>
       <p>
         It doesn&rsquo;t need features, just a purpose: explain what the
@@ -69,9 +100,9 @@ export default function AppStoreRejectionPage() {
       <p>
         The bridge that works: have the extension record that it ran, in
         an app group, a storage sandbox shared between an app and its
-        extensions. The extension&rsquo;s native handler only executes
-        when the extension is enabled, so execution itself is the
-        signal. Here&rsquo;s the extension side:
+        extensions. The extension&rsquo;s native handler, the Swift side
+        of a Safari extension, only executes when the extension is
+        enabled, so execution itself is the signal. Here&rsquo;s the extension side:
       </p>
       <Code lang="swift">{`// Safari only runs this handler if the user has enabled the
 // extension. So the fact that we're executing at all is the
@@ -137,9 +168,10 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
 
       <h2>Privacy labels that don&rsquo;t match the binary</h2>
       <p>
-        The rejection, or an App Store Connect compliance notice, says
-        your app collects data types not declared in its privacy label,
-        the data-collection disclosure on your store listing. You grep
+        The notice comes as a rejection or through App Store Connect,
+        the dashboard where you manage your store listing. It says your
+        app collects data types not declared in its privacy label, the
+        data-collection disclosure on that listing. You grep
         your own code and find nothing. The culprit is almost always a
         bundled SDK: an analytics or attribution library someone added
         two years ago, sending device identifiers your label says you
@@ -160,13 +192,14 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
       <h2>Rejected on metadata alone</h2>
       <p>
         The binary passes and the submission still comes back, with a
-        Guideline 2.3.x citation pointing at a screenshot or a
-        description line. Store listings that lean on other brands
+        Guideline 2.3.x citation pointing at your metadata, the store
+        listing content: a screenshot or a description line. Store
+        listings that lean on other brands
         (&ldquo;works like the Chrome version&rdquo;), screenshots
         showing other browsers, and names that collide with trademarks
-        all draw this class of rejection. Chrome ports trip it
-        naturally, because their marketing was written against the
-        Chrome original.
+        all draw this class of rejection. Extensions ported from Chrome
+        trip it naturally, because their marketing was written against
+        the Chrome original.
       </p>
       <p>
         <strong>
@@ -188,7 +221,7 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
         unanswered question costs a review round.
       </p>
       <p>
-        Guideline 3.1 exists to protect Apple&rsquo;s payment rails.
+        Guideline 3.1 exists to protect Apple&rsquo;s payment system.
         Coupon and cashback extensions are compliant precisely because
         the transaction happens on the merchant&rsquo;s website in
         Safari, which is physical-goods commerce outside in-app purchase
@@ -208,9 +241,11 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
         The expensive failure mode here is resubmitting blind. Apple&rsquo;s
         published turnaround is 24 to 48 hours for most submissions, but
         a rejection costs you the whole cycle: diagnose, fix, rebuild,
-        resubmit, wait for re-review, and often a Resolution Center
-        exchange on top. Count it end to end at a company with release
-        trains and a single rejection can eat a week.{' '}
+        resubmit, wait for re-review, and often an exchange in
+        Resolution Center, the message thread with the review team in
+        App Store Connect, on top. Count it end to end at a company that
+        ships on a fixed release schedule and a single rejection can eat
+        a week.{' '}
         <strong>
           Review notes cost an hour and are the cheapest insurance
           against that cycle.
@@ -253,8 +288,7 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
           any code.
         </li>
         <li>
-          Respond in Resolution Center, the message thread with the
-          review team inside App Store Connect, with specifics before
+          Respond in Resolution Center with specifics before
           resubmitting blind. Reviewers can approve based on a
           clarification alone, without a new binary.
         </li>
@@ -263,9 +297,10 @@ class ExtensionRequestHandler: NSObject, NSExtensionRequestHandling {
           them before the next round.
         </li>
         <li>
-          If review is factually wrong, appeal to the App Review Board.
-          The escalation path exists for exactly this, and a factual
-          case gives it something to work with.
+          If review is factually wrong, appeal to the App Review Board,
+          Apple&rsquo;s channel for disputing a rejection. It exists for
+          exactly this, and a factual case gives it something to work
+          with.
         </li>
       </ol>
     </ArticleLayout>

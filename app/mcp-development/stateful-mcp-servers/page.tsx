@@ -22,17 +22,17 @@ export default function StatefulMcpServersPage() {
         {
           question: 'Do I need sticky sessions for an MCP server?',
           answer:
-            'If you run more than one replica of an MCP server using streamable HTTP with in-memory sessions, yes. A follow-up POST in an existing session must reach the replica holding that session’s open SSE stream. Generated-cookie affinity at the load balancer, with a cookie TTL matched to your session lifetime, is the standard fix. The alternative is externalizing transport state to a shared store so any replica can serve any session.',
+            'If you run more than one replica of an MCP server using streamable HTTP with in-memory sessions, yes. A follow-up POST in an existing session must reach the replica holding that session’s open server-sent events (SSE) stream. Generated-cookie affinity, where the load balancer sets a cookie on the first response and routes every request carrying it to the same backend, is the standard fix. Match the cookie’s lifetime to your session lifetime. The alternative is externalizing transport state to a shared store so any replica can serve any session.',
         },
         {
           question: 'Why do my MCP SSE connections return 502 errors?',
           answer:
-            'Most managed load balancers apply a default backend idle timeout (30 seconds on the setup I ran), and an SSE stream that stays quiet longer than that gets cut with a 502 even though nothing is wrong. Raise the backend timeout well past your longest expected quiet period (I used 300 seconds), disable response buffering in any proxy layer, and make sure your framework serves the route from a long-lived runtime rather than an edge or static path.',
+            'Most managed load balancers apply a default backend idle timeout (30 seconds on the setup I ran), and a server-sent events (SSE) stream that stays quiet longer than that gets cut with a 502 even though nothing is wrong. Raise the backend timeout well past your longest expected quiet period (I used 300 seconds), disable response buffering in any proxy layer, and make sure your framework serves the route from a long-lived runtime rather than an edge or static path.',
         },
         {
           question: 'How do I scale an MCP server horizontally?',
           answer:
-            'You’ve got three options, in increasing order of effort: sticky sessions at the load balancer, which works at small replica counts but ties each session to one process; externalized session state in a shared store like Redis, which lets any replica serve any request; or restructuring long-running tools as jobs that return an ID the client polls, so no request holds a stream at all. Start with sticky sessions and move up when deploys or scale-in events start dropping too many sessions.',
+            'You’ve got three options, in increasing order of effort: sticky sessions at the load balancer, which works at small replica counts but ties each session to one process; externalized session state in a shared store like Redis, which lets any replica serve any request; or restructuring long-running tools as jobs that return an ID the client polls, so no request holds a stream at all. Start with sticky sessions and move up when deploys, or the autoscaler removing replicas, start dropping too many sessions.',
         },
         {
           question: 'Should I use stdio or HTTP transport in production?',
@@ -46,20 +46,51 @@ export default function StatefulMcpServersPage() {
       ctaSource="stateful-mcp-article"
     >
       <p>
-        Your MCP server works on localhost. It works on a single cloud
-        instance. Then you put it behind a load balancer, scale to two
-        replicas, and sessions start failing in ways that look random:
-        requests that reference a session the server insists doesn&rsquo;t
-        exist, streams that die mid-response with a 502. Nothing in your
-        code changed.
+        At ZeroClick I built an MCP server that let agents provision
+        third-party services inside their sessions. A tool call would
+        pause partway through to ask the user a question, the user would
+        answer, and the work would continue. It ran fine on localhost
+        and fine on a single cloud instance.
       </p>
       <p>
-        What changed is the assumption underneath you. Your infrastructure
-        treats every service as stateless, and an MCP server over
-        streamable HTTP, the transport where the server can hold a
-        long-lived stream open back to the client, isn&rsquo;t one. I ran
-        into every failure below on an MCP server I built at ZeroClick,
-        and each section ends with the fix that shipped.
+        Then we put it behind a load balancer, scaled to two replicas,
+        and the core of that flow broke. The moment a user answered a
+        question, the call died with a session error or hung until it
+        timed out. Nothing in the code had changed. What changed was the
+        assumption underneath it: the infrastructure treats every
+        service as stateless, and this server isn&rsquo;t one.
+      </p>
+      <p>
+        You may be heading for the same wall if this sounds like your
+        setup: an MCP server over streamable HTTP, the transport where
+        the server holds a long-lived stream open back to the client,
+        and a plan to run more than one replica. The failures look
+        random from the outside. Requests reference a session the server
+        insists doesn&rsquo;t exist, and streams die mid-response with a
+        502.
+      </p>
+      <p>
+        AI engineering keeps producing this collision. Teams stand up an
+        MCP server, deploy it the way they deploy the rest of their
+        services, and meet these failures the first time real agent
+        traffic arrives. The protocol holds per-session state in one
+        process&rsquo;s memory, and standard web infrastructure assumes
+        no such thing exists.
+      </p>
+      <p>
+        There are three ways out. Sticky sessions, where the load
+        balancer pins each client to one backend, are the cheapest.
+        Externalizing session state to a shared store lets any replica
+        serve any request. Restructuring long-running work as jobs the
+        client polls removes the state entirely.
+      </p>
+      <p>
+        Sticky sessions won at ZeroClick, backed by a raised proxy
+        timeout and a sweep that expires idle sessions, and the same
+        system ran a job-and-poll surface alongside MCP. Each section
+        below ends with the fix that
+        shipped, and the decision guide at the end covers where the
+        other two approaches win and what they cost.
       </p>
       <p>
         Quick version note before the details, as of July 2026. The MCP
@@ -79,8 +110,9 @@ export default function StatefulMcpServersPage() {
         request/response. It isn&rsquo;t. When a client initializes a
         session, the server typically opens a server-sent-events stream
         back to it, a long-lived HTTP response the server keeps writing
-        messages into. It also keeps a transport object for that session
-        in memory, commonly a map from session ID to transport.
+        messages into. It also keeps a transport object, the SDK&rsquo;s
+        per-session connection record, in memory, commonly in a map from
+        session ID to transport.
       </p>
       <p>
         The stream is how the server pushes notifications, progress
@@ -99,7 +131,8 @@ export default function StatefulMcpServersPage() {
       <p>
         With one replica, every request lands on the process holding the
         session, so nothing looks wrong. With two, a round-robin load
-        balancer sends roughly half of your follow-up requests to a
+        balancer, one that rotates requests across replicas in turn,
+        sends roughly half of your follow-up requests to a
         replica that has never heard of the session. Those requests fail
         with a 404 &ldquo;session not found&rdquo; error, the client
         retries or starts a new session, and your logs fill with errors
@@ -109,11 +142,10 @@ export default function StatefulMcpServersPage() {
       <p>
         The sharpest version of this involves elicitation, the MCP
         mechanism where the server pauses a tool call to ask the human a
-        question. I hit it on an MCP server I built at ZeroClick that
-        provisioned third-party services inside agent sessions.
-        Provisioning would pause on a question, and the moment the user
-        answered, the call either died with a session error or hung until
-        it timed out.
+        question. That is exactly what broke in the provisioning flow
+        from the opening. The question went out, the user answered, and
+        the call either died with a session error or hung until it timed
+        out.
       </p>
       <p>
         Why? The question travels to the client over the session&rsquo;s
@@ -128,7 +160,8 @@ export default function StatefulMcpServersPage() {
           balancer: the balancer sets a cookie on the first response and
           routes every request carrying it to the same backend.
         </strong>{' '}
-        Set the cookie&rsquo;s TTL to match your session lifetime. A
+        Set the cookie&rsquo;s TTL, its time-to-live, to match your
+        session lifetime. A
         cookie that outlives the session pins clients to a backend for no
         reason, and one that expires early recreates the original bug.
       </p>
@@ -302,7 +335,8 @@ throw new Error('timed out waiting for job');`}</Code>
         <li>
           <strong>Accept sticky sessions</strong> when you run a small,
           stable replica count and can tolerate losing in-flight sessions
-          on deploys and scale-in. It&rsquo;s a load-balancer setting
+          on deploys and scale-in, when the autoscaler removes a
+          replica. It&rsquo;s a load-balancer setting
           plus a TTL sweep. It&rsquo;s the cheapest correct answer and
           where I&rsquo;d start.
         </li>
@@ -324,8 +358,8 @@ throw new Error('timed out waiting for job');`}</Code>
           needs no special configuration. The provisioning system in this
           article ran a plain REST surface alongside MCP built exactly
           this way: an initiate call, then status polls until done. If
-          your tools don&rsquo;t need mid-call elicitation, this is often
-          the strongest option.
+          your tools don&rsquo;t need to pause mid-call and ask the user
+          questions, this is often the strongest option.
         </li>
       </ul>
       <p>

@@ -22,12 +22,12 @@ export default function SpaPageIdentityPage() {
           question:
             'How do I reliably detect SPA navigation from a content script?',
           answer:
-            'Prefer the app’s own navigation events when it emits them. YouTube fires yt-page-data-updated after each in-app navigation. When the app emits nothing usable, run a throttled MutationObserver on the document body, re-extract your identity key on each batch of mutations, and act only when the key changes. Watching the URL alone tells you a navigation started. It says nothing about whether the new page’s DOM is ready to read.',
+            'Prefer the app’s own navigation events when it emits them. YouTube fires yt-page-data-updated after each in-app navigation. When the app emits nothing usable, run a throttled MutationObserver on the document body, re-extract your identity key, the stable string that says which page this is, on each batch of mutations, and act only when the key changes. Watching the URL alone tells you a navigation started. It says nothing about whether the new page’s DOM is ready to read.',
         },
         {
           question: 'Why not poll every second?',
           answer:
-            'Polling forces a trade between latency and waste, and it still needs the same extraction and diffing logic an observer needs. You save nothing by polling. The real trap is what you compare rather than how often. Diff a stable identity key such as a URL handle, never visible display text, which changes for reasons that have nothing to do with navigation.',
+            'Polling forces a trade between latency and waste, and it still needs the same extraction and diffing logic an observer needs. You save nothing by polling. The real trap is what you compare rather than how often. Diff a stable identity key, such as the unique name in the page’s URL, never visible display text, which changes for reasons that have nothing to do with navigation.',
         },
         {
           question:
@@ -38,7 +38,7 @@ export default function SpaPageIdentityPage() {
         {
           question: 'How do I test SPA navigation flows?',
           answer:
-            'Test each entry path as its own case: direct load of the target page, in-app navigation to it, and in-app navigation away and back. The paths hand you identity from different sources, server-rendered metadata on direct load and scraped DOM after navigation, and those sources can return different string forms of the same identity. Ours did. Our lookup was keyed by the handle the DOM path produced, so in-app navigation matched and direct loads missed. Normalize every path to one form, then test the transitions, because that is where the bugs concentrate.',
+            'Test each entry path as its own case: direct load of the target page, in-app navigation to it, and in-app navigation away and back. The paths hand you identity from different sources, server-rendered metadata on direct load and scraped DOM after navigation, and those sources can return different string forms of the same identity. Ours did. Our lookup was keyed by the handle, the @name in the channel’s URL, which only the DOM path produced, so in-app navigation matched and direct loads missed. Normalize every path to one form, then test the transitions, because that is where the bugs concentrate.',
         },
       ]}
       ctaTitle="Porting an extension that has to track SPA state?"
@@ -47,21 +47,47 @@ export default function SpaPageIdentityPage() {
       ctaSource="spa-identity-article"
     >
       <p>
-        A content script, the code an extension injects into the page,
-        runs once. It reads the page, works out what it&rsquo;s looking
-        at, and acts. Then the user clicks a link, the single-page app
-        swaps the view without a full page load, and every fact your
-        script gathered is stale. The URL changed. The content changed.
-        Your code never ran again.
+        At ZeroClick I led a feature on Pie Adblock, our 2M+ user ad
+        blocker, that let users allow ads on specific creators&rsquo;
+        channels on YouTube and Twitch. Someone who wanted to support
+        a creator could opt in for that channel while ads stayed
+        blocked everywhere else. Every decision the extension made
+        depended on knowing whose channel was on screen at that
+        moment.
       </p>
       <p>
-        I dealt with this on Pie Adblock, ZeroClick&rsquo;s 2M+ user ad
-        blocker, where I led a feature that let users allow ads on
-        specific creators&rsquo; channels on YouTube and Twitch.
         Extracting the channel identity was the easy part. Keeping it
-        correct across client-side navigation was most of the work, and
-        every failure mode below shipped to production before we
-        understood it.
+        correct was most of the work, because a content script, the
+        code an extension injects into the page, runs once. Both sites
+        are single-page apps. The user clicks a link and the view
+        swaps without a full page load. The URL changes, and the
+        script that worked out the current channel never runs again.
+      </p>
+      <p>
+        You may be facing the same shape of problem if your extension
+        reads anything from a page the site can replace without
+        reloading: which product is on screen, which video, which
+        profile. Whatever your script learned at load time describes a
+        page the user may have already left.
+      </p>
+      <p>
+        Teams keep hitting this because the platform moved underneath
+        them. Extensions were designed for pages that reload on every
+        navigation, and most large sites now render once and route on
+        the client. Any code that reads a page and acts on what it
+        finds inherits the gap, whether it is a content script or an
+        AI agent driving a browser.
+      </p>
+      <p>
+        We tried more than one answer, and every failure mode below
+        shipped to production before we understood it. Trusting the
+        server-rendered metadata broke after the first in-app
+        navigation. Diffing visible text fired on re-renders and was
+        replaced two days after it shipped. What held up was treating
+        page identity as a computed value with an explicit source
+        order, an explicit staleness rule, and one canonical form.
+        Each section below starts from how a failure looked in
+        production and ends with the fix that shipped.
       </p>
 
       <h2>Detection works on the first page, then never updates</h2>
@@ -84,7 +110,8 @@ export default function SpaPageIdentityPage() {
         </strong>{' '}
         The moment those diverge, the tag is a fossil, and the identity
         has to come from the live DOM. For us that meant the channel
-        link in the video&rsquo;s owner row.
+        link in the video&rsquo;s owner row, the strip under the
+        player that names the channel.
       </p>
       <Code lang="js">{`// These belong in remote config, not code. More on that below.
 const AUTHOR_META_SELECTOR = '[itemprop=author] [itemprop=name]';
@@ -130,7 +157,8 @@ function getChannelIdentity() {
         The cause is that the two sources emit different string forms
         of the same identity. On YouTube the meta tag carries the
         channel&rsquo;s display name while the owner-row link carries
-        the URL handle, and neither is derivable from the other. Our
+        the URL handle, the unique @name in the channel&rsquo;s
+        address, and neither is derivable from the other. Our
         lookup table was keyed by handle, the form the post-navigation
         DOM path produced. So matching succeeded after in-app
         navigation and failed on direct load, where the meta path
@@ -224,7 +252,7 @@ observer.observe(document.body, { childList: true, subtree: true });`}</Code>
       <p>
         The user opts in to seeing ads on a creator&rsquo;s channel,
         loads a video, and no ad plays. Nothing looks broken in the
-        settings. The pre-roll was stripped at{' '}
+        settings. The ad that runs before the video was stripped at{' '}
         <code>document_start</code>, the earliest moment an extension
         can inject code, before your script could possibly know whose
         channel this was. Toggling the blocker mid-page does nothing.
@@ -251,8 +279,9 @@ observer.observe(document.body, { childList: true, subtree: true });`}</Code>
         <strong>
           We shipped the reload path, and it works because the decision
           outlives the page: the reload destroys the content script, so
-          the decision has to survive in the background script or
-          extension storage.
+          the decision has to survive in the background script, the
+          extension&rsquo;s long-lived process that persists across
+          page loads, or in extension storage.
         </strong>{' '}
         Our background script recorded which tab was in which mode,
         tore down the blocking for that site, and reloaded the tab. On
@@ -281,8 +310,8 @@ observer.observe(document.body, { childList: true, subtree: true });`}</Code>
       </p>
       <p>
         The kill switch earns its place the day extraction goes bad in
-        a way config can&rsquo;t repair. Every unblock decision we made
-        checked a per-platform disabled flag first, so we could turn
+        a way config can&rsquo;t repair. Every decision to allow ads
+        on a channel checked a per-platform disabled flag first, so we could turn
         one platform off remotely rather than let the feature misbehave
         while we worked on a real fix.
       </p>
@@ -310,7 +339,7 @@ observer.observe(document.body, { childList: true, subtree: true });`}</Code>
         Scoped observers are workable only when something owns their
         lifecycle. We ran both patterns in the same codebase: the
         navigation detector was the single body-level observer, and the
-        channel UI observed a smaller container safely because a React
+        on-page UI for the channel feature observed a smaller container safely because a React
         hook created that observer on mount and disconnected it on
         unmount. A scoped observer with no lifecycle owner is the
         version that goes quiet.

@@ -22,18 +22,46 @@ export default function WebRequestAlternativePage() {
       ctaSource="webrequest-article"
     >
       <p>
-        You ran the converter, the extension loads in Safari, and the
-        request blocking does nothing. No errors. The rules installed
-        without complaint, <code>getDynamicRules</code> returns them,
-        and ads load anyway. Or worse: a site that worked in Chrome
-        breaks outright. You didn&rsquo;t break the port. This is
-        Safari&rsquo;s design.
+        At ZeroClick I owned the Safari and iOS builds of Pie Adblock, an ad
+        blocker with more than two million users. The Chrome build
+        decided what to block in JavaScript, in the request path,
+        through the blocking <code>webRequest</code> API. Blocking is
+        the whole product. Porting to Safari meant moving that entire
+        layer to a browser that refuses to run it.
       </p>
       <p>
-        I did this migration for Pie Adblock, a 2M+ user ad blocker
-        where I owned the Safari and iOS extensions. Everything below
-        is what shipped: what ports cleanly, what needs a redesign, and
-        how to find the failures that never reach the console.
+        The failures we hit were quiet. Rules installed without
+        complaint while ads kept loading, with nothing in the console
+        to explain it. Redirect rules that behaved in testing broke
+        Spotify completely in production. For an ad blocker both
+        outcomes are fatal. One ships a product that does nothing, and
+        the other breaks sites users care about.
+      </p>
+      <p>
+        You may be at the same point. You ran Apple&rsquo;s converter,
+        the extension loads in Safari, and the request blocking does
+        nothing. No errors show up. The rules installed,{' '}
+        <code>getDynamicRules</code> returns them, and ads load anyway.
+        Or worse, a site that worked in Chrome breaks outright. You
+        didn&rsquo;t break the port. This is Safari&rsquo;s design.
+      </p>
+      <p>
+        This wall is part of a larger shift in extension engineering.
+        Browsers are pulling extension code out of the request path and
+        replacing it with rules you declare ahead of time, which the
+        browser enforces itself. Chrome pushed that model with Manifest
+        V3. Safari got there earlier and enforces it harder, with lower
+        rule limits and failures that never reach the console.
+      </p>
+      <p>
+        Three approaches came out of our migration. Blocking itself
+        moved to <code>declarativeNetRequest</code>, where you register
+        rules ahead of time and the browser applies them, and that move
+        won. Our <code>webRequest</code> listeners stayed only where
+        they observe without blocking. Redirect rules got cut after
+        Spotify. The sections below cover what ports cleanly, what
+        needs a redesign, and the pitfalls in each losing approach.
+        Everything here is what shipped.
       </p>
 
       <h2>The model change</h2>
@@ -85,7 +113,7 @@ browser.webRequest?.onHeadersReceived.addListener(
         requests.
       </p>
       <p>
-        Chrome pushed the same direction with Manifest V3, so if you
+        Chrome moved the same direction with Manifest V3, so if you
         already built DNR rules for Chrome, a meaningful part of the
         Safari migration is done. The differences that remain are rule
         limits, supported action types, and behavior that shifts with
@@ -117,12 +145,14 @@ browser.webRequest?.onHeadersReceived.addListener(
           rewriting and nothing tells you.
         </li>
         <li>
-          User-toggled rule sets survive. Static rulesets are declared
-          in the manifest, and <code>updateEnabledRulesets</code> flips
-          them on and off at runtime as settings change. Pie&rsquo;s
-          cookie-popup blocking and allowlists worked this way, with a
-          periodic reconciliation pass keeping browser state in line
-          with settings.
+          User-toggled rule sets survive. Static rulesets, the named
+          rule files you declare in the manifest and ship with the
+          extension, flip on and off at runtime with{' '}
+          <code>updateEnabledRulesets</code> as settings change.
+          Pie&rsquo;s cookie-popup blocking and allowlists, the sites a
+          user exempts from blocking, worked this way, with a periodic
+          reconciliation pass keeping browser state in line with
+          settings.
         </li>
       </ul>
       <p>
@@ -193,7 +223,9 @@ await browser.declarativeNetRequest.updateDynamicRules({
         </li>
         <li>
           Rules computed per request at runtime. You can update dynamic
-          rules often, just never in the request path. New rules also
+          rules, the ones your code installs at runtime instead of
+          shipping in the manifest, as often as you like, just never in
+          the request path. New rules also
           don&rsquo;t affect requests already in flight on the current
           page. The pattern that works is recompile and reload:
           regenerate the rule set when state changes, diff it against
@@ -206,23 +238,27 @@ await browser.declarativeNetRequest.updateDynamicRules({
           page&rdquo; counter reads zero while blocking works fine. The
           browser&rsquo;s match feedback can&rsquo;t carry it in
           production: <code>getMatchedRules</code> is quota-limited,
-          and <code>onRuleMatchedDebug</code> only works in Chrome with
-          the extension loaded unpacked from a local folder. Pie&rsquo;s
+          meaning the browser caps how often you can call it, and{' '}
+          <code>onRuleMatchedDebug</code> only works in Chrome with the
+          extension loaded unpacked from a local folder. Pie&rsquo;s
           shipped counters came entirely from DOM-level signals,
           injected scripts counting the ad placements they found and
           hid, while the browser&rsquo;s match data ran only in a
-          development monitor compiled out of production.
+          development-only monitor that never shipped in production
+          builds.
         </li>
         <li>
-          Massive filter lists. Chrome&rsquo;s Manifest V3 allows up to
-          330,000 enabled static rules; Safari&rsquo;s ceiling is
-          smaller and moves by version, raised from 50,000 to 150,000
-          in Safari 15. Pie&rsquo;s Chrome build shipped a list of
-          roughly 195,000 rules, while the Safari build shipped a
-          pruned list of about 43,000 plus a mobile-optimized
-          companion. A big list needs a per-browser pruning strategy,
-          because over the limit the list fails to load or coverage
-          quietly degrades.
+          Massive filter lists. These are the subscribable rule lists
+          an ad blocker compiles its blocking rules from, and each
+          browser caps how many rules it will load. Chrome&rsquo;s
+          Manifest V3 allows up to 330,000 enabled static rules;
+          Safari&rsquo;s ceiling is smaller and moves by version,
+          raised from 50,000 to 150,000 in Safari 15. Pie&rsquo;s
+          Chrome build shipped a list of roughly 195,000 rules, while
+          the Safari build shipped a pruned list of about 43,000 plus a
+          second, mobile-optimized list. A big list needs a per-browser
+          pruning strategy, because over the limit the list fails to
+          load or coverage quietly degrades.
         </li>
       </ul>
 

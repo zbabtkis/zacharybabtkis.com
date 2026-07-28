@@ -44,19 +44,53 @@ export default function ConvertGuidePage() {
       ]}
     >
       <p>
-        Apple ships a command-line tool that converts a Chrome extension into
-        a Safari one. You run it, and out comes an Xcode project that
-        compiles on the first try. Everything&rsquo;s good until you start
-        testing the extension inside it. That first clean build is where most
-        teams get the wrong idea about how the rest of the port will go.
+        At ZeroClick I owned Safari and iOS for Pie, an ad blocker with more
+        than two million users. Pie shipped first as a Chrome extension, and
+        no Chrome extension reaches an iPhone, so the Safari port was how the
+        product got to the phone. Apple ships a command-line tool that
+        converts a Chrome extension into a Safari one. We ran it and got an
+        Xcode project that compiled on the first try.
       </p>
       <p>
-        I&rsquo;ve done this work twice at production scale: at Honey, where
-        I built the company&rsquo;s first iOS browser extension and ported
-        the legacy Safari extension to Apple&rsquo;s modern API, and at
-        ZeroClick, where I owned Safari and iOS for its two-million-user Pie
-        ad blocker. This guide is the map I wish I&rsquo;d had: what the
-        converter does, what breaks, and what the real work looks like.
+        The build was the easy part. Pie&rsquo;s blocking engine was written
+        against an API that Safari accepts without error and quietly
+        ignores, so every ad request would have sailed through untouched.
+        The rules we rebuilt it on brought their own trouble: some installed
+        cleanly and never matched anything, and one bad combination blanked
+        all of Spotify.
+      </p>
+      <p>
+        You may be holding the same shape of problem: a working Chrome
+        extension, a reason to be on Safari or iPhone, and a converter that
+        looks like it does the whole job in one command. That first clean
+        build is where most teams get the wrong idea about how the rest of
+        the port will go.
+      </p>
+      <p>
+        Ports like this became possible only recently. Safari has supported
+        the WebExtension API, the same standard Chrome extensions are built
+        on, since Safari 14, and since iOS 15 the iPhone runs it too. So
+        every Chrome team now has a plausible Safari port on the table. The
+        catch is that Safari runs the shared standard on top of a stricter
+        privacy and process model, and the differences fail silently instead
+        of throwing.
+      </p>
+      <p>
+        There are two ways to run a port like this. You can translate the
+        extension as it stands and patch whatever breaks, or you can audit
+        every API it touches and redesign around Safari&rsquo;s model where
+        the two diverge. The redesign is what shipped Pie. Blocking moved to
+        declarative rules, the lists you hand the browser so its network
+        layer does the enforcement. The background script was rewritten to
+        survive suspension, and signing moved into CI during the first week.
+      </p>
+      <p>
+        Translate-and-patch fails in specific, repeatable places, and the
+        body of this guide covers each one. I&rsquo;d been through this once
+        before, at Honey, where I built the company&rsquo;s first iOS
+        browser extension and ported the legacy Safari extension to
+        Apple&rsquo;s modern API. This guide is the map I wish I&rsquo;d had
+        both times.
       </p>
 
       <h2>What the converter does</h2>
@@ -77,7 +111,7 @@ export default function ConvertGuidePage() {
         On iOS the app comes from the App Store. On macOS it comes from the
         App Store or, since Safari 18.4, from direct distribution as a
         notarized app, one Apple has scanned and stamped, signed with your
-        Developer ID.
+        Developer ID, the certificate tied to your Apple developer account.
       </p>
       <p>
         Now for the part the clean build hides. Xcode compiles the Swift
@@ -107,7 +141,8 @@ export default function ConvertGuidePage() {
         <strong>
           Blocking <code>webRequest</code> does not exist in Safari.
         </strong>{' '}
-        Safari&rsquo;s model is <code>declarativeNetRequest</code>: you hand
+        Safari&rsquo;s model is <code>declarativeNetRequest</code>, DNR from
+        here on: you hand
         the browser a list of rules up front, and the browser&rsquo;s
         network layer applies them without your JavaScript ever seeing a
         request. Safari&rsquo;s process model and privacy stance never
@@ -143,7 +178,8 @@ await browser.declarativeNetRequest.updateDynamicRules({
         that is a redesign. Dynamic blocking logic gets re-expressed as rule
         add and remove operations, and anything that inspected requests at
         runtime needs a different mechanism or gets cut. On Pie, the entire
-        blocking engine became DNR, with filter lists compiled to rules and
+        blocking engine became DNR, with the filter lists that define what
+        to block compiled into rules and
         injected page scripts handling what rules can&rsquo;t express. I
         wrote more about this migration in{' '}
         <a href="/safari-extensions/webrequest-alternative/">
@@ -210,6 +246,7 @@ browser.alarms.create('refresh-rules', { periodInMinutes: 60 });`}</Code>
         enough to blank all of Spotify. Safari read an older key name where
         Chrome used <code>initiatorDomains</code>, refused the
         domain-filtered <code>allowAllRequests</code> rules we depended on,
+        which exempt a page&rsquo;s requests from blocking,
         and mishandled redirect actions.
       </p>
       <p>

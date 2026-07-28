@@ -26,7 +26,7 @@ export default function SandboxingUntrustedCodePage() {
         {
           question: 'What should I use instead of the vm module?',
           answer:
-            'It depends on your threat model. For partner code you review and contract with, a same-process VM with a wrapped fetch, no ambient globals, and a timeout can be acceptable. If you need memory or CPU limits, move to a worker thread or a separate process you can kill. For fully adversarial code, such as anonymous users or model-generated scripts run at scale, use a microVM such as Firecracker, which brings its own kernel, or a container hardened with gVisor or seccomp plus network policy. A plain container shares the host kernel and is not an isolation boundary by itself. The injection-surface discipline is the same at every tier; the tiers differ in what happens when the code misbehaves.',
+            'It depends on your threat model. For partner code you review and contract with, a same-process VM with a wrapped fetch, no ambient globals, and a timeout can be acceptable. If you need memory or CPU limits, move to a worker thread or a separate process you can kill. For fully adversarial code, such as anonymous users or model-generated scripts run at scale, use a microVM such as Firecracker, which brings its own kernel, or a container hardened with gVisor or seccomp, layers that filter what the code can ask of the host kernel, plus network policy. A plain container shares the host kernel and is not an isolation boundary by itself. The injection-surface discipline is the same at every tier; the tiers differ in what happens when the code misbehaves.',
         },
         {
           question:
@@ -46,15 +46,50 @@ export default function SandboxingUntrustedCodePage() {
       ctaSource="sandboxing-article"
     >
       <p>
-        Sooner or later your platform runs code it didn&rsquo;t write. A
-        partner ships an integration, a user saves an automation, or a
-        model generates a script, and it has to execute somewhere. The
-        practical answer is usually your own servers. At ZeroClick I led
-        the execution layer for partner-authored integrations, which ran
-        on our infrastructure inside a Node <code>vm</code> sandbox. This
-        is the list of things that went wrong, what fixed each one, and
-        the checklist I now run against any execution layer before it
-        faces partners or agents.
+        At ZeroClick I led the execution layer for partner-authored
+        integrations. Partners wrote provisioning code, the script that
+        signs a customer up on the partner&rsquo;s side and hands back
+        working credentials, and that code ran on our servers, inside a
+        Node <code>vm</code> sandbox, in the same process as our API.
+      </p>
+      <p>
+        The stakes were concrete. During a run the code held real
+        tokens, could make network calls from inside our cluster, and
+        could pause to ask a human a question. A mistake at that
+        boundary meant a partner script reading our cloud credentials or
+        another tenant&rsquo;s keys, and for stretches of time it could
+        have.
+      </p>
+      <p>
+        You may be facing the same shape of problem. A partner ships an
+        integration, a user saves an automation, or a model generates a
+        script, and it has to execute somewhere, which usually means
+        your own infrastructure. If code you didn&rsquo;t write runs
+        next to code you did, the boundary between them is yours to
+        design.
+      </p>
+      <p>
+        This used to be a niche concern for plugin platforms. AI
+        engineering has made it the default: agents generate code on
+        demand, and MCP servers execute tool calls against live systems.
+        Every product that lets a model act ends up with an execution
+        layer, usually before anyone has planned for it.
+      </p>
+      <p>
+        We started with the obvious defaults. We handed the sandbox the
+        platform&rsquo;s own <code>fetch</code>, piped its console into
+        our logger, and left the status endpoint public. Each one
+        produced a real exposure, and each fix in this article came from
+        closing one.
+      </p>
+      <p>
+        What held up was treating the injection boundary as the thing
+        under review: enumerate everything the sandbox can touch, wrap
+        its network access, control its output channels, bound its time,
+        and scope its credentials to the single run. The sections below
+        walk through each losing default, why it fails, and the fix that
+        replaced it, ending in the checklist I now run against any
+        execution layer before it faces partners or agents.
       </p>
 
       <h2>A VM context isolates scope, not capability</h2>
@@ -71,9 +106,10 @@ export default function SandboxingUntrustedCodePage() {
       <p>
         It is tempting to count only the API you meant to expose. Our
         sandbox handed the code four things by design: a scoped access
-        token, a context object, the provisioned credentials for the run,
-        and a <code>prompt</code> function for asking a human a question
-        mid-run. That short list is not the real list.
+        token, a context object describing the run, the provisioned
+        credentials for the run, and a <code>prompt</code> function for
+        asking a human a question mid-run. That short list is not the
+        real list.
       </p>
       <p>
         So what is actually on that global? Everything we added so
@@ -123,7 +159,8 @@ vm.runInContext(
       </p>
       <p>
         That address is the cloud metadata server. On a host with workload
-        identity enabled, it hands service-account credentials to any
+        identity enabled, the cloud feature that gives each pod its own
+        service account, it hands service-account credentials to any
         process that asks from inside the pod, authenticating by network
         position alone. Anything sharing the pod&rsquo;s network is
         &ldquo;inside.&rdquo;
@@ -148,8 +185,8 @@ vm.runInContext(
         </li>
         <li>
           It resolves DNS itself and rejects any answer in a private or
-          link-local range: RFC 1918 space, 127.0.0.0/8, 169.254.0.0/16,
-          0.0.0.0/8, and the IPv6 equivalents.
+          link-local range: the RFC 1918 private blocks, 127.0.0.0/8,
+          169.254.0.0/16, 0.0.0.0/8, and the IPv6 equivalents.
         </li>
         <li>
           It fails closed. A DNS error rejects the request rather than
@@ -213,7 +250,8 @@ async function safeFetch(url) {
         </strong>
       </p>
       <p>
-        Error reporting leaks the same way. Our GraphQL bridge logged the
+        Error reporting leaks the same way. The layer that relayed the
+        sandbox&rsquo;s GraphQL requests back to our API logged the
         full variables object whenever a mutation failed, and those
         variables carried session and provisioning tokens. The fix was one
         line: log <code>Object.keys(variables)</code>, not the values.
@@ -229,14 +267,16 @@ async function safeFetch(url) {
         timeout error, and the work so far is gone.
       </p>
       <p>
-        Every run needs a wall-clock timeout. Ours was five minutes. The
+        Every run needs a wall-clock timeout, a cap on elapsed real time
+        rather than CPU time. Ours was five minutes. The
         subtle part is deciding what resets it. Our runs could suspend
         mid-execution to ask a human a question, and a run waiting on a
         person is not a runaway loop.
       </p>
       <p>
-        So the answer re-arms the timer. Each time an elicitation comes
-        back, the five-minute budget starts fresh, and the segments where
+        So the answer re-arms the timer. Each time an answer to one of
+        those questions comes back, the five-minute budget starts fresh,
+        and the segments where
         code is actually running draw it down.{' '}
         <strong>
           Decide deliberately what re-arms your timeout, because the naive
@@ -335,9 +375,10 @@ const prompt = (question) =>
         </strong>
       </p>
       <p>
-        The sandbox got a per-run access token and the per-recipe
-        credentials it needed, each scoped to a single offer and expiring
-        in minutes, never a long-lived platform credential. The browser saw
+        The sandbox got a per-run access token and the credentials that
+        one integration needed, each scoped to a single provisioning job
+        and expiring in minutes, never a long-lived platform credential.
+        The browser saw
         status and a redeemable reference. The tenant&rsquo;s own backend
         redeemed that reference against its API key to receive the
         credentials. The exchange happened server to server, always.
@@ -345,20 +386,23 @@ const prompt = (question) =>
 
       <h2>Your status endpoint is handing out other tenants&rsquo; secrets</h2>
       <p>
-        Curl the status URL with another tenant&rsquo;s offer ID, no auth
-        header, and the JSON comes back with their freshly provisioned API
-        keys. That was a real state of our system for a while.
+        Curl the status URL with the identifier of another tenant&rsquo;s
+        provisioning job, no auth header, and the JSON comes back with
+        their freshly provisioned API keys. That was a real state of our
+        system for a while.
       </p>
       <p>
         The endpoint had been made public so the browser could poll it
         without ceremony, and its success payload still carried the
-        provisioned credentials. Anyone holding an offer identifier, which
-        is caller-supplied rather than a random capability token, could
-        pull another tenant&rsquo;s secrets.
+        provisioned credentials. The job identifier is a value the caller
+        supplies, not a long random secret that serves as its own proof
+        of permission, so anyone holding one could pull another
+        tenant&rsquo;s secrets.
       </p>
       <p>
         The fix had two parts. Status stopped returning secrets. Results
-        moved behind a one-time, caller-bound token, redeemed server-side.{' '}
+        moved behind a one-time token tied to the caller that started the
+        job, redeemed server-side.{' '}
         <strong>
           Any endpoint that returns results from sandboxed execution needs
           its own authentication, and status paths return status, never

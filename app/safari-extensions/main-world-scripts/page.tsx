@@ -48,27 +48,56 @@ export default function MainWorldScriptsPage() {
       ctaSource="main-world-article"
     >
       <p>
-        Content scripts run in an isolated world. They share the page&rsquo;s
-        DOM but keep their own JavaScript environment: separate{' '}
-        <code>window</code> bindings, a separate <code>fetch</code>, and
-        access to extension APIs like messaging and storage. Page scripts
-        can&rsquo;t see them, and they can&rsquo;t see page scripts. For most
-        extensions that separation is exactly what you want.
+        At ZeroClick I owned the iOS and Safari extension domain for Pie
+        Adblock, the company&rsquo;s Safari and Chrome ad blocker with over
+        two million users. Blocking ads on YouTube meant editing JSON
+        responses the video player itself requested: stripping the ad fields
+        before the player consumed them, and reading ad metadata from the
+        same responses to count what we blocked.
       </p>
       <p>
-        Some jobs need the other side. If the work involves the page&rsquo;s
-        own JavaScript objects, meaning the functions it calls and the state
-        it keeps, your code has to run in the page&rsquo;s world, which the
-        extension APIs call the MAIN world. The moment part of your extension
-        lives there, you have a coordination problem. MAIN-world code has no
-        extension APIs, and your background worker can&rsquo;t reach page
-        variables.
+        A content script can&rsquo;t reach any of that from where it
+        normally runs. Content scripts, the code an extension injects into
+        web pages, live in an isolated world: a separate JavaScript
+        environment attached to the same page, with its own{' '}
+        <code>window</code> bindings and its own <code>fetch</code>. The
+        player&rsquo;s calls never pass through it, so our code had to run
+        in the page&rsquo;s own context, which the extension APIs call the
+        MAIN world.
       </p>
       <p>
-        I ran this arrangement in production on Pie Adblock,
-        ZeroClick&rsquo;s Safari and Chrome ad blocker with over two million
-        users, where I owned the iOS and Safari extension domain. The
-        patterns below are the ones that survived.
+        That placement worked, and it also produced our quietest failures.
+        Blocked-ad stats read zero with no error anywhere. A feature that
+        paid users for viewed ads counted the same ad twice. Every one of
+        those bugs came from coordinating code across two JavaScript worlds.
+      </p>
+      <p>
+        You may be facing the same shape of problem. If your extension needs
+        to see a response the app requested rather than one you made, read
+        state the app keeps only in JavaScript objects, or change data
+        before the app consumes it, part of your code has to live in the
+        page&rsquo;s world. MAIN-world code has no extension APIs, and your
+        background worker, the extension&rsquo;s long-lived process outside
+        any page, can&rsquo;t reach page variables.
+      </p>
+      <p>
+        Extension work runs into this boundary more often than it used to,
+        because modern apps keep less of their state in the DOM.
+        Framework-rendered pages hold data in JavaScript objects and load it
+        as network responses. The part of the app a content script can see
+        keeps shrinking, and more of the jobs extensions are asked to do sit
+        on the far side of the boundary.
+      </p>
+      <p>
+        Here&rsquo;s the road map. For the channel between the two worlds,
+        Pie used DOM events relayed by an isolated-world script, DOM
+        attributes, and page storage in different places. The hardest case
+        in this article came down to a sessionStorage handshake, and
+        I&rsquo;ll show why that shape needs no cleanup code. The rest walks
+        the pitfalls we hit along the way: wrappers installed too late to
+        catch anything, registration order zeroing our stats, double
+        installs counting responses twice, pages patching functions we
+        depended on, and Safari differing where Chrome gave no warning.
       </p>
 
       <h2>Your script reads a page global and gets undefined</h2>
