@@ -96,12 +96,39 @@ async function makeCard({ slug, title, topic }) {
   await sharp(Buffer.from(svg)).png().toFile(out);
 
   // Title-less thumbnail for the guides index (the text title renders
-  // beside it in HTML, so the art must not repeat it)
+  // beside it in HTML, so the art must not repeat it). Composition varies
+  // deterministically per slug so cards within a topic don't look cloned.
+  const seed = [...slug].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const motifs = ['rings', 'dots', 'rules', 'none'];
+  const motif = motifs[seed % motifs.length];
+  const glyphX = [430, 620, 810][(seed >> 2) % 3];
+  const glyphScale = 9 + ((seed >> 4) % 4); // 9-12
+  const accentX = [0, 1190][(seed >> 6) % 2];
+
+  let motifSvg = '';
+  if (motif === 'rings') {
+    motifSvg = [90, 150, 210]
+      .map((r) => `<circle cx="${glyphX + glyphScale * 12}" cy="240" r="${r}" fill="none" stroke="${PALETTE.rule}" stroke-width="2"/>`)
+      .join('');
+  } else if (motif === 'dots') {
+    const dots = [];
+    for (let dx = 0; dx < 6; dx++)
+      for (let dy = 0; dy < 4; dy++)
+        dots.push(`<circle cx="${880 + dx * 52}" cy="${70 + dy * 52}" r="4" fill="${PALETTE.rule}"/>`);
+    motifSvg = dots.join('');
+  } else if (motif === 'rules') {
+    motifSvg = [0, 1, 2, 3]
+      .map((i) => `<line x1="${900 + i * 64}" y1="480" x2="${1100 + i * 64}" y2="280" stroke="${PALETTE.rule}" stroke-width="2"/>`)
+      .join('');
+  }
+
   const thumbSvg = `<svg width="1200" height="480" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="480" fill="${PALETTE.paper}"/>
+  ${motifSvg}
   <rect x="0" y="0" width="1200" height="10" fill="${PALETTE.amber}"/>
+  <rect x="${accentX}" y="0" width="10" height="480" fill="${PALETTE.amber}" opacity="0.5"/>
   <text x="64" y="110" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="7" fill="${PALETTE.amber}">${esc(meta.label)}</text>
-  <g transform="translate(480, 150) scale(11)" fill="none" stroke="${PALETTE.navy}" stroke-width="1.3" opacity="0.9">${glyph}</g>
+  <g transform="translate(${glyphX}, ${290 - glyphScale * 12}) scale(${glyphScale})" fill="none" stroke="${PALETTE.navy}" stroke-width="1.3" opacity="0.9">${glyph}</g>
   <line x1="64" y1="410" x2="400" y2="410" stroke="${PALETTE.rule}" stroke-width="2"/>
   <text x="64" y="446" font-family="Georgia, serif" font-size="26" font-weight="700" fill="${PALETTE.ink}" opacity="0.75">Zack Babtkis</text>
 </svg>`;

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { WorldBoundaryDiagram } from '@/components/diagrams/world-boundary';
 import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
@@ -103,6 +104,7 @@ export default function MainWorldScriptsPage() {
       <h2>When you need the MAIN world</h2>
       <p>Most extension work never needs the page&rsquo;s world. Three jobs
         do:</p>
+      <WorldBoundaryDiagram />
       <ul>
         <li>
           Observing or wrapping page-level APIs. Say you need to inspect a

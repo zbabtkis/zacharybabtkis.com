@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
 import { Code } from '@/components/code';
+import { RuleBudgetDiagram } from '@/components/diagrams/rule-budget';
 
 export const metadata: Metadata = {
   title: 'Dynamic declarativeNetRequest Rules: Limits, Rule Ownership, and Safari Differences',
@@ -81,6 +82,7 @@ export default function DynamicDnrRulesPage() {
         known per-operation cost in rules for every runtime feature, and
         something that reclaims rules that have outlived their purpose.
       </p>
+      <RuleBudgetDiagram />
       <p>
         The per-operation cost is easy to underestimate. On Pie Adblock,
         a single site pause cost two rules: an <code>allow</code> rule
