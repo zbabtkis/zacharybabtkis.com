@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
   title: 'Converting a Chrome Extension to Safari and iOS: The Complete Guide',
@@ -64,9 +65,7 @@ export default function ConvertGuidePage() {
         the same standard Chrome extensions are built on. The converter
         wraps your existing extension in the packaging Safari requires:
       </p>
-      <pre>
-        <code>xcrun safari-web-extension-converter /path/to/your-extension</code>
-      </pre>
+      <Code lang="bash">{`xcrun safari-web-extension-converter /path/to/your-extension`}</Code>
       <p>
         That produces an Xcode project containing a small native app with
         your extension embedded inside it. Notice the first structural

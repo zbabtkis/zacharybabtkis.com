@@ -616,6 +616,18 @@ h3 {
   margin: var(--space-md) 0;
 }
 
+/* Shiki-highlighted blocks: keep the site's terminal surface, let the
+   theme color the tokens */
+.code-block pre {
+  background: var(--term-bg) !important;
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: var(--space-md) 0;
+}
+
 .prose pre code {
   background: none;
   padding: 0;

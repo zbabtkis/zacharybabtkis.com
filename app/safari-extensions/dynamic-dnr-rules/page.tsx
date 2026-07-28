@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
   title: 'Dynamic declarativeNetRequest Rules: Limits, Rule Ownership, and Safari Differences',
@@ -85,8 +86,7 @@ export default function DynamicDnrRulesPage() {
       </p>
       <p>Here&rsquo;s the shape of that pause, so the two-rule cost is
         concrete:</p>
-      <pre>
-        <code>{`// Pausing blocking on one site is two rules: one for the requests
+      <Code lang="js">{`// Pausing blocking on one site is two rules: one for the requests
 // the site's pages make, one so the pages and frames themselves load.
 const [allowId, framesId] = nextRuleIds('pausedByUser'); // next section
 
@@ -108,8 +108,7 @@ await chrome.declarativeNetRequest.updateDynamicRules({
       },
     },
   ],
-});`}</code>
-      </pre>
+});`}</Code>
 
       <h2>You can&rsquo;t tell which feature installed which rule</h2>
       <p>
@@ -144,8 +143,7 @@ await chrome.declarativeNetRequest.updateDynamicRules({
       </p>
       <p>The whole scheme fits in a dozen lines. Pick any two-digit
         prefixes; the value is in the discipline, not the numbers:</p>
-      <pre>
-        <code>{`// Two digits of "who installed this and why", then digits that
+      <Code lang="js">{`// Two digits of "who installed this and why", then digits that
 // vary by subsystem: random for pauses, a content hash for
 // converted filter rules so reconverting yields the same ID.
 const PREFIX = {
@@ -168,8 +166,7 @@ async function pausedByUser(domain) {
       String(rule.id).startsWith(PREFIX.pausedByUser) &&
       (rule.condition.initiatorDomains || []).includes(domain),
   );
-}`}</code>
-      </pre>
+}`}</Code>
 
       <h2>When one feature&rsquo;s cleanup removes another&rsquo;s rules</h2>
       <p>
@@ -264,8 +261,7 @@ async function pausedByUser(domain) {
         time.
       </p>
       <p>A sketch of that pass, simplified but structurally honest:</p>
-      <pre>
-        <code>{`// Run on every rule set, right before install, Safari build only.
+      <Code lang="js">{`// Run on every rule set, right before install, Safari build only.
 function toSafariRules(rules) {
   return rules.flatMap((rule) => {
     const condition = { ...rule.condition };
@@ -296,8 +292,7 @@ function toSafariRules(rules) {
 
     return [{ ...rule, condition }];
   });
-}`}</code>
-      </pre>
+}`}</Code>
       <p>
         The <code>allowAllRequests</code> case deserves emphasis. A pause
         implemented as a two-rule pair on Chrome sheds half of itself on

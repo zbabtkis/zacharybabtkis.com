@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleLayout } from '@/components/article';
+import { Code } from '@/components/code';
 
 export const metadata: Metadata = {
   title: 'Designing MCP Tools That Models Call Correctly',
@@ -67,15 +68,13 @@ export default function ToolDesignForAgentsPage() {
         concrete trigger situations, and the order to call your tools in.
         The shape looks like this:
       </p>
-      <pre>
-        <code>{`Use this server when the user wants to try, set up, or
+      <Code lang="text">{`Use this server when the user wants to try, set up, or
 provision a third-party service — e.g. "set up a database
 for this project" or "I need an email API."
 
 Call sequence:
 1. search_offers — find services matching the user's need
-2. activate_offer — provision the selected service`}</code>
-      </pre>
+2. activate_offer — provision the selected service`}</Code>
       <p>
         Notice the example utterances. Models act on examples more
         reliably than on category descriptions. &ldquo;Use this when the
