@@ -50,33 +50,40 @@ export default function DynamicDnrRulesPage() {
         allowlist. Static <code>declarativeNetRequest</code> rulesets,
         the filter lists you compile at build time and ship in the
         package, cover none of that: the browser validates them before
-        your extension ever runs, and their content is fixed. Runtime
-        state means dynamic rules, the ones you add and remove with{' '}
-        <code>updateDynamicRules</code>, and that API gives you almost
-        no structure for managing what accumulates. Everything below
-        comes from running dynamic rules in production on Pie Adblock, a
-        2M+ user ad blocker where I owned the Safari and iOS extensions.
-        These are the patterns that held up.
+        your extension ever runs, and their content is fixed.
+      </p>
+      <p>
+        Runtime state means dynamic rules, the ones you add and remove
+        with <code>updateDynamicRules</code>, and that API gives you
+        almost no structure for managing what accumulates. Everything
+        below comes from running dynamic rules in production on Pie
+        Adblock, a 2M+ user ad blocker where I owned the Safari and iOS
+        extensions. These are the patterns that held up.
       </p>
 
       <h2>Why dynamic rules suddenly stop installing</h2>
       <p>
         When <code>updateDynamicRules</code> starts failing months into
-        production, the first thing to check is the shared budget. The
-        dynamic-rule budget belongs to your extension as a whole, not to
-        any one feature. Chrome allows 30,000 dynamic rules for
-        &ldquo;safe&rdquo; actions since Chrome 121 and 5,000 for
-        redirect and header-modifying rules; Safari&rsquo;s budgets are
-        smaller and vary by version. A per-site pause, a partnership
-        allowlist, and a user opt-in system all draw from the same pool,
-        so any one of them can starve the rest.
+        production, the first thing to check is the shared budget.{' '}
+        <strong>
+          The dynamic-rule budget belongs to your extension as a whole,
+          not to any one feature.
+        </strong>{' '}
+        Chrome allows 30,000 dynamic rules for &ldquo;safe&rdquo;
+        actions since Chrome 121 and 5,000 for redirect and
+        header-modifying rules. Safari&rsquo;s budgets are smaller and
+        vary by version.
       </p>
       <p>
-        Staying under the budget takes two things: a known per-operation
-        cost in rules for every runtime feature, and something that
-        reclaims rules that have outlived their purpose. The
-        per-operation cost is easy to underestimate. On Pie Adblock, a
-        single site pause cost two rules: an <code>allow</code> rule
+        A per-site pause, a partnership allowlist, and a user opt-in
+        system all draw from the same pool, so any one of them can
+        starve the rest. Staying under the budget takes two things: a
+        known per-operation cost in rules for every runtime feature, and
+        something that reclaims rules that have outlived their purpose.
+      </p>
+      <p>
+        The per-operation cost is easy to underestimate. On Pie Adblock,
+        a single site pause cost two rules: an <code>allow</code> rule
         covering requests the site&rsquo;s pages initiated, and an{' '}
         <code>allowAllRequests</code> rule so the pages and frames
         themselves loaded untouched. Reclamation matters just as much.
@@ -116,10 +123,11 @@ await chrome.declarativeNetRequest.updateDynamicRules({
         integers and match conditions, and nothing in the payload tells
         you which subsystem installed a rule or why. A dynamic rule is
         identified by an integer. There&rsquo;s no label field, no tag,
-        no metadata slot. So where does the metadata live? The ID is the
-        only field you have, which means the integer has to carry the
-        answer: encode provenance, meaning which subsystem installed the
-        rule and why, in the ID itself.
+        no metadata slot.{' '}
+        <strong>
+          The ID is the only field you have, which means the integer has
+          to carry the answer: encode provenance in the ID itself.
+        </strong>
       </p>
       <p>
         Here&rsquo;s the scheme that ran on Pie Adblock: an enum of
@@ -127,16 +135,23 @@ await chrome.declarativeNetRequest.updateDynamicRules({
         Another meant &ldquo;paused automatically by a partnership
         feature.&rdquo; Another meant &ldquo;ads allowed because the
         user opted in for one creator&rsquo;s channel.&rdquo; The digits
-        after the prefix depended on the subsystem. Pause rules filled
-        them with six random digits. Rules converted from filter-list
-        text used a hash of the rule text, so converting the same rule
-        twice produced the same ID. And our hosted ruleset, the rules
-        the extension downloads from a server at runtime, used plain
-        unix timestamps as IDs, which all happen to start with 17, so
-        the timestamp doubled as its own prefix and let us expire any
-        rule older than the last merge into the static ruleset. That
-        scheme turned an opaque integer namespace into a queryable one.
-        A question like &ldquo;is this domain paused, and by
+        after the prefix depended on the subsystem.
+      </p>
+      <ul>
+        <li>Pause rules filled the remaining digits with six random
+          digits.</li>
+        <li>Rules converted from filter-list text used a hash of the
+          rule text, so converting the same rule twice produced the same
+          ID.</li>
+        <li>Our hosted ruleset, the rules the extension downloads from a
+          server at runtime, used plain unix timestamps as IDs. Unix
+          timestamps currently start with 17, so the timestamp doubled
+          as its own prefix and let us expire any rule older than the
+          last merge into the static ruleset.</li>
+      </ul>
+      <p>
+        That scheme turned an opaque integer namespace into a queryable
+        one. A question like &ldquo;is this domain paused, and by
         whom?&rdquo; became a matter of listing installed rules and
         decoding IDs, with no parallel bookkeeping store that could
         drift out of sync with what the browser had installed.
@@ -173,27 +188,31 @@ async function pausedByUser(domain) {
         Watch for this symptom: blocking that turns itself back on, or a
         user setting that unwinds on its own. The usual cause is two
         independent features that can each pause or allow the same site,
-        with cleanup paths that collide. We hit this class of bug on Pie
-        Adblock with a partnership feature I built: it let ads through
-        on YouTube while a participating creator&rsquo;s video played,
-        by pausing blocking on the domain and re-arming it on a
-        ten-second timer. The teardown removed every allow rule matching
-        the domain. So if the user had already paused blocking on
-        YouTube themselves, the timer fired, swept the user&rsquo;s
-        pause rules out with the feature&rsquo;s own, and flipped the
-        blocker back on ten seconds after the user turned it off. The
-        fix that shipped was a guard up front: before auto-pausing, the
-        feature checked whether a pause the user owns was already in
-        place, and if so, stood down.
+        with cleanup paths that collide.
+      </p>
+      <p>
+        We hit this class of bug on Pie Adblock with a partnership
+        feature I built. It let ads through on YouTube while a
+        participating creator&rsquo;s video played, by pausing blocking
+        on the domain and re-arming it on a ten-second timer. The
+        teardown removed every allow rule matching the domain. So if the
+        user had already paused blocking on YouTube themselves, the
+        timer fired, swept the user&rsquo;s pause rules out with the
+        feature&rsquo;s own, and flipped the blocker back on ten seconds
+        after the user turned it off. The fix that shipped was a guard
+        up front: before auto-pausing, the feature checked whether a
+        pause the user owns was already in place, and if so, stood down.
       </p>
       <p>
         The guard stopped the bleeding, but the durable rule is broader,
         and the ID scheme from the last section is what makes it cheap
         to follow: cleanup code lists dynamic rules, filters to its own
-        ID namespace, and removes only those. Deleting by match
-        condition is what let one feature sweep away another&rsquo;s
-        rules. Each subsystem tears down what it installed and nothing
-        else.
+        ID namespace, and removes only those.{' '}
+        <strong>
+          Deleting by match condition is what lets one feature sweep
+          away another&rsquo;s rules.
+        </strong>{' '}
+        Each subsystem tears down what it installed and nothing else.
       </p>
 
       <h2>You need per-page behavior but rules only scope to domains</h2>
@@ -204,62 +223,80 @@ async function pausedByUser(domain) {
         <code>allow</code> and <code>allowAllRequests</code> rules scope
         by URL pattern and initiator domain, the domain of the page that
         made the request, and there is no way to say &ldquo;this rule
-        applies to one section of a site.&rdquo; I hit the hardest
-        version of this at Pie with a partnership feature I led that had
-        to let ads through on specific creators&rsquo; channels on
-        YouTube, and YouTube gives a URL-based blocker nothing to grab.
-        Ad media streams from the same googlevideo.com hosts that serve
-        the video itself, and the ad instructions ride inside the same
-        player response that carries the video data. Our blocking there
-        worked by rewriting those responses in a content script, a
-        script the extension injects into the page itself, stripping
-        fields like <code>adPlacements</code> out of the JSON before the
-        player read them. Block the URL and you block the video. So
-        there was no ad URL to allow, either. The only thing DNR could
-        express was all of youtube.com or nothing.
+        applies to one section of a site.&rdquo;
       </p>
       <p>
-        The design consequence generalizes: any decision finer than a
-        domain has to live in content scripts and extension state, and
-        whatever blocking layer you have becomes a coarse on/off switch.
-        Here&rsquo;s how the shipped feature worked. A content script
-        listened for YouTube&rsquo;s page-load events and read the
-        channel from the rendered page, because the channel isn&rsquo;t
-        knowable until the page exists. If the user had opted in to that
-        creator, it messaged the background, which paused our response
-        rewriting for all of youtube.com, reloaded the tab, and re-armed
-        everything on a five-second timer. Notice that no DNR rule
-        changed hands. On YouTube there were none to change. And since
-        the pause covered the whole domain, a separate map in the
-        background, keyed by tab ID, tracked which tab was in which mode,
-        and the content script asked it before acting. The rules
-        themselves never knew channels existed. If you find yourself
-        trying to encode application logic into match patterns, stop. Put
-        the logic where it can see the page, and keep the blocking layer
-        as the on/off.
+        I hit the hardest version of this at Pie with a partnership
+        feature I led that had to let ads through on specific
+        creators&rsquo; channels on YouTube. YouTube gives a URL-based
+        blocker nothing to grab. Ad media streams from the same
+        googlevideo.com hosts that serve the video itself, and the ad
+        instructions ride inside the same player response that carries
+        the video data. Our blocking there worked by rewriting those
+        responses in a content script, a script the extension injects
+        into the page itself, stripping fields like{' '}
+        <code>adPlacements</code> out of the JSON before the player read
+        them. Block the URL and you block the video. So there was no ad
+        URL to allow, either. The only thing DNR could express was all
+        of youtube.com or nothing.
+      </p>
+      <p>
+        The design consequence generalizes.{' '}
+        <strong>
+          Any decision finer than a domain has to live in content
+          scripts and extension state, and the blocking layer becomes a
+          coarse on/off switch.
+        </strong>{' '}
+        Here&rsquo;s how the shipped feature worked:
+      </p>
+      <ol>
+        <li>A content script listened for YouTube&rsquo;s page-load
+          events and read the channel from the rendered page. The
+          channel isn&rsquo;t knowable until the page exists.</li>
+        <li>If the user had opted in to that creator, the script
+          messaged the background.</li>
+        <li>The background paused our response rewriting for all of
+          youtube.com, reloaded the tab, and re-armed everything on a
+          five-second timer.</li>
+        <li>A separate map in the background, keyed by tab ID, tracked
+          which tab was in which mode, because the pause covered the
+          whole domain.</li>
+      </ol>
+      <p>
+        Notice that no DNR rule changed hands. On YouTube there were
+        none to change, and the rules themselves never knew channels
+        existed. If you find yourself trying to encode application logic
+        into match patterns, stop. Put the logic where it can see the
+        page, and keep the blocking layer as the on/off.
       </p>
 
       <h2>The same rules behave differently in Safari</h2>
       <p>
         When a rule set that works in Chrome breaks sites in Safari, or
         quietly does nothing there, you&rsquo;re not misreading the
-        documentation. The same rule JSON does not mean the same thing
-        in Safari. On Pie Adblock we ran every rule set through a
-        conversion pass before install, and here&rsquo;s what it had to
-        do. It renamed <code>initiatorDomains</code> to the older{' '}
-        <code>domains</code> key Safari still read. It dropped every{' '}
-        <code>allowAllRequests</code> rule, because Safari refused the
-        domain-filtered kind we depended on. It dropped redirect rules
-        outright: Safari applied ours badly enough to break Spotify
-        completely, and we never found the root cause. And because a
-        Safari bug made <code>requestDomains</code> and{' '}
-        <code>domains</code> in the same rule take down the whole site,
-        it split any rule carrying a <code>requestDomains</code> array
-        into one rule per domain. The first domain kept the original rule
-        ID; each additional clone got a deterministic hashed ID under its
-        own prefix, so re-running the pass produced the same IDs every
-        time.
+        documentation.{' '}
+        <strong>
+          The same rule JSON does not mean the same thing in Safari.
+        </strong>{' '}
+        On Pie Adblock we ran every rule set through a conversion pass
+        before install. Here&rsquo;s what it had to do:
       </p>
+      <ul>
+        <li>It renamed <code>initiatorDomains</code> to the older{' '}
+          <code>domains</code> key Safari still read.</li>
+        <li>It dropped every <code>allowAllRequests</code> rule, because
+          Safari refused the domain-filtered kind we depended on.</li>
+        <li>It dropped redirect rules outright. Safari applied ours
+          badly enough to break Spotify completely, and we never found
+          the root cause.</li>
+        <li>It split any rule carrying a <code>requestDomains</code>{' '}
+          array into one rule per domain, because a Safari bug made{' '}
+          <code>requestDomains</code> and <code>domains</code> in the
+          same rule take down the whole site. The first domain kept the
+          original rule ID. Each additional clone got a deterministic
+          hashed ID under its own prefix, so re-running the pass
+          produced the same IDs every time.</li>
+      </ul>
       <p>A sketch of that pass, simplified but structurally accurate:</p>
       <Code lang="js">{`// Run on every rule set, right before install, Safari build only.
 function toSafariRules(rules) {
@@ -313,14 +350,16 @@ function toSafariRules(rules) {
         convert the newest filter text into rules, list what the browser
         already had with <code>getDynamicRules</code>, then add and
         remove only the difference. Settings toggles did the same math
-        against the list of enabled rulesets. You can&rsquo;t make rule
-        decisions per request anyway. DNR is declarative by design: you
-        hand the browser the rulebook ahead of time, the browser matches
-        every request against it on its own, and your code never hears
-        about individual requests. Chrome frames that as a privacy
-        feature, and it is. The practical consequence is that your only
-        lever is the installed rule set, so keep the code that produces
-        it a straight function of state.
+        against the list of enabled rulesets.
+      </p>
+      <p>
+        You can&rsquo;t make rule decisions per request anyway. DNR is
+        declarative by design: you hand the browser the rulebook ahead
+        of time, the browser matches every request against it on its
+        own, and your code never hears about individual requests. Chrome
+        frames that as a privacy feature. The practical consequence is
+        that your only lever is the installed rule set, so keep the code
+        that produces it a straight function of state.
       </p>
       <p>
         <strong>Watermark your IDs.</strong> The hosted-ruleset trick
