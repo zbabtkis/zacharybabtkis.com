@@ -6,9 +6,10 @@
  */
 const LOGOS: { src: string; alt: string; height: number }[] = [
   { src: '/logos/ucsb.svg', alt: 'UC Santa Barbara', height: 40 },
+  { src: '/logos/section.png', alt: 'Section Studios', height: 18 },
   { src: '/logos/infillion.png', alt: 'Infillion', height: 29 },
   { src: '/logos/producepay.svg', alt: 'ProducePay', height: 32 },
-  { src: '/logos/honey.svg', alt: 'Honey', height: 34 },
+  { src: '/logos/paypal.svg', alt: 'PayPal', height: 26 },
   { src: '/logos/pie.svg', alt: 'Pie', height: 40 },
   { src: '/logos/zeroclick.svg', alt: 'ZeroClick', height: 29 },
 ];
@@ -31,7 +32,7 @@ function Row({ hidden = false }: { hidden?: boolean }) {
 
 export function LogoBanner() {
   return (
-    <div className="logo-banner" role="img" aria-label="Companies I've worked with: UC Santa Barbara, Infillion, ProducePay, Honey, Pie, and ZeroClick">
+    <div className="logo-banner" role="img" aria-label="Companies I've worked with: UC Santa Barbara, Section Studios, Infillion, ProducePay, PayPal, Pie, and ZeroClick">
       <div className="logo-viewport">
         <div className="logo-track">
           <Row />
